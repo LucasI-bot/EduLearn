@@ -1,0 +1,19 @@
+<h1>Pregunta a Desarrollar</h1>
+<%= form_with(model: @question, url: teacher_course_section_exam_question_path(@question.exam.section.course, @question.exam.section, @question.exam, @question), local: true) do |form| %>
+    <!-- Question content input -->
+        
+    <%= form.hidden_field :question_type, value: @question.question_type %>
+    <%= form.hidden_field :question_number, value: @question.question_number %>
+
+    <div class="question-div">
+        <%= form.label "Pregunta", class:"form-label" %>
+        <%= form.text_field :question, class:"form-control" %>
+        <%= form.label "Respuesta (Opcional)", class:"form-label" %>
+        <%= form.text_field :answer, class:"form-control" %>
+    </div>
+    <br>
+
+
+    <!-- Submit button -->
+    <%= form.submit "Editar Pregunta",class:"btn btn-primary"  %>
+<% end %>

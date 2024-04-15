@@ -1,0 +1,117 @@
+<div class="header-course" id="course-header">
+    <div class="course-header-container container">
+        <div class="col-md-12">
+            <h1><b><%= @course.title %></b></h1>
+            <p class="course-description"><%= @course.description %></p>
+        </div>
+        <div class="col-md-4">
+            <p>Rating: </p>
+        </div>
+        <% unless @course.start_date.blank? %>
+            <span class="course-date-show col-md-4">
+                Fecha de inicio: <%= @course.start_date.strftime("%d/%m/%Y") %>
+            </span>
+        <% end %>
+        <% unless @course.end_date.blank? %>
+            <span class="course-date-show col-md-4">
+                Fecha de fin: <%= @course.end_date.strftime("%d/%m/%Y") %>
+            </span>
+        <% end %>
+        <div class="col-md-12 teacher-and-inscription-course">
+            <div class="teacher my-4">
+                <%= link_to teacher_path(@course.user), class:"a-teacher" do%>
+                    <div class="teacher-image circular-card-frame">
+                        <% if @course.user.picture.attached? %>
+                            <%= image_tag @course.user.picture.variant(resize: '200x200'), class:"img-framed-card" %>
+                        <% else %>
+                            <%= image_tag 'Empty profile picture.png', class: 'img-framed-card' %>
+                        <% end %>
+                    </div>
+                <% end %>
+                <%= link_to teacher_path(@course.user), class:"a-teacher" do%>
+                    <div class="teacher-name">
+                        <% if @course.user.alias.present? %>
+                            <%= @course.user.alias %>
+                        <% else %>
+                            <%= @course.user.first_name + " " + @course.user.last_name %>
+                        <% end %>
+                    </div>
+                <% end %>
+            </div>
+            <% if @course.inscriptions.where(paid:true).map{|a| a.user_id}.include? current_user.id%>
+                <button disabled class="btn btn-secondary inscription-done btn-inscription">Ya inscrito</button>
+            <% elsif @course.price.blank? or @course.price == 0 %>
+                <%= link_to "Inscribirse gratis", new_course_inscription_path(@course), class:"btn btn-primary btn-inscription"%>
+            <% else %>
+                <%= link_to "Inscribirse " + @course.price.to_s + " US$", new_course_payment_path(@course), class:"btn btn-primary btn-inscription"%>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+
+    
+<div class="course-information" id="course-information">
+    <div class="div-links-courses pb-1 pt-3">
+        <a href="#information" class="nav-link active">Descripción</a>
+        <a href="#content" class="nav-link">Contenido</a>
+        <a href="#recomendations" class="nav-link">Recomendaciones</a>
+        <a href="#reviews" class="nav-link">Reseñas</a>
+    </div>
+    <nav class="navbar-links-courses" id="navbar">
+        <div class="course-information-nav container py-3">
+            <div class="title-and-teacher-course">
+                <div class="teacher-image circular-card-frame">
+                    <% if @course.user.picture.attached? %>
+                        <%= image_tag @course.user.picture.variant(resize: '200x200'), class:"img-framed-card" %>
+                    <% else %>
+                        <%= image_tag 'Empty profile picture.png', class: 'img-framed-card' %>
+                    <% end %>
+                </div>
+                <div class="course-title-nav">
+                    <%= @course.title %>
+                </div>
+            </div>
+            <% if @course.inscriptions.where(paid:true).map{|a| a.user_id}.include? current_user.id%>
+                <button disabled class="btn btn-secondary btn-inscription">Ya inscrito</button>
+            <% elsif @course.price.blank? or @course.price == 0 %>
+                <%= link_to "Inscribirse gratis", new_course_inscription_path(@course), class:"btn btn-primary btn-inscription"%>
+            <% else %>
+                <%= link_to "Inscribirse " + @course.price.to_s + " US$", new_course_payment_path(@course), class:"btn btn-primary btn-inscription"%>
+            <% end %>
+        </div>
+        <div class="container d-flex  py-3">
+            <a href="#information" class="nav-link active">Descripción</a>
+            <a href="#content" class="nav-link">Contenido</a>
+            <a href="#recomendations" class="nav-link">Recomendaciones</a>
+            <a href="#reviews" class="nav-link">Reseñas</a>
+        </div>
+    </nav>
+        
+    <div class="course-description section" id="description">
+        <h3>Descripción del curso</h3>
+        <% if @course.detailed_description.present?%>
+            <%= @course.detailed_description.html_safe %>
+        <% end %>
+    </div>
+    
+
+    <div class="course-content section" id="content">
+        <h3>Contenido</h3>
+        <% @course.sections.each do |section|%>
+            <h5><%= section.title %></h5>
+            <% section.lectures.each do |lecture| %>
+                <%= lecture.title %>
+            <% end %>
+        <% end %>
+    </div>
+
+    <div class="course-recomendations section" id="recomendations">
+        <h3>Otros cursos del educador</h3>
+    </div>
+
+    <div class="course-reviews section" id="reviews">
+        <h3>Reseñas</h3>
+    </div>
+</div>
+

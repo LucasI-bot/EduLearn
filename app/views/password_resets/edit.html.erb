@@ -1,0 +1,23 @@
+<div class="d-flex row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 mb-5 d-flex row">
+        <div class="col-md-12">
+            <h1>Reinicio de contraseña</h1>
+        </div>
+        <div class="col-md-12 my-3">
+            <p>Cambiando la contraseña para: <b><%= @user.email %></b></p>
+        </div>
+        <%= form_with model: @user, url: password_reset_edit_path(token: params[:token]) do |form| %>
+            <div class="my-3">
+                <%= form.label :password, class:"form-label" do %>Nueva contraseña<% end %>
+                <%= form.password_field :password, class:"form-control" %>
+            </div>
+            <div class="my-3">
+                <%= form.label :password_confirmation, class:"form-label" do %>Confirmar nueva contraseña<% end %>
+                <%= form.password_field :password_confirmation, class:"form-control" %>
+            </div>
+            <%= form.submit 'Reiniciar contraseña', class:"btn btn-primary mt-5 btn-login" %>
+        <% end %>
+    </div>
+    <div class="col-md-2"></div>
+</div>

@@ -1,0 +1,27 @@
+<div class= "row">
+    <div class= "col-md-1">
+    </div>
+    <div class= "col-md-10 content-form">
+        <%= form_with model: @content, url: teacher_course_section_lecture_content_path(@lecture.section.course,@lecture.section,@lecture, @content)  do |f| %>
+            <div class="mb-3">
+                <% case @content.content_type %>
+                <% when "text_img" %>
+                <h2>Editar bloque de texto e imágenes</h2>
+                <%= f.cktext_area :text, class:"text_img-area" %>
+                <% when "video" %>
+                <h2>Editar bloque de video</h2>
+                <%= f.file_field :video, class:"form-control" %>
+                <% when "pdf" %>
+                <h2>Editar bloque de pdf</h2>
+                <%= f.file_field :pdf, class:"form-control" %>
+                <% end %>
+            </div>
+            <div class="justify-content-between d-flex">
+                <%= link_to "Volver", teacher_course_section_lecture_path(@lecture.section.course,@lecture.section,@lecture), class:"btn btn-danger"%>
+                <%= f.submit "Enviar", class: "btn btn-primary" %>
+            </div>
+        <% end %>
+    </div>
+    <div class= "col-md-1">
+    </div>
+</div>

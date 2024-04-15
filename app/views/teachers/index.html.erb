@@ -1,0 +1,80 @@
+<div class="row d-flex pb-5">
+    <div class="col-md-3">
+        <h5>Filtrar por</h5>
+        <%= form_with(url: teachers_path, method: "get", class:"d-flex row") do |form| %>            
+            <div class="px-2 my-2">
+                <%= form.label :name, "Nombre:" %>
+                <%= form.text_field :name, class:"form-control", value: params[:name] %>
+            </div>
+
+            <div class="px-2 my-2">
+                <%= form.label :subjects, class:"form-label" do %>Materias dadas<% end %>
+                <%= form.collection_select :subject_ids, Subject.all, :id, :subject, { selected: params[:subject_ids] }, { multiple: true, class: 'select2 form-control' } %>
+            </div>
+
+            <div class="px-2 my-2">
+                <%= form.label :skills, class:"form-label" do %>Habilidades aportadas<% end %>
+                <%= form.collection_select :skill_ids, Skill.all, :id, :skill, { selected: params[:skill_ids] }, { multiple: true, class: 'select2 form-control' } %>
+            </div>            
+
+            <div class="col-md-12 actions my-3">
+                <%= form.submit "Filtrar", class: "btn btn-primary" %>
+                <%= link_to "Limpiar Filtros", teacher_courses_path, class: "btn btn-secondary" %>
+            </div>
+        <% end %>
+    </div>
+    <div class="col-md-9">
+        <div class="index-header-info">
+            <h3 class="index-count">
+                <% if @teachers.count == 1 %>
+                    <%= @teachers.count.to_s + " profesor encontrado"%>
+                <% else %>
+                    <%= @teachers.count.to_s + " profesores encontrados"%>
+                <% end %>
+            </h3>
+             <span class="select-wrapper">
+                <%= label_tag :order_by, "Ordenar por: "%>
+                <%= select_tag :order_by, options_for_select([["Recomendado", 0], ["Rating", 1], ["Nombre", 2], ["Número de cursos creados", 3], ["Actividad reciente", 4]], selected: params[:order_by]), class:"order_by_select" %>
+            </span>
+        </div>
+        <div class="row d-flex">
+            <% @teachers.each do |teacher| %>
+                <div class="col-md-3">
+                    <%= link_to teacher_path(teacher), class:"card card-link" do %>
+                        <div class="teacher-card">
+                            <div class="aspect-ratio-container">
+                                <div class="aspect-ratio-content">
+                                    <div class="teacher-card-image circular-card-frame">
+                                        <% if teacher.picture.attached? %>
+                                            <%= image_tag teacher.picture.variant(resize: '500x500'), class:"img-framed-card" %>
+                                        <% else %>
+                                            <%= image_tag 'Empty profile picture.png', class: 'img-framed-card' %>
+                                        <% end %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title mt-2">
+                                    <% if teacher.alias.present? %>
+                                        <b><%= teacher.alias %></b>
+                                    <% else %>
+                                        <b><%= teacher.first_name + " " + teacher.last_name %></b>
+                                    <% end %>
+                                </h4>
+                                <div class="card-text skills-and-subjects-card">
+                                    <p>
+                                        <b>Materias dadas:</b><% Subject.joins(:courses).where(courses: {id: teacher.courses.map{|a| a.id}}).each do |subject| %><% unless subject == Subject.joins(:courses).where(courses: {id: teacher.courses.map{|a| a.id}}).first%>,<% end %><%= " " + subject.subject %><% end %>
+                                    </p>
+                                </div>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Rating</li>
+                            </ul>
+                            
+                        </div>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<h1>Multiple choice</h1>
+<%= form_with(model: @question_answer, url: student_course_exam_question_path(@exam_answer.exam.section.course, @exam_answer.exam), local: true) do |form| %>
+
+    <p class="question-p">
+        <%= @question_answer.question.question %>
+    </p>
+    <br>
+
+    <!-- Choices container -->
+    <div id="optionsContainer">
+        <!-- Existing choices (if any) -->
+        <% @question_answer.option_answers.each do |option_answer|%>
+            <%= form.fields_for :option_answers, option_answer do |option_form| %>
+                <div class="option-div">
+                    <%= option_form.check_box :selected %>
+                    <%= option_answer.option.option %>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
+
+    <!-- Submit button -->
+    <%= form.submit "Responder",class:"btn btn-primary"  %>
+    <br>
+<% end %>

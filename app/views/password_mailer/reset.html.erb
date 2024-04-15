@@ -1,0 +1,22 @@
+<div style="padding: 20px 40px 20px 20px;  border: 1px solid #3498db; border-bottom: 0px; display: flex; justify-content: right;">
+    <a href="<%=root_url%>" style="text-decoration: none;">
+        <%= image_tag "Logo EduLearn.png", style: "height: 40px;"%>
+    </a>
+</div>
+<div style="padding-left: 40px; padding-right: 40px; border: 1px solid #3498db">
+    <p>Buen día <%= @user.first_name %>,</p>
+    <p>Acabamos de recibir una solicitud para restablecer la contraseña de su cuenta de EduLearn.</p>
+    <p>Si fue usted dé click <%=link_to "aquí", password_reset_edit_url(token: @token)%> para reiniciar su contraseña, el link expira automáticamente en 30 minutos</p>
+
+    <p>Si el link de arriba no funciona, copie y pegue el siguiente link en la barra de su navegador: </p>
+    <%= password_reset_edit_url(token: @token) %>
+
+    <p>Gracias.</p>
+
+    <p>Apoyo Técnico de EduLearn</p>
+</div>
+
+<div style="margin-top: 25px; color: rgb(168, 168, 168) !important; font-size: 12px; line-height: 150%; padding: 0px; text-align: center;">
+<div>Has recibido este correo electrónico porque lucasagustininfantino@hotmail.com está registrado en EduLearn.</div>
+<div>No contestes directamente a este correo electrónico.</div>
+</div>

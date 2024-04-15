@@ -1,0 +1,8 @@
+<% case @question.question_type %>
+<% when "multiple_choice" %>
+<%= render "multiple_choice_edit"%>
+<% when "file_upload" %>
+<%= render "file_upload_edit"%>
+<% when "question_answer" %>
+<%= render "question_answer_edit"%>
+<% end %>

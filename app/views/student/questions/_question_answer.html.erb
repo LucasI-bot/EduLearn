@@ -1,0 +1,18 @@
+<h1>Pregunta a Desarrollar</h1>
+<%= form_with(model: @question_answer, url: student_course_exam_question_path(@exam_answer.exam.section.course, @exam_answer.exam), local: true) do |form| %>
+
+    <p class="question-p">
+        <%= @question_answer.question.question %>
+    </p>
+    <br>
+
+    <div class="question-div">
+        <%= form.label "Respuesta", class:"form-label" %>
+        <%= form.text_field :answer, class:"form-control" %>
+    </div>
+    <br>
+
+
+    <!-- Submit button -->
+    <%= form.submit "Responder",class:"btn btn-primary"  %>
+<% end %>

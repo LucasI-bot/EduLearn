@@ -1,0 +1,16 @@
+<div class= "row">
+    <div class= "col-md-1">
+    </div>
+    <div class= "col-md-10">
+        <h2>Editar sección</h2>
+        <%= form_with model: @section, url: teacher_course_section_path(@section.course, @section)  do |f| %>
+            <div class="mb-3">
+                <%= f.label "Título", class:"form-label" %>
+                <%= f.text_field :title, class:"form-control" %>
+            </div>
+            <%= f.submit "Enviar", class: "btn btn-primary" %>
+        <% end %>
+    </div>
+    <div class= "col-md-1">
+    </div>
+</div>

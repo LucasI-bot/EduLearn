@@ -1,0 +1,29 @@
+<div class="d-flex edit-profile">
+    <div class="col-md-2"></div>
+    <div class="card col-md-8 p-3">
+        <h2>Cambio de contraseña</h2>
+        <%= form_with(model: current_user, url: profile_change_password_path, method: :patch) do |f| %>
+            <div class="my-5">
+                <div class="field">
+                    <%= f.label :current_password, class:"form-label" do%>Contraseña actual<% end %>
+                    <%= f.password_field :current_password, class: 'form-control' %>
+                </div>
+
+                <div class="my-3">
+                    <%= f.label :password, class:"form-label" do %>Nueva contraseña<% end %>
+                    <%= f.password_field :password, class: 'form-control' %>
+                </div>
+
+                <div class="field">
+                    <%= f.label :password_confirmation, class:"form-label" do %>Confirmar contraseña<% end %>
+                    <%= f.password_field :password_confirmation, class: 'form-control' %>
+                </div>
+            </div>
+
+            <div class="actions">
+                <%= f.submit "Enviar", class: 'btn btn-primary mt-3' %>
+            </div>
+        <% end %>
+    </div>
+    <div class="col-md-2"></div>
+</div>

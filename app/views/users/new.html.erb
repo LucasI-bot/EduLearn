@@ -1,0 +1,61 @@
+<div class="d-flex">
+    <div class="col-md-2"></div>
+    
+    <div class="col-md-8">
+        <h1> Registrarse </h1>
+        <div class="card p-3 mb-5">
+            <%= form_with model: @user, url: signup_path do |form|%>
+                <div class="d-flex">    
+                    <%= form.file_field :picture, id:"file-input", class:"hidden", onchange: 'previewImage(this)' %>
+                    <div class="circular-frame">
+                        <%= image_tag 'Empty profile picture.png', id: 'form-image-preview', class: 'img-framed' %>
+                    </div>
+                </div>
+                <div class="my-3">
+                    <%= form.label :email, class:"form-label" do %>Email<% end %>
+                    <%= form.email_field :email, required: true, class:"form-control" %>
+                </div>
+                <div class="my-3">
+                    <%= form.label :password, class:"form-label" do %>Contraseña<% end %>
+                    <%= form.password_field :password, required: true, class:"form-control" %>
+                </div>
+                <div class="my-3">
+                    <%= form.label :password_confirmation, class:"form-label" do %>Confirmar contraseña<% end %>
+                    <%= form.password_field :password_confirmation, required: true, class:"form-control" %>
+                </div>
+                <div class="my-3">
+                    <%= form.label :first_name, class:"form-label" do %>Nombre<% end %>
+                    <%= form.text_field :first_name, required: true, class:"form-control" %>
+                </div>
+
+                <div class="my-3">
+                    <%= form.label :last_name, class:"form-label" do %>Apellido<% end %>
+                    <%= form.text_field :last_name, required: true, class:"form-control" %>
+                </div>
+
+                <div class="my-3">
+                    <%= form.label :alias, class:"form-label" do %>Alias (Opcional)<% end %>
+                    <%= form.text_field :alias, class:"form-control" %>
+                </div>
+                <div class="my-3">
+                    <%= form.label :role, class:"form-label" do %>Rol<% end %>
+                    <%= form.select :role, User.roles.keys, {include_blank: "Seleccionar", selected: params[:role]}, {required: true, class:"form-select", id:"role-select", onchange:'showSkillsSubjects(this)'} %>
+                </div>
+                <div id="skills-subjects-create-user">
+                    <div class="my-3">
+                        <%= form.label :subjects, class:"form-label" do %>Materias buscadas (Opcional)<% end %>
+                        <%= form.collection_select :subject_ids, Subject.all, :id, :subject, {}, { multiple: true, class: 'select2 form-control' } %>
+                    </div>
+
+                    <div class="my-3">
+                        <%= form.label :skills, class:"form-label" do %>Habilidades buscadas (Opcional)<% end %>
+                        <%= form.collection_select :skill_ids, Skill.all, :id, :skill, {}, { multiple: true, class: 'select2 form-control' } %>
+                    </div>
+                </div>
+                
+                <%= form.submit "Registrarse", class:"btn btn-primary mt-2 btn-login" %>
+            <% end %>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>

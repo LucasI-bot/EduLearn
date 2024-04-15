@@ -1,0 +1,103 @@
+<div class="row d-flex pb-5">
+    <div class="col-md-3">
+        <h5>Filtrar por</h5>
+        <%= form_with(url: courses_path, method: "get", class:"d-flex row") do |form| %>            
+            <div class="px-2 my-2">
+                <%= form.label :title, "Título:" %>
+                <%= form.text_field :title, class:"form-control", value: params[:title] %>
+            </div>
+
+            <div class="px-2 my-2">
+                <%= form.label :teacher, "Educador:" %>
+                <%= form.text_field :teacher, class:"form-control", value: params[:teacher] %>
+            </div>
+
+            <div class="px-2 my-2">
+                <%= form.label :subjects, class:"form-label" do %>Materias<% end %>
+                <%= form.collection_select :subject_ids, Subject.all, :id, :subject, { selected: params[:subject_ids] }, { multiple: true, class: 'select2 form-control' } %>
+            </div>
+
+            <div class="px-2 my-2">
+                <%= form.label :skills, class:"form-label" do %>Habilidades<% end %>
+                <%= form.collection_select :skill_ids, Skill.all, :id, :skill, { selected: params[:skill_ids] }, { multiple: true, class: 'select2 form-control' } %>
+            </div>
+
+            <div class="px-2 my-2">
+                <%= form.label :acceptance_required, class:"form-label" do %>Aceptación<% end %>
+                <%= form.select :acceptance_required, options_for_select([['Requerida', 1],['Solo no requerida', 2]], selected: params[:acceptance_required]), { include_blank:"Seleccionar" }, { class:"form-select" } %>
+            </div>
+
+            <div class="px-2 my-2">
+                <div class="form-check">
+                    <%= form.check_box :free, {class:"form-check-input", checked: (params[:free] == "1")} %>
+                    <%= form.label :free, class:"form-check-label" do %>Solo cursos gratis<% end %> 
+                </div>
+            </div>
+            
+            
+
+            <div class="col-md-12 actions my-3">
+                <%= form.submit "Filtrar", class: "btn btn-primary" %>
+                <%= link_to "Limpiar Filtros", teacher_courses_path, class: "btn btn-secondary" %>
+            </div>
+        <% end %>
+    </div>
+    <div class="col-md-9">
+        <div class="index-header-info">
+            <h3 class="index-count">
+                <% if @courses.count == 1 %>
+                    <%= @courses.count.to_s + " curso encontrado"%>
+                <% else %>
+                    <%= @courses.count.to_s + " cursos encontrados"%>
+                <% end %>
+            </h3>
+            <span class="select-wrapper">
+                <%= label_tag :order_by, "Ordenar por: "%>
+                <%= select_tag :order_by, options_for_select([["Recomendado", 0], ["Rating", 1], ["Precio", 2], ["Fecha de subida", 3], ["Fecha de actualizado", 4], ["Título", 5], ["Nombre educador", 6]], selected: params[:order_by]), class:"order_by_select" %>
+            </span>
+        </div>
+        <div class="row d-flex">
+            <% @courses.each do |course| %>
+                <div class="col-md-4">
+                    <%= link_to course_path(course), class:"card card-link" do %>
+                        <div class="course-card">
+                            <% if course.banner_img.attached? %>
+                                <%= image_tag course.banner_img.variant(resize: '400x400'), class: 'card-img-top course-card-img' %>
+                            <% else %>
+                                <%= image_tag 'Empty profile picture.png', class: 'card-img-top course-card-img' %>
+                            <% end %>
+                            <div class="card-body">
+                                <div class="teacher">
+                                    <div class="teacher-image circular-card-frame">
+                                        <% if course.user.picture.attached? %>
+                                            <%= image_tag course.user.picture.variant(resize: '200x200'), class:"img-framed-card" %>
+                                        <% else %>
+                                            <%= image_tag 'Empty profile picture.png', class: 'img-framed-card' %>
+                                        <% end %>
+                                    </div>
+                                    <div class="teacher-name">
+                                        <% if course.user.alias.present? %>
+                                            <%= course.user.alias %>
+                                        <% else %>
+                                            <%= course.user.first_name + " " + course.user.last_name %>
+                                        <% end %>
+                                    </div>
+                                </div>
+                                <h5 class="card-title mt-2 course-card-title"><b><%= course.title %></b></h5>
+                                <div class="card-text skills-and-subjects-card">
+                                    <p>
+                                        <b>Habilidades a adquirir:</b><% course.skills.each do |skill| %><% unless skill == course.skills.first %>,<% end %><%= " " + skill.skill %><% end %>
+                                    </p>
+                                </div>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Rating</li>
+                                <li class="list-group-item">Precio: <% if course.price.blank? or course.price == 0 %>Gratis<% else %>US$<%= course.price %><% end %></li>
+                            </ul>
+                        </div>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+development:
+  # Credentials for REST APIs
+  client_id: AfX9dS7eK6izYNElxs50kW2rR_zc3FoCss82B7Y938ssq7vQVBLB46UZi0STzhbSsbFaG8hDEMZAG5jJ
+  client_secret: EOyopUNLZbU7eqWL97ClCsjHJscu0-omauPo2SCIGqLWNGgPALio-EGBoBsfo0uKFD1UttjzenxK8Mv1
+
+  # Mode can be 'live' or 'sandbox'
+  mode: sandbox
+
+production:
+  client_id: AfX9dS7eK6izYNElxs50kW2rR_zc3FoCss82B7Y938ssq7vQVBLB46UZi0STzhbSsbFaG8hDEMZAG5jJ
+  client_secret: EOyopUNLZbU7eqWL97ClCsjHJscu0-omauPo2SCIGqLWNGgPALio-EGBoBsfo0uKFD1UttjzenxK8Mv1
+
+  mode: live

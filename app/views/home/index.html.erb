@@ -1,0 +1,33 @@
+<div class="d-flex pb-5" id="landing1">
+    <div class="col-md-6">
+        <div class="mx-4">
+            <%= image_tag "Img Landing.png", class: "img-responsive-width"%>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <p class="main-title pb-5">Comparte lo que sabes, nosotros te ayudamos a ganar dinero.</p>
+        <p class="main-subtitle">¡Educa y gana dinero! Crea cursos con tu experiencia y compártelos con el mundo. En Edulearn ayudamos al monetizar tu conocimiento.</p>
+    </div>
+</div>
+<div class="py-5 background-secondary" id="landing2">
+    <div class="container d-flex">
+        <div class="col-md-6">
+            <p class="main-title pb-5">Aprende a tu ritmo, con miles de cursos a disposición.</p>
+            <p class="main-subtitle">Como estudiante puedes disfrutar de múltiples cursos para extender tu conocimiento, puedes elegir tanto cursos sincrónicos como asincrónicos para explotar al máximo tu experiencia</p>
+        </div>
+        <div class="col-md-6">
+            <div class="mx-4">
+                <%= image_tag "Img Landing.png", class: "img-responsive-width"%>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="py-5 only-text-landing" id="landing3">
+    <p class="main-title mb-5">¡Crea tu cuenta para disfrutar de tu propia experiencia en EduLearn!</p>
+    <p class="main-subtitle">Ya sea como estudiante expandiendo tu conocimiento o como educador para monetizar tu experiencia, hay un lugar para ti en EduLearn.</p>
+</div>
+
+<div class="pb-5 only-buttons-landing" id="landing4">
+    <%= link_to "Registro estudiante", signup_path(role: "student"), class:"btn btn-primary p-3" %>
+    <%= link_to "Registro educador", signup_path(role: "teacher"), class:"btn btn-primary p-3"%>
+</div>

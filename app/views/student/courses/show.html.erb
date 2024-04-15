@@ -1,0 +1,27 @@
+<% @course.sections.each do |section|%>
+    <h3><%= section.title %></h3>
+    <% section.lectures.each do |lecture| %>
+        <%= link_to lecture.title, student_course_lecture_path(@course,lecture) %><br>
+    <% end %>
+    <% section.exams.each do |exam| %>
+        <%= link_to exam.title, student_course_exam_path(@course,exam) %><br>
+    <% end %>
+<% end %>
+
+<%= link_to "Enviar mensaje", student_conversations_path(teacher_id: @course.user.id), method: :post %>
+
+<button id="open-rating-modal">Puntuar</button>
+
+<div id="rating-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Modal header, body, and footer -->
+            <div class="modal-header">
+                <h2>Puntuar curso</h2>
+            </div>
+            <div class="modal-body">
+                <%= render 'edit' %>
+            </div>
+        </div>
+    </div>
+</div>

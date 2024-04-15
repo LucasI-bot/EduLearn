@@ -1,0 +1,17 @@
+<h1>Pregunta de archivo</h1>
+<%= form_with(model: @question, url: teacher_course_section_exam_questions_path(@exam.section.course, @exam.section, @exam), local: true) do |form| %>
+    <!-- Question content input -->
+        
+    <%= form.hidden_field :question_type, value: @question.question_type %>
+    <%= form.hidden_field :question_number, value: @question.question_number %>
+
+    <div class="question-div">
+        <%= form.label "Pregunta", class:"form-label" %>
+        <%= form.text_field :question, class:"form-control" %>
+    </div>
+    <br>
+
+
+    <!-- Submit button -->
+    <%= form.submit "Crear Pregunta",class:"btn btn-primary"  %>
+<% end %>

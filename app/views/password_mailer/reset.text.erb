@@ -1,0 +1,9 @@
+Buen día <%= @user.first_name %>
+Alguien pidió un reinicio de contraseña para su cuenta de EduLearn.
+Si fue usted copie y pegue el link debajo para reiniciar su contraseña, el link expira automáticamente en 30 minutos
+
+<%= password_reset_edit_url(token: @token) %>
+
+Gracias.
+
+Apoyo Técnico de EduLearn

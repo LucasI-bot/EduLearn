@@ -1,0 +1,1039 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ *= require select2
+*/
+
+:root{
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --accent-color: #f39c12;
+    --background-color: #ecf0f1;
+    --text-color: #2c3e50;
+    --highlight-color: #e74c3c;
+}
+
+.main-div{
+    background-color: var(--background-color);
+    padding-top: 50px;
+    flex: 1;
+}
+
+.navbar{
+    background-color: white;
+}
+
+.btn-primary{
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.logo{
+    height: 40px;
+}
+
+.a-logo{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+/* Styles for the button */
+.btn-nav {
+    display: inline-block;
+    color: black;
+    text-decoration: none;
+    position: relative;
+}
+  
+/* Styles for the underline */
+.btn-nav::after {
+    content: "";
+    display: block;
+    height: 2px; /* Adjust the thickness of the underline */
+    width: 0;
+    color: black;
+    background-color: var(--primary-color); /* Colored underline */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 0.3s; /* Add a smooth transition effect */
+}
+  
+/* Styles for the underline on hover */
+.btn-nav:hover::after {
+    width: 100%;
+}
+
+.nav-div{
+    display: flex;
+    align-items: center;
+}
+
+.img-responsive-width{
+    width: 100%;
+    height: auto;
+}
+
+.main-title{
+    font-size: 3.6rem;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: var(--text-color);
+    line-height: 120%;
+    margin-top: 3rem;
+}
+
+.main-subtitle{
+    font-size: 1.5rem;
+    color: var(--text-color);
+    line-height: 150%;
+}
+
+.body-teacher {
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+  
+/* Sidebar Styles */
+.teacher-sidebar {
+    width: 200px;
+    background-color: #2c3e50; /* Choose a background color for the sidebar */
+    color: white;
+    flex-direction: column;
+    display: flex;
+    top: 0;
+    bottom: 0;
+    position: fixed;
+}
+  
+/* Sidebar Link Styles */
+.teacher-sidebar a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.teacher-sidebar-body{
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    flex-grow: 2;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.teacher-sidebar-body a {
+    padding: 10px;
+}
+  
+.teacher-sidebar-body a:hover {
+    background-color: #34495e; /* Hover background color */
+}
+  
+/* Main Content Styles */
+.teacher-main {
+    padding: 20px; /* Adjust as needed */
+    position: relative;
+    left: 200px;
+    width: calc(100% - 200px);
+}
+  
+/* Example Content Styles */
+.teacher-main h1 {
+    color: #2c3e50; /* Text color for the main content */
+}
+
+.sidebar-top{
+    padding: 16px 16px 16px 20px;
+}
+
+.sidebar-bottom{
+    padding: 16px 16px 16px 20px;
+}
+
+.content-form{
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+  
+.footer-main {
+    margin-top: auto; /* This pushes the footer to the bottom */
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+  
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+}
+  
+  /* Table header */
+thead {
+    background-color: #f4f4f4;
+}
+  
+th {
+    font-weight: bold;
+    color: #333;
+    align-items: center;
+}
+  
+  /* Table body */
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+  
+tbody tr:hover {
+    background-color: #e9e9e9;
+}
+
+.btn-secondary{
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin-left: 0px;
+}
+
+.table-dropdown{
+    font-size: 18px;
+    font-weight: 400;
+    align-items: center;
+    height: 30px;
+    display:flex;
+}
+
+.table-icon{
+    height: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.table-delete-icon{
+    height: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.table-delete-icon path {
+    fill: red;
+}
+
+.table-actions{
+    display: flex;
+}
+
+.table-actions .btn {
+    margin: 0; /* Remove default margin */
+    border-radius: 0; /* Reset border-radius */
+}
+  
+.table-actions .btn:first-child {
+    border-top-left-radius: 10px; /* Apply border-radius to first button */
+    border-bottom-left-radius: 10px; /* Apply border-radius to first button */
+    border-right: none;
+}
+
+.btn-view{
+    text-align: center;
+}
+
+.new-and-title{
+    justify-content: space-between;
+    padding-bottom: 20px;
+    display: flex;
+}
+
+.btn-add{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.table-header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-header-icon{
+    width: 12.5px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.table-header-text{
+    font-size: 20px;
+}
+
+.delete-icon path {
+    fill: red;
+}
+  
+.delete-icon{
+    width: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.lecture-title{
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text-color)
+}
+
+.lecture-title a{
+    color: var(--text-color);
+}
+
+.section-icon{
+    width: 12.5px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 15px;
+}
+
+.new-section-icon{
+    width: 17.5px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 15px;
+}
+
+.new-section{
+    display: flex;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.section-title{
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.section-card-header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.lecture-card{
+    justify-content: space-between;
+}
+
+.lecture-icon{
+    width: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 15px;
+}
+
+.new-lecture-icon{
+    width: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 15px;
+}
+
+.lecture-span{
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+}
+
+.add-content{
+    text-decoration: none;
+    display: flex;
+}
+
+.content-card{
+    overflow: hidden;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.btns-exam-card{
+    display: flex;
+}
+
+.btn-add-question{
+    width: 100%;
+}
+
+.option-div{
+    display: flex;
+    width: 100%;
+}
+
+.card-option{
+    width: 100%;
+    margin-left: 14px;
+}
+
+.card-option-answer-incorrect-not-selected{
+    width: 100%;
+    margin-left: 14px;
+    border-color: red;
+    border-width: 1.3px;
+    opacity: 0.8;
+    flex-direction: row;
+}
+
+.card-option-answer-correct-not-selected{
+    width: 100%;
+    margin-left: 14px;
+    border-color: green;
+    border-width: 1.3px;
+    opacity: 0.8;
+    flex-direction: row;
+}
+
+.card-option-answer-incorrect-selected{
+    width: 100%;
+    margin-left: 14px;
+    border-color: red;
+    border-width: 3px;
+    flex-direction: row;
+}
+
+.card-option-answer-correct-selected{
+    width: 100%;
+    margin-left: 14px;
+    border-color: green;
+    border-width: 3px;
+    flex-direction: row;
+}
+
+.option-checkbox{
+    height: auto;
+    width: 20px;
+}
+
+.option-answer-option{
+    margin-left: 14px;
+}
+
+.question-answer-card{
+    width: 70%;
+}
+
+.card-question-answer-buttons{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.div-question-answer-button{
+    height: 50%;
+    width: 100%;
+}
+
+.question-answer-button{
+    margin: auto;
+    width: 120px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.btn-correct{
+    border-color: green;
+}
+
+.btn-correct:hover{
+    background-color: green;
+    border-color: green;
+    color: white
+}
+
+.btn-incorrect{
+    border-color: red;
+}
+
+.btn-incorrect:hover{
+    background-color: red;
+    border-color: red;
+    color: white
+}
+
+.selected.btn-incorrect{
+    background-color: red;
+    border-color: red;
+    color: white;
+    transform: scale(1.2);
+}
+
+.selected.btn-correct{
+    background-color: green;
+    border-color: green;
+    color: white;
+    transform: scale(1.2);
+}
+
+.question-answer-buttons{
+    width: 30%;
+}
+
+.hidden{
+    display: none;
+}
+
+.circular-frame {
+    width: 250px; /* Adjust size as needed */
+    height: 250px; /* Adjust size as needed */
+    border-radius: 50%; /* Makes the frame circular */
+    overflow: hidden; /* Clips the image to the circular shape */
+    position: relative; /* For positioning the image */
+    margin-right: auto;
+    margin-left: auto;
+    border-color: rgba(0, 0, 0, 0.175);
+    border-width: 1px;
+    border-style: solid;
+}
+  
+.circular-frame img {
+    position: absolute; /* Position the image relative to its container */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the image within the circular frame */
+    min-width: 100%; /* Ensure the image fills the frame horizontally */
+    min-height: 100%; /* Ensure the image fills the frame vertically */
+}
+
+.accept-inscription-icon{
+    height: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.accept-inscription-icon path {
+    fill: darkgreen;
+}
+
+button:hover .accept-inscription-icon path {
+    fill: lightgreen;
+}
+
+.reject-inscription-icon{
+    height: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.reject-inscription-icon path {
+    fill: red;
+}
+
+button:hover .reject-inscription-icon path {
+    fill: lightsalmon;
+}
+
+.btn-content-edit{
+    position: absolute;
+    margin-top: 8px;
+    right: 8px;
+}
+
+.edit-profile{
+    padding-bottom: 50px;
+}
+
+.banner-img-preview{
+    width: 50%;
+    height: auto;
+}
+
+.card-link{
+    text-decoration: none;
+}
+
+.course-card{
+    color: var(--text-color);
+}
+
+.teacher-card{
+    color: var(--text-color);
+}
+
+.teacher {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+  
+.teacher-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    overflow: hidden;
+    position: relative; /* For positioning the image */
+}
+
+.aspect-ratio-container {
+    position: relative;
+    width: calc(100% - 80px); 
+    margin: 20px auto 5px auto; 
+}
+  
+.aspect-ratio-container::before {
+    content: "";
+    display: block;
+    padding-bottom: 100%; /* Set the aspect ratio (e.g., 1:1) */
+}
+  
+.aspect-ratio-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Fill the container's height */
+}
+
+.teacher-card-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative; /* For positioning the image */
+}
+
+.circular-card-frame img {
+    position: absolute; /* Position the image relative to its container */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the image within the circular frame */
+    min-width: 100%; /* Ensure the image fills the frame horizontally */
+    min-height: 100%; /* Ensure the image fills the frame vertically */
+}
+
+.skills-and-subjects-card{
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    height: 3.5em;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+}
+
+.skills-and-subjects-card p{
+    font-size: 12px;
+}
+
+.index-header-info{
+    justify-content: space-between;
+    margin-bottom: 50px;
+    display: flex;
+}
+
+.index-count{
+    color: var(--text-color)
+}
+
+.course-card-img{
+    aspect-ratio: 16/9;
+    overflow: hidden;
+}
+
+.course-card-title{
+    overflow: hidden;
+    height: 2.5em;
+}
+
+.select-wrapper {
+    position: relative;
+    display: flex;
+    font-family: Arial, sans-serif; /* Change font as needed */
+}
+  
+.select-wrapper label {
+    display: block;
+    margin-bottom: auto;
+    margin-top: auto;
+    margin-right: 5px;
+    color: #666; /* Text color */
+}
+  
+.select-wrapper select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 1px solid #ccc;
+    padding: 10px 30px 10px 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    background-color: #f9f9f9; /* Light gray background */
+    cursor: pointer;
+    width: 200px; /* Adjust width as needed */
+}
+  
+.select-wrapper::after {
+    content: '\25BC'; /* Unicode character for down arrow */
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #999; /* Arrow color */
+}
+  
+  /* Hover effect */
+.select-wrapper:hover select {
+    border-color: #999;
+}
+  
+  /* Focus effect */
+.select-wrapper select:focus {
+    outline: none;
+    border-color: #66afe9;
+    box-shadow: 0 0 0 2px rgba(102, 175, 233, 0.6);
+}
+
+.a-teacher{
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 20px;
+}
+
+.a-teacher .circular-card-frame{
+    width: 45px;
+    height: 45px;
+}
+
+.course-description{
+    font-size: 1.2em;
+}
+
+.teacher-and-inscription-course{
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-course{
+    position: absolute;
+    display: flex;
+    left: 0;
+    width: 100%;
+    top: 66px;
+    background-color: #d1e8ee;
+    color: var(--text-color)
+}
+
+.course-header-container{
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+.navbar-links-courses {
+    position: fixed;
+    top: -200px;
+    left: 0;
+    width: 100%;
+    background-color: var(--background-color);
+    z-index: 1000; /* Ensures the navbar appears above other content */
+    transition: top 0.3s; /* Smooth transition when showing/hiding */
+}
+
+.div-links-courses {
+    display: flex; /* Initially hides the navbar */
+    width: 100%;
+    background-color: var(--background-color);
+    z-index: 1000; /* Ensures the navbar appears above other content */
+    border-bottom: 2px solid #7c7c7c;
+}
+
+.div-links-courses.teacher-course{
+    background-color: white;
+}
+  
+.navbar-links-courses.show {
+    top: 0; /* Shows the navbar when scrolled below */
+}
+  
+.teacher-course .nav-link:hover{
+    background-color: var(--background-color);
+}
+
+.teacher-course .nav-link.active{
+    background-color: var(--background-color);
+}
+
+.nav-link {
+    color: var(--text-color);
+    padding: 10px 15px;
+    margin-right: 5px;
+    text-decoration: none;
+    transition: 0.6s;
+    border-radius: 15px;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+    background-color: #fff;
+}
+
+.nav-link.active {
+    color: var(--primary-color);
+    background-color: #fff;
+}
+  
+.section {
+    margin-bottom: 50px;
+}
+
+.title-and-teacher-course {
+    display: flex;
+    align-items: center;
+}
+
+.title-and-teacher-course .circular-card-frame{
+    width: 45px;
+    height: 45px;
+    margin-right: 20px;
+}
+
+.course-information-nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 2px solid #7c7c7c;
+}
+
+.btn-inscription{
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 15px;
+}
+
+.question-card{
+    justify-content: space-between;
+    display: flex;
+}
+
+.delete-option{
+    margin: auto;
+}
+
+.background-secondary{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    color: var(--text-color)
+}
+
+.only-text-landing{
+    text-align: center;
+}
+
+.only-buttons-landing{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.btn-login{
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.rate {
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+.rating-label{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.rating-submit{
+    display: flex;
+    justify-content: right;
+}
+
+.chat-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: -40px;
+}
+
+.chat-container.teacher-chat {
+    margin-top: 0px;
+}
+  
+.chat {
+    overflow-y: auto;
+    height: calc(100vh - 255px);
+    padding: 10px;
+    background-color: #c3c6c7;
+}
+
+.teacher-chat .chat{
+    height: calc(100vh - 192px);
+}
+  
+.message {
+    margin-bottom: 10px;
+    display: flex;
+}
+  
+.outgoing {
+    justify-content: flex-end;
+}
+  
+.message-content {
+    max-width: 70%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background-color: #DCF8C6;
+}
+
+.message-content p {
+    margin: 0;
+}
+  
+  .incoming .message-content {
+    background-color: #E5E5EA;
+  }
+  
+  .compose {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #d5d9da59;
+  }
+  
+  .compose textarea {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow-y: auto;
+    resize: none;
+  }
+  
+  .message-button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .message-button:disabled{
+    background-color: #63aeff;
+    cursor: default;
+  }
+
+  .message-button:disabled:hover{
+    background-color: #63aeff;
+  }
+  
+  .message-button:hover {
+    background-color: #0056b3;
+  }
+
+  .teacher-info {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #d5d9da59;
+  }
+
+  .teacher-info .teacher {
+    margin-bottom: 0px;
+  }
+
+  .teacher-info .btn-danger {
+    background-color: #d5d9da59;
+    border-color: #4b4a4a;
+    height: 45px;
+    width: 45px;
+    display: flex;
+    border-radius: 0.8rem;
+    margin-right: 12px;
+  }
+
+  .teacher-info .btn-danger:hover {
+    background-color: #4b4a4a;
+  }
+
+.teacher-info .btn-danger .conversation-back{
+    height: 20px;
+    margin: auto;
+}
+
+.teacher-info .btn-danger .conversation-back path{
+    fill: var(--text-color)
+}
+
+.teacher-info .btn-danger:hover .conversation-back path{
+    fill: #fff
+}
+
+.table-delete-icon path {
+    fill: red;
+}
+
+.course-header{
+    padding-bottom: 50px;
+}

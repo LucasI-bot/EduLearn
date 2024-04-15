@@ -1,0 +1,3 @@
+<%= form_with url:student_course_exam_path(@exam.section.course, @exam) do |f| %>
+    <%= f.submit "Iniciar examen", class:"btn btn-primary"%>
+<% end %>

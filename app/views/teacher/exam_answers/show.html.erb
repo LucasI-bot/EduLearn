@@ -1,0 +1,86 @@
+<h1><%= @exam_answer.exam.title %></h1>
+
+<%= form_with(model: @exam_answer, url: teacher_course_exam_answer_path(@course, @exam_answer)) do |form| %>
+    <!-- Question content input -->
+    <div class="d-flex row">
+        <% @exam_answer.question_answers.order(question_number: :asc).each do |question_answer| %>
+            <div class="question-answer-card card p-3 my-3">
+                <h2><%= "Pregunta " + question_answer.question_number.to_s %></h2>
+                <p><%= question_answer.question.question %></p>
+                <% case question_answer.question.question_type %>
+                <% when "multiple_choice" %>
+                    <% question_answer.option_answers.each do |option_answer|%>
+                        <% if option_answer.option.correct %>
+                            <% if option_answer.selected %>
+                                <div class="d-flex">
+                                    <div class="card card-option-answer-correct-selected option-div my-2 p-2">
+                                        <%= check_box_tag "option_selected_#{option_answer.id}", "1", option_answer.selected, disabled: true, class:"option-checkbox" %>
+                                        <span class="option-answer-option">
+                                            <%=option_answer.option.option%>
+                                        </span>
+                                    </div>
+                                </div>
+                            <% else %>
+                                <div class="d-flex">
+                                    <div class="card card-option-answer-correct-not-selected option-div my-2 p-2">
+                                        <%= check_box_tag "option_selected_#{option_answer.id}", "1", option_answer.selected, disabled: true, class:"option-checkbox" %>
+                                        <span class="option-answer-option">
+                                            <%=option_answer.option.option%>
+                                        </span>
+                                    </div>
+                                </div>
+                            <% end %>
+                        <% else %>
+                            <% if option_answer.selected %>
+                                <div class="d-flex">
+                                    <div class="card card-option-answer-incorrect-selected option-div my-2 p-2">
+                                        <%= check_box_tag "option_selected_#{option_answer.id}", "1", option_answer.selected, disabled: true, class:"option-checkbox" %>
+                                        <span class="option-answer-option">
+                                            <%=option_answer.option.option%>
+                                        </span>
+                                    </div>
+                                </div>
+                            <% else %>
+                                <div class="d-flex">
+                                    <div class="card card-option-answer-incorrect-not-selected option-div my-2 p-2">
+                                        <%= check_box_tag "option_selected_#{option_answer.id}", "1", option_answer.selected, disabled: true, class:"option-checkbox" %>
+                                        <span class="option-answer-option">
+                                            <%=option_answer.option.option%>
+                                        </span>
+                                    </div>
+                                </div>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                <% when "file_upload" %>
+                    <p>
+                        <% if question_answer.file.attached? %>
+                            <%= "<b>Archivo asociado: </b>".html_safe%> <%=link_to question_answer.file.filename, rails_blob_path(question_answer.file, disposition: "attachment")%>
+                        <% else %>
+                            <%= "<b>No hay archivo asociado</b>".html_safe %>
+                        <% end %>
+                    </p>
+                <% when "question_answer" %>
+                    <p><%= "<b>Respuesta ingresada: </b>".html_safe + question_answer.answer%></p>
+                <% end %>
+            </div>
+            <%= form.fields_for :question_answers, question_answer do |question_answer_form| %>
+                <div class="question-answer-buttons my-3 d-flex">
+                    <div class="card-question-answer-buttons card" data-pair-id="<%= question_answer.question_number %>">
+                        <div class="d-flex div-question-answer-button">
+                            <div class="question-answer-button btn btn-secondary btn-correct<%= question_answer.correct ? " selected" : "" %>" >Correcta</div>
+                        </div>
+                        <%= question_answer_form.hidden_field :correct, value: question_answer.correct, class:"correct_hidden_form" %>
+                        <div class="d-flex div-question-answer-button">
+                            <div class="question-answer-button btn btn-secondary btn-incorrect<%= question_answer.correct == false ? " selected" : "" %>">Incorrecta</div>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
+
+
+    <!-- Submit button -->
+    <%= form.submit "Enviar corrección",class:"btn btn-primary"  %>
+<% end %>
