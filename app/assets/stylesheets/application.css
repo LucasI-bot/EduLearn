@@ -511,6 +511,13 @@ tbody tr:hover {
     border-width: 1px;
     border-style: solid;
 }
+
+.circular-frame.student {
+    width: 150px; /* Adjust size as needed */
+    height: 150px; /* Adjust size as needed */
+    margin-right: 20px;
+    margin-left: 0px;
+}
   
 .circular-frame img {
     position: absolute; /* Position the image relative to its container */
@@ -519,6 +526,13 @@ tbody tr:hover {
     transform: translate(-50%, -50%); /* Center the image within the circular frame */
     min-width: 100%; /* Ensure the image fills the frame horizontally */
     min-height: 100%; /* Ensure the image fills the frame vertically */
+}
+
+.student-info{
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
 }
 
 .accept-inscription-icon{
@@ -1036,4 +1050,24 @@ button:hover .reject-inscription-icon path {
 
 .course-header{
     padding-bottom: 50px;
+}
+
+.student-detailed-info{
+    padding-top: 50px;
+}
+
+.btn-back {
+    height: 45px;
+    width: 45px;
+    display: flex;
+    border-radius: 0.7rem;
+    margin-right: 12px;
+  }
+
+.btn-back .back-svg{
+    height: 20px;
+    margin: auto;
+}
+.btn-back .back-svg path{
+    fill: #fff
 }

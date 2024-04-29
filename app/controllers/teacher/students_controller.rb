@@ -31,7 +31,15 @@ module Teacher
     end
 
     def show
+      if params[:course_id]
+        @course = Course.find(params[:course_id])
+      end
+      
+      @student = User.find(params[:id])
 
+      unless User.joins(:inscriptions).where(inscriptions: { paid: true, approved: true, course_id: current_user.courses.map{|a| a.id} }).group('users.id').map{|a| a.id}.include?(@student.id)
+        redirect_to teacher_students_path
+      end
     end
   end
 end

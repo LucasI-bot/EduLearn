@@ -1,0 +1,120 @@
+<div class="d-flex">
+    <div class="col-md-2">
+        <% if @course.present? %>
+            <%= link_to '<svg class="back-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>'.html_safe, teacher_course_students_path(@course), class:"btn btn-danger btn-back" %>
+        <% else %>
+            <%= link_to '<svg class="back-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>'.html_safe, teacher_students_path, class:"btn btn-danger btn-back" %>
+        <% end %>
+    </div>
+    <div class="card col-md-8 p-5 py-4">
+            <div class="d-flex">    
+                <div class="circular-frame student">
+                    <% if @student.picture.attached? %>
+                        <%= image_tag @student.picture.variant(resize: '1000x1000'), id: 'form-image-preview', class: 'img-framed' %>
+                    <% else %>
+                        <%= image_tag 'Empty profile picture.png', id: 'form-image-preview', class: 'img-framed' %>
+                    <% end %>
+                </div>
+                <div class="student-info">
+                    <h2>
+                        <% if @student.alias.present? %>
+                            <%= @student.alias %>
+                        <% else %>
+                            <%= @student.last_name.to_s + ", " + @student.first_name.to_s%>
+                        <% end %>
+                    </h2>
+                    <p>
+                        Cuenta creada el <%= @student.created_at.strftime("%d/%m/%Y")%>
+                        <br>
+                        Inscrito a <%= @student.inscriptions.where(paid: true, approved: true, course_id: current_user.courses.map{|a| a.id} ).count %> <% if @student.inscriptions.where(paid: true, approved: true, course_id: current_user.courses.map{|a| a.id} ).count > 1%>cursos<% else %>curso<% end %>
+                    </p>
+                </div>
+            </div>
+            <div class="student-detailed-info">
+                <h1> Cursos </h1>
+                <div class="my-3">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="table-header-text">Título</span>
+                                </th>
+                                <th>
+                                    <span class="table-header-text">Nota</span>
+                                </th>
+                                <th>
+                                    <span class="table-header-text">Inscripción</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%  @student.inscriptions.map{|a| a.course }.each do |course| %>
+                            <tr>
+                                <td>
+                                    <%= course.title %>
+                                </td>
+                                <td>
+                                    <% if @student.inscriptions.find_by(course_id: course.id).mark.present? %>
+                                        <%= @student.inscriptions.find_by(course_id: course.id).mark %>
+                                    <% else %>
+                                        NaN
+                                    <% end %>
+                                </td>
+                                <td>
+                                    <%= @student.inscriptions.find_by(course_id: course.id).inscription_date.strftime("%d/%m/%Y") %>
+                                </td>
+                            </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                </div>
+                <% marks = @student.inscriptions.where(approved: true, paid: true, course_id: current_user.courses.map{|a| a.id}).where.not(mark: nil).map{|a| a.mark} %>
+                <span>Nota promedio: <%= (marks.sum / marks.size.to_f).to_s %></span>
+            </div>
+            <div class="student-detailed-info">
+                <h1> Evaluaciones </h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="table-header-text">Evaluación</span>
+                            </th>
+                            <th>
+                                <span class="table-header-text">Curso</span>
+                            </th>
+                            <th>
+                                <span class="table-header-text">Nota</span>
+                            </th>
+                            <th>
+                                <span class="table-header-text">Fecha</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%  @student.exam_answers.joins(exam: { section: :course }).where(finished: true, courses: { user_id: current_user.id }).each do |exam_answer| %>
+                        <tr>
+                            <td>
+                                <%= exam_answer.exam.title %>
+                            </td>
+                            <td>
+                                <%= exam_answer.exam.section.course.title %>
+                            </td>
+                            <td>
+                                <% if exam_answer.mark.present? %>
+                                    <%= exam_answer.mark %>
+                                <% else %>
+                                    NaN
+                                <% end %>
+                            </td>
+                            <td>
+                                <%= exam_answer.created_at.strftime("%d/%m/%Y") %>
+                            </td>
+                        </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+
+    </div>
+    <div class="col-md-2"></div>
+</div>

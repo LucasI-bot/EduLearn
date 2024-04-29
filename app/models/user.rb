@@ -9,6 +9,7 @@ class User < ApplicationRecord
     has_many :courses
     has_many :inscriptions
     has_many :conversations
+    has_many :exam_answers
 
     has_one_attached :picture
 
