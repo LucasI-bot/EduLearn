@@ -517,6 +517,15 @@ tbody tr:hover {
     height: 150px; /* Adjust size as needed */
     margin-right: 20px;
     margin-left: 0px;
+    flex: none;
+}
+
+.circular-frame.teacher-profile {
+    width: 200px; /* Adjust size as needed */
+    height: 200px; /* Adjust size as needed */
+    margin-right: 50px;
+    margin-left: 0px;
+    flex: none;
 }
   
 .circular-frame img {
@@ -532,6 +541,13 @@ tbody tr:hover {
     height: 100%;
     display: flex;
     justify-content: flex-end;
+    flex-direction: column;
+}
+
+.teacher-profile-info{
+    height: 100%;
+    display: flex;
+    justify-content: center;
     flex-direction: column;
 }
 
@@ -670,6 +686,11 @@ button:hover .reject-inscription-icon path {
 }
 
 .course-card-title{
+    overflow: hidden;
+    height: 2.5em;
+}
+
+.teacher-card-title{
     overflow: hidden;
     height: 2.5em;
 }

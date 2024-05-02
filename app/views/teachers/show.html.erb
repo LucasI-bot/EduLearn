@@ -1,0 +1,89 @@
+<div class="d-flex mb-3">
+    <div class="col-md-1 my-3">
+        <%= link_to '<svg class="back-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>'.html_safe, :back, class:"btn btn-danger btn-back" %>
+    </div>
+    <div class="card col-md-10 p-5 py-4">
+            <div class="d-flex">    
+                <div class="circular-frame teacher-profile">
+                    <% if @teacher.picture.attached? %>
+                        <%= image_tag @teacher.picture.variant(resize: '1000x1000'), id: 'form-image-preview', class: 'img-framed' %>
+                    <% else %>
+                        <%= image_tag 'Empty profile picture.png', id: 'form-image-preview', class: 'img-framed' %>
+                    <% end %>
+                </div>
+                <div class="teacher-profile-info">
+                    <h2>
+                        <% if @teacher.alias.present? %>
+                            <%= @teacher.alias %>
+                        <% else %>
+                            <%= @teacher.last_name.to_s + ", " + @teacher.first_name.to_s%>
+                        <% end %>
+                    </h2>
+                </div>
+            </div>
+            <div class="student-detailed-info">
+                <h1> Información general </h1>
+                <div class="my-3">
+                    <b>Fecha de creación de cuenta:</b> <%= @teacher.created_at.strftime("%d/%m/%Y")%>
+                    <br>
+                    <b>Cursos creados:</b> <%= @teacher.courses.count %>
+                    <br>
+                    <b>Alumnos:</b> <%= User.joins(:inscriptions).where(inscriptions: {course_id: @teacher.courses.map{|a| a.id}, approved: true, paid: true}).uniq.count %>
+                    <br>
+                    <b>Materias dadas:</b><% Subject.joins(:courses).where(courses: {id: @teacher.courses.map{|a| a.id}}).order(:subject).uniq.each do |subject| %><% unless subject == Subject.joins(:courses).where(courses: {id: @teacher.courses.map{|a| a.id}}).order(:subject).first%>,<% end %><%= " " + subject.subject %><% end %>
+                </div>
+            </div>
+            <div class="student-detailed-info">
+                <h1> Cursos </h1>
+                <div class="my-3 d-flex">
+                    <% @teacher.courses.sample(3).each do |course| %>
+                        <div class="col-md-4 px-1">
+                            <%= link_to course_path(course), class:"card card-link" do %>
+                                <div class="course-card">
+                                    <% if course.banner_img.attached? %>
+                                        <%= image_tag course.banner_img.variant(resize: '400x400'), class: 'card-img-top course-card-img' %>
+                                    <% else %>
+                                        <%= image_tag 'Empty profile picture.png', class: 'card-img-top course-card-img' %>
+                                    <% end %>
+                                    <div class="card-body">
+                                        <div class="teacher">
+                                            <div class="teacher-image circular-card-frame">
+                                                <% if course.user.picture.attached? %>
+                                                    <%= image_tag course.user.picture.variant(resize: '200x200'), class:"img-framed-card" %>
+                                                <% else %>
+                                                    <%= image_tag 'Empty profile picture.png', class: 'img-framed-card' %>
+                                                <% end %>
+                                            </div>
+                                            <div class="teacher-name">
+                                                <% if course.user.alias.present? %>
+                                                    <%= course.user.alias %>
+                                                <% else %>
+                                                    <%= course.user.first_name + " " + course.user.last_name %>
+                                                <% end %>
+                                            </div>
+                                        </div>
+                                        <h5 class="card-title mt-2 course-card-title"><b><%= course.title %></b></h5>
+                                        <div class="card-text skills-and-subjects-card">
+                                            <p>
+                                                <b>Habilidades a adquirir:</b><% course.skills.each do |skill| %><% unless skill == course.skills.first %>,<% end %><%= " " + skill.skill %><% end %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Rating: <% if course.rating.blank? or course.rating == 0 %>Sin puntuar<% else %><%= course.rating %> 🌟<% end %></li>
+                                        <li class="list-group-item">Precio: <% if course.price.blank? or course.price == 0 %>Gratis<% else %>US$<%= course.price %><% end %></li>
+                                    </ul>
+                                </div>
+                            <% end %>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+            <div class="student-detailed-info">
+                <h1>  </h1>
+                
+            </div>
+
+    </div>
+    <div class="col-md-1"></div>
+</div>

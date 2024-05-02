@@ -5,7 +5,7 @@
             <p class="course-description"><%= @course.description %></p>
         </div>
         <div class="col-md-4">
-            <p>Rating: </p>
+            <p>Rating: <% if @course.rating.blank? or @course.rating == 0 %>Sin puntuar<% else %><%= @course.rating %> 🌟<% end %></p>
         </div>
         <% unless @course.start_date.blank? %>
             <span class="course-date-show col-md-4">

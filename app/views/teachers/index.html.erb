@@ -39,7 +39,7 @@
         </div>
         <div class="row d-flex">
             <% @teachers.each do |teacher| %>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <%= link_to teacher_path(teacher), class:"card card-link" do %>
                         <div class="teacher-card">
                             <div class="aspect-ratio-container">
@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h4 class="card-title mt-2">
+                                <h4 class="card-title mt-2 teacher-card-title">
                                     <% if teacher.alias.present? %>
                                         <b><%= teacher.alias %></b>
                                     <% else %>
@@ -63,7 +63,7 @@
                                 </h4>
                                 <div class="card-text skills-and-subjects-card">
                                     <p>
-                                        <b>Materias dadas:</b><% Subject.joins(:courses).where(courses: {id: teacher.courses.map{|a| a.id}}).each do |subject| %><% unless subject == Subject.joins(:courses).where(courses: {id: teacher.courses.map{|a| a.id}}).first%>,<% end %><%= " " + subject.subject %><% end %>
+                                        <b>Materias dadas:</b><% Subject.joins(:courses).where(courses: {id: teacher.courses.map{|a| a.id}}).order(:subject).uniq.each do |subject| %><% unless subject == Subject.joins(:courses).where(courses: {id: teacher.courses.map{|a| a.id}}).order(:subject).first%>,<% end %><%= " " + subject.subject %><% end %>
                                     </p>
                                 </div>
                             </div>
