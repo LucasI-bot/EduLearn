@@ -1,7 +1,18 @@
 module Student
   class Student::ConversationsController < Student::StudentController
     def index
+      @conversations = Conversation.where(student_id: current_user.id)
 
+      case params[:order_by]
+      when 'teacher'
+        @conversations = @conversations.joins(:teacher).order(Arel.sql("COALESCE(users.alias, CONCAT(users.last_name, ' ', users.first_name)) " + params[:order]))
+      when 'courses'
+        @conversations = @conversations.joins(teacher: { courses: :inscriptions }).where(inscriptions: {approved: true, paid: true, user_id: current_user.id}).order(title: params[:order]).uniq
+      when 'updated_at'
+        @conversations = @conversations.order(updated_at: params[:order])
+      else
+        @conversations = @conversations.order(updated_at: :desc)
+      end
     end
 
     def create
@@ -38,6 +49,10 @@ module Student
     def show
       @conversation = Conversation.find(params[:id])
       @message = Message.new
+
+      unless @conversation.student == current_user
+        redirect_to student_conversations_path
+      end
     end
 
     private

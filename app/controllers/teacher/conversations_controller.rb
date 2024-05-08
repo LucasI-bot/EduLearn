@@ -12,7 +12,7 @@ module Teacher
       when 'student'
         @conversations = @conversations.joins(:student).order(Arel.sql("COALESCE(users.alias, CONCAT(users.last_name, ' ', users.first_name)) " + params[:order]))
       when 'courses'
-        @conversations = @conversations.joins(student: { inscriptions: :course }).where(course: {user_id: current_user.id}).order(title: params[:order]).uniq
+        @conversations = @conversations.joins(student: { inscriptions: :course }).where(inscriptions: {paid: true, approved: true}, course: {user_id: current_user.id}).order(title: params[:order]).uniq
       when 'updated_at'
         @conversations = @conversations.order(updated_at: params[:order])
       else
@@ -51,6 +51,10 @@ module Teacher
 
       if params[:course_id]
         @course = Course.find(params[:course_id])
+      end
+
+      unless @conversation.teacher == current_user
+        redirect_to student_conversations_path
       end
     end
 

@@ -25,6 +25,17 @@ module Student
       @inscription = Inscription.where(user_id: current_user.id, course_id: params[:id]).first
     end
 
+    def destroy
+      @inscription = Inscription.find_by(course_id: params[:id])
+
+      @inscription.paid = false
+      @inscription.approved = false
+
+      @inscription.save
+
+      redirect_to student_root_path
+    end
+
     private
       def inscription_params
         params.require(:inscription).permit(:rating, :review)

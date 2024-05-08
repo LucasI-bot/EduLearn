@@ -19,7 +19,7 @@
     --primary-color: #3498db;
     --secondary-color: #2ecc71;
     --accent-color: #f39c12;
-    --background-color: #ecf0f1;
+    --background-color: #f3f7f8;
     --text-color: #2c3e50;
     --highlight-color: #e74c3c;
 }
@@ -182,7 +182,15 @@ table {
     border-collapse: collapse;
     width: 100%;
 }
-  
+
+.student-table thead{
+    background-color: #cac8c8;
+}
+
+.student-table tr{
+    border: 1px solid #e9e9e9;
+}
+
 th, td {
     padding: 12px 15px;
     text-align: left;

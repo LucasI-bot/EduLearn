@@ -55,7 +55,7 @@ Rails.application.routes.draw do
 
   namespace :student do
     root "home#index"
-    resources :courses, only: [:show, :index, :update, :edit] do
+    resources :courses, only: [:show, :index, :update, :edit, :destroy] do
       resources :lectures, except: [:index]
       resources :exams, only: [:show, :index] do
         get '/questions/:number', to: 'questions#edit', as: 'question'
