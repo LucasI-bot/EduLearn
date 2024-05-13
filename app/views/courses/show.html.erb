@@ -88,30 +88,128 @@
         </div>
     </nav>
         
-    <div class="course-description section" id="description">
-        <h3>Descripción del curso</h3>
-        <% if @course.detailed_description.present?%>
-            <%= @course.detailed_description.html_safe %>
-        <% end %>
+    <div class="course-description course-section" id="description">
+        <h2>Descripción del curso</h2>
+        <div class="pt-4">
+            <% if @course.detailed_description.present?%>
+                <%= @course.detailed_description.html_safe %>
+            <% end %>
+        </div>
     </div>
     
 
-    <div class="course-content section" id="content">
-        <h3>Contenido</h3>
-        <% @course.sections.each do |section|%>
-            <h5><%= section.title %></h5>
-            <% section.lectures.each do |lecture| %>
-                <%= lecture.title %>
+    <div class="course-content course-section" id="content">
+        <h2>Contenido</h2>
+        <div class="pt-4">
+            <% @course.sections.each do |section|%>
+                <div class="card my-2">
+                    <div class="card-header">
+                        <h5 class="course-content-display-title"><%= section.title %></h5>
+                    </div>
+                    <div class="card-body py-1">
+                        <% section.lectures.each do |lecture| %>
+                            <div class="card-body card my-2">
+                                <p class="course-content-display-title"><%= lecture.title %></p>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
             <% end %>
-        <% end %>
+        </div>
     </div>
 
-    <div class="course-recomendations section" id="recomendations">
-        <h3>Otros cursos del educador</h3>
+    <div class="course-recomendations course-section" id="recomendations">
+        <h2>Otros cursos del educador</h2>
+        <div class="row d-flex my-3 pt-4">
+            <% @course.user.courses.where.not(id: @course.id).all.sample(4).each do |course| %>
+                <div class="col-md-3">
+                    <%= link_to course_path(course), class:"card card-link" do %>
+                        <div class="course-card">
+                            <% if course.banner_img.attached? %>
+                                <%= image_tag course.banner_img.variant(resize: '400x400'), class: 'card-img-top course-card-img' %>
+                            <% else %>
+                                <%= image_tag 'Empty profile picture.png', class: 'card-img-top course-card-img' %>
+                            <% end %>
+                            <div class="card-body">
+                                <div class="teacher">
+                                    <div class="teacher-image circular-card-frame">
+                                        <% if course.user.picture.attached? %>
+                                            <%= image_tag course.user.picture.variant(resize: '200x200'), class:"img-framed-card" %>
+                                        <% else %>
+                                            <%= image_tag 'Empty profile picture.png', class: 'img-framed-card' %>
+                                        <% end %>
+                                    </div>
+                                    <div class="teacher-name">
+                                        <% if course.user.alias.present? %>
+                                            <%= course.user.alias %>
+                                        <% else %>
+                                            <%= course.user.first_name + " " + course.user.last_name %>
+                                        <% end %>
+                                    </div>
+                                </div>
+                                <h5 class="card-title mt-2 course-card-title"><b><%= course.title %></b></h5>
+                                <div class="card-text skills-and-subjects-card">
+                                    <p>
+                                        <b>Habilidades a adquirir:</b><% course.skills.each do |skill| %><% unless skill == course.skills.first %>,<% end %><%= " " + skill.skill %><% end %>
+                                    </p>
+                                </div>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Rating: <% if course.rating.blank? or course.rating == 0 %>Sin puntuar<% else %><%= course.rating %> 🌟<% end %></li>
+                                <li class="list-group-item">Precio: <% if course.price.blank? or course.price == 0 %>Gratis<% else %>US$<%= course.price %><% end %></li>
+                            </ul>
+                        </div>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
     </div>
 
-    <div class="course-reviews section" id="reviews">
-        <h3>Reseñas</h3>
+    <div class="course-reviews course-section" id="reviews">
+        <h2>Reseñas</h2>
+        <div class="pt-4 row d-flex mb-4">
+            <div class="col-md-3">
+                <div class="d-flex pb-4">
+                    <h3 class="rating-h3"><% if @course.rating.blank? or @course.rating == 0 %><b>-</b> 🌟<% else %><b><%= @course.rating %></b> 🌟<% end %></h3>
+                    <span class="review-count"><%= @course.inscriptions.where.not(rating: nil).count %> <% if @course.inscriptions.where.not(rating: nil).count == 1 %>reseña<% else %>reseñas<% end %></span>
+                </div>
+                <% (1...6).each do |rating| %>
+                    <div class="star-showcase">
+                        <span class="rating-value">
+                            <%= rating %>
+                        </span>
+                        <span class="rating-bar">
+                            <span class="rating-fill" style="width: <%= @course.inscriptions.where(rating: rating).count.to_f / @course.inscriptions.where.not(rating: nil).count * 100 %>%">
+                            </span>
+                        </span>
+                        <span class="rating-percentage">
+                            <% if @course.inscriptions.where.not(rating: nil).present? %>
+                                <%= number_with_precision(@course.inscriptions.where(rating: rating).count.to_f / @course.inscriptions.where.not(rating: nil).count * 100, precision: 2) %>%
+                            <% else %>
+                                0.00%
+                            <% end %>
+                        </span>
+                    </div>
+                <% end %>
+            </div>
+            <div class="col-md-9">
+                <% @course.inscriptions.where.not(rating: nil).sample(5).each do |inscription| %>
+                    <div class="card card-body my-1 rating-card">
+                        <div class="rating-card-header">
+                            <span class="rating-card-value">
+                                <b><%= inscription.rating %></b> 🌟
+                            </span>
+                            <span class="rating-card-date">
+                                Puntuado el <%= inscription.rating_date.strftime("%d/%m/%Y") %>
+                            </span>
+                        </div>
+                        <div>
+                            <%= inscription.review %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
     </div>
 </div>
 

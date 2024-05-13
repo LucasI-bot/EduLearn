@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_25_171544) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_09_233327) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -140,6 +140,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_25_171544) do
     t.integer "rating"
     t.string "review"
     t.datetime "inscription_date"
+    t.float "order"
+    t.datetime "rating_date"
     t.index ["course_id"], name: "index_inscriptions_on_course_id"
     t.index ["user_id"], name: "index_inscriptions_on_user_id"
   end

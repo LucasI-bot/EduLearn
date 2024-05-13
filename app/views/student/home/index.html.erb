@@ -122,7 +122,7 @@
         <%=link_to "Ver todos", courses_path, class: "btn btn-primary"%>
     </div>
     <div class="row d-flex my-3">
-        <% Course.all.limit(3).each do |course| %>
+        <% Course.all.limit(4).each do |course| %>
             <div class="col-md-3">
                 <%= link_to course_path(course), class:"card card-link" do %>
                     <div class="course-card">
@@ -172,7 +172,7 @@
         <%=link_to "Ver todos", teachers_path, class: "btn btn-primary"%>
     </div>
     <div class="row d-flex my-3">
-        <% User.all.where(role: 1).limit(3).each do |teacher| %>
+        <% User.all.where(role: 1).limit(4).each do |teacher| %>
             <div class="col-md-3">
                 <%= link_to teacher_path(teacher), class:"card card-link" do %>
                     <div class="teacher-card">

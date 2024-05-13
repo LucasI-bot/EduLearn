@@ -1,6 +1,6 @@
 window.addEventListener('scroll', function() {
     var navbar = document.getElementById('navbar');
-    var sections = document.querySelectorAll('.section');
+    var sections = document.querySelectorAll('.course-section');
     var courseHeaderHeight = document.getElementById('course-header').offsetHeight;
 
     // Show navbar when scrolled below
