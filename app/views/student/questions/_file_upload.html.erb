@@ -1,18 +1,51 @@
-<h1>Pregunta de archivo</h1>
 <%= form_with(model: @question_answer, url: student_course_exam_question_path(@exam_answer.exam.section.course, @exam_answer.exam), local: true) do |form| %>
-
-    <p class="question-p">
-        <%= @question_answer.question.question %>
-    </p>
-    <br>
-
-    <div class="question-div">
-        <%= form.label "Respuesta", class:"form-label" %>
-        <%= form.file_field :file, class:"form-control" %>
+    <div class="d-flex edit-profile">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card card-body question-timeline">
+                <% @question_answer.exam_answer.question_answers.each do |question_answer|%>
+                    <% if question_answer == @question_answer %>
+                        <div class="card selected">
+                            <div class="card-body-question">
+                                <%= question_answer.question.question_number %>
+                            </div>
+                        </div>
+                    <% else %>
+                        <%= button_tag(type: 'submit', class: "card", name: "question_number", value: question_answer.question.question_number) do %>
+                            <div class="card-body-question">
+                                <%= question_answer.question.question_number %>
+                            </div>
+                        <% end %>
+                    <% end %>
+                <% end %>
+            </div>
+            <div class="card">
+                <div class="card-header p-3">
+                    <h1>Pregunta <%= @question_answer.question.question_number %></h1>
+                </div>
+                <div class="card-body p-3">
+                    <p class="question-p"><%= @question_answer.question.question %></p>
+                    <%= form.label "Respuesta:", class:"form-label" %>
+                    <%= form.file_field :file, class:"form-control" %>
+                </div>
+                <div class="card-footer p-3 question-footer">
+                    <% if @question_answer.question.question_number == 1 %>
+                        <div></div>
+                    <% else %>
+                        <%= button_tag(type: 'submit', class: "btn btn-primary", name: "question_number", value: @question_answer.question.question_number - 1) do %>
+                            Pregunta anterior
+                        <% end %>
+                    <% end %>
+                    <% if @question_answer.exam_answer.question_answers.count == @question_answer.question_number%>
+                        <%= form.submit "Finalizar evaluación",class:"btn btn-primary"  %>
+                    <% else %>
+                        <%= button_tag(type: 'submit', class: "btn btn-primary", name: "question_number", value: @question_answer.question.question_number + 1) do %>
+                            Pregunta siguiente
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
     </div>
-    <br>
-
-
-    <!-- Submit button -->
-    <%= form.submit "Responder",class:"btn btn-primary"  %>
 <% end %>

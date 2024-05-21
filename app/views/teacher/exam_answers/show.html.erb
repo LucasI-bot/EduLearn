@@ -16,7 +16,11 @@
                                     <div class="card card-option-answer-correct-selected option-div my-2 p-2">
                                         <%= check_box_tag "option_selected_#{option_answer.id}", "1", option_answer.selected, disabled: true, class:"option-checkbox" %>
                                         <span class="option-answer-option">
-                                            <%=option_answer.option.option%>
+                                            <% if option_answer.option.option.present? %>
+                                                <%= option_answer.option.option %>
+                                            <% else %>
+                                                -
+                                            <% end %>
                                         </span>
                                     </div>
                                 </div>
@@ -25,7 +29,11 @@
                                     <div class="card card-option-answer-correct-not-selected option-div my-2 p-2">
                                         <%= check_box_tag "option_selected_#{option_answer.id}", "1", option_answer.selected, disabled: true, class:"option-checkbox" %>
                                         <span class="option-answer-option">
-                                            <%=option_answer.option.option%>
+                                            <% if option_answer.option.option.present? %>
+                                                <%= option_answer.option.option %>
+                                            <% else %>
+                                                -
+                                            <% end %>
                                         </span>
                                     </div>
                                 </div>
@@ -36,7 +44,11 @@
                                     <div class="card card-option-answer-incorrect-selected option-div my-2 p-2">
                                         <%= check_box_tag "option_selected_#{option_answer.id}", "1", option_answer.selected, disabled: true, class:"option-checkbox" %>
                                         <span class="option-answer-option">
-                                            <%=option_answer.option.option%>
+                                            <% if option_answer.option.option.present? %>
+                                                <%= option_answer.option.option %>
+                                            <% else %>
+                                                -
+                                            <% end %>
                                         </span>
                                     </div>
                                 </div>
@@ -45,7 +57,11 @@
                                     <div class="card card-option-answer-incorrect-not-selected option-div my-2 p-2">
                                         <%= check_box_tag "option_selected_#{option_answer.id}", "1", option_answer.selected, disabled: true, class:"option-checkbox" %>
                                         <span class="option-answer-option">
-                                            <%=option_answer.option.option%>
+                                            <% if option_answer.option.option.present? %>
+                                                <%= option_answer.option.option %>
+                                            <% else %>
+                                                -
+                                            <% end %>
                                         </span>
                                     </div>
                                 </div>

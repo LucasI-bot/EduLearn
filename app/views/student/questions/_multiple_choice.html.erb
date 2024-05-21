@@ -1,25 +1,64 @@
-<h1>Multiple choice</h1>
 <%= form_with(model: @question_answer, url: student_course_exam_question_path(@exam_answer.exam.section.course, @exam_answer.exam), local: true) do |form| %>
-
-    <p class="question-p">
-        <%= @question_answer.question.question %>
-    </p>
-    <br>
-
-    <!-- Choices container -->
-    <div id="optionsContainer">
-        <!-- Existing choices (if any) -->
-        <% @question_answer.option_answers.each do |option_answer|%>
-            <%= form.fields_for :option_answers, option_answer do |option_form| %>
-                <div class="option-div">
-                    <%= option_form.check_box :selected %>
-                    <%= option_answer.option.option %>
+    <div class="d-flex edit-profile">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card card-body question-timeline">
+                <% @question_answer.exam_answer.question_answers.each do |question_answer|%>
+                    <% if question_answer == @question_answer %>
+                        <div class="card selected">
+                            <div class="card-body-question">
+                                <%= question_answer.question.question_number %>
+                            </div>
+                        </div>
+                    <% else %>
+                        <%= button_tag(type: 'submit', class: "card", name: "question_number", value: question_answer.question.question_number) do %>
+                            <div class="card-body-question">
+                                <%= question_answer.question.question_number %>
+                            </div>
+                        <% end %>
+                    <% end %>
+                <% end %>
+            </div>
+            <div class="card">
+                <div class="card-header p-3">
+                    <h1>Pregunta <%= @question_answer.question.question_number %></h1>
                 </div>
-            <% end %>
-        <% end %>
+                <div class="card-body p-3">
+                    <p class="question-p"><%= @question_answer.question.question %></p>
+                    <% @question_answer.option_answers.each do |option_answer|%>
+                        <%= form.fields_for :option_answers, option_answer do |option_form| %>
+                            <div class="card-option-answer-correct-selected option-div my-2 p-2">
+                                <%= option_form.check_box :selected, class:"option-checkbox" %>
+                                <span class="option-answer-option">
+                                    <% if option_answer.option.option.present? %>
+                                        <%= option_answer.option.option %>
+                                    <% else %>
+                                        -
+                                    <% end %>
+                                </span>
+                            </div>
+                        <% end %>
+                    <% end %>
+                </div>
+                <div class="card-footer p-3 question-footer">
+                    <% if @question_answer.question.question_number == 1 %>
+                        <div></div>
+                    <% else %>
+                        <%= button_tag(type: 'submit', class: "btn btn-primary", name: "question_number", value: @question_answer.question.question_number - 1) do %>
+                            Pregunta anterior
+                        <% end %>
+                    <% end %>
+                    <% if @question_answer.exam_answer.question_answers.count == @question_answer.question_number%>
+                        <%= form.submit "Finalizar evaluación",class:"btn btn-primary"  %>
+                    <% else %>
+                        <%= button_tag(type: 'submit', class: "btn btn-primary", name: "question_number", value: @question_answer.question.question_number + 1) do %>
+                            Pregunta siguiente
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
     </div>
-
-    <!-- Submit button -->
-    <%= form.submit "Responder",class:"btn btn-primary"  %>
-    <br>
 <% end %>

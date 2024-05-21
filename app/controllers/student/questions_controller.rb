@@ -1,16 +1,18 @@
 module Student
   class Student::QuestionsController < Student::StudentController
     def edit
-      @exam_answer = ExamAnswer.where(exam_id: params[:exam_id], finished: false).first
+      @exam_answer = ExamAnswer.where(exam_id: params[:exam_id], finished: false, active: true).first
       @question_answer = @exam_answer.question_answers.where(question_number: params[:number]).first
     end
 
     def update
-      @exam_answer = ExamAnswer.where(exam_id: params[:exam_id], finished: false).first
+      @exam_answer = ExamAnswer.where(exam_id: params[:exam_id], finished: false, active: true).first
       @question_answer = @exam_answer.question_answers.where(question_number: params[:number]).first
 
       if @question_answer.update(question_answer_params)
-        if @exam_answer.question_answers.count == @question_answer.question_number
+        if params[:question_number]
+          redirect_to student_course_exam_question_path(@exam_answer.exam.section.course, @exam_answer.exam, params[:question_number])
+        else
           @exam_answer.finished = true
           @exam_answer.question_answers.each do |question_answer|
             case question_answer.question.question_type
@@ -41,21 +43,18 @@ module Student
 
           unless @exam_answer.mark == -1
             @exam_answer.mark = 100 * @exam_answer.question_answers.where(correct: true).count / @exam_answer.question_answers.count
+            if @exam_answer.mark == 0
+              @exam_answer.mark = 1
+            end
           end
 
           @exam_answer.save
 
-          redirect_to student_course_exam_questions_path(@exam_answer.exam.section.course, @exam_answer.exam)
-        else
-          redirect_to student_course_exam_question_path(@exam_answer.exam.section.course, @exam_answer.exam, (@question_answer.question_number + 1))
+          redirect_to student_course_exam_path(@exam_answer.exam.section.course, @exam_answer.exam)
         end
       else
         render :edit
       end
-    end
-
-    def index
-      @exam_answer = ExamAnswer.order(mark: :desc).first
     end
 
     private

@@ -3,9 +3,9 @@ module Teacher
     def index
       if params[:course_id]
         @course = Course.find(params[:course_id])
-        @exam_answers = ExamAnswer.joins(exam: { section: :course }).where(courses: { id: @course.id })
+        @exam_answers = ExamAnswer.joins(exam: { section: :course }).where(finished: true, active: true, courses: { id: @course.id })
       else
-        @exam_answers = ExamAnswer.joins(exam: { section: :course }).where(courses: { user_id: current_user.id })
+        @exam_answers = ExamAnswer.joins(exam: { section: :course }).where(finished: true, active: true, courses: { user_id: current_user.id })
       end
 
       case params[:order_by]

@@ -1,3 +1,127 @@
-<%= form_with url:student_course_exam_path(@exam.section.course, @exam) do |f| %>
-    <%= f.submit "Iniciar examen", class:"btn btn-primary"%>
-<% end %>
+<div class="d-flex edit-profile">
+    <div class="col-md-2">
+        <%= link_to '<svg class="conversation-back" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>'.html_safe, student_course_path(@exam.section.course), class:"btn btn-danger back-exam" %>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header p-3">
+                <h3><%= @exam.title %>
+            </div>
+            <div class="card-body p-3">
+                <ul class="exam-list">
+                    <li>Sección evaluada: <%= @exam.section.title %>
+                    <li>Cantidad de preguntas: <%= @exam.questions.map{|a| a.question_number }.uniq.count %>
+                    <li>Intentos realizados: <%= current_user.exam_answers.where(exam_id: @exam.id).count %>
+                    <% if @exam_answer.present? %><li>Nota: <% if @exam_answer.mark.to_i < 1 %>-<% else %><%= @exam_answer.mark %><% end %></li><% end %>
+                </ul>
+            </div>
+            <div class="card-footer p-3">
+                <%= form_with url:student_course_exam_path(@exam.section.course, @exam), class: "form-exam" do |f| %>
+                    <% if current_user.exam_answers.where(exam_id: @exam.id).count == 0 %>
+                        <%= f.submit "Iniciar evaluación", class:"btn btn-primary exam-start-button"%>
+                    <% elsif @exam_answer.present? %>
+                        <%= f.submit "Reintentar evaluación", class:"btn btn-primary exam-start-button"%>
+                    <% else %>
+                        <%= f.submit "Continuar evaluación", class:"btn btn-primary exam-start-button"%>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+        <% if @exam_answer.present? %>
+            <% @exam_answer.question_answers.order(question_number: :asc).each do |question_answer| %>
+                <div class="card p-3 my-3">
+                    <% case question_answer.correct %>
+                    <% when true %>
+                        <span class="question-feedback">
+                            <svg class="green-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                        </span>
+                    <% when false %>
+                        <span class="question-feedback">
+                            <svg class="red-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+                        </span>
+                    <% else %>
+                        <span class="question-feedback">
+                            <svg class="gray-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"/></svg>
+                        </span>
+                    <% end %>
+                    <h2><%= "Pregunta " + question_answer.question_number.to_s %></h2>
+                    <p><%= question_answer.question.question %></p>
+                    <% case question_answer.question.question_type %>
+                    <% when "multiple_choice" %>
+                        <% question_answer.option_answers.each do |option_answer|%>
+                            <% if option_answer.option.correct %>
+                                <% if option_answer.selected %>
+                                    <div class="d-flex">
+                                        <div class="card card-option-answer-correct-selected option-div my-2 p-2">
+                                            <%= check_box_tag "option_selected_#{option_answer.id}", "1", option_answer.selected, disabled: true, class:"option-checkbox" %>
+                                            <span class="option-answer-option">
+                                                <% if option_answer.option.option.present? %>
+                                                    <%= option_answer.option.option %>
+                                                <% else %>
+                                                    -
+                                                <% end %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                <% else %>
+                                    <div class="d-flex">
+                                        <div class="card card-option-answer-correct-not-selected option-div my-2 p-2">
+                                            <%= check_box_tag "option_selected_#{option_answer.id}", "1", option_answer.selected, disabled: true, class:"option-checkbox" %>
+                                            <span class="option-answer-option">
+                                                <% if option_answer.option.option.present? %>
+                                                    <%= option_answer.option.option %>
+                                                <% else %>
+                                                    -
+                                                <% end %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                <% end %>
+                            <% else %>
+                                <% if option_answer.selected %>
+                                    <div class="d-flex">
+                                        <div class="card card-option-answer-incorrect-selected option-div my-2 p-2">
+                                            <%= check_box_tag "option_selected_#{option_answer.id}", "1", option_answer.selected, disabled: true, class:"option-checkbox" %>
+                                            <span class="option-answer-option">
+                                                <% if option_answer.option.option.present? %>
+                                                    <%= option_answer.option.option %>
+                                                <% else %>
+                                                    -
+                                                <% end %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                <% else %>
+                                    <div class="d-flex">
+                                        <div class="card card-option-answer-incorrect-not-selected option-div my-2 p-2">
+                                            <%= check_box_tag "option_selected_#{option_answer.id}", "1", option_answer.selected, disabled: true, class:"option-checkbox" %>
+                                            <span class="option-answer-option">
+                                                <% if option_answer.option.option.present? %>
+                                                    <%= option_answer.option.option %>
+                                                <% else %>
+                                                    -
+                                                <% end %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                <% end %>
+                            <% end %>
+                        <% end %>
+                    <% when "file_upload" %>
+                        <p>
+                            <% if question_answer.file.attached? %>
+                                <%= "<b>Archivo asociado: </b>".html_safe%> <%=link_to question_answer.file.filename, rails_blob_path(question_answer.file, disposition: "attachment")%>
+                            <% else %>
+                                <%= "<b>No hay archivo asociado</b>".html_safe %>
+                            <% end %>
+                        </p>
+                    <% when "question_answer" %>
+                        <p><%= "<b>Respuesta ingresada: </b>".html_safe + question_answer.answer%></p>
+                        <p><%= "<b>Respuesta correcta: </b>".html_safe + question_answer.question.answer%></p>
+                    <% end %>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
+    <div class="col-md-2"></div>
+</div>

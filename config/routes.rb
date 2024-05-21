@@ -57,7 +57,7 @@ Rails.application.routes.draw do
     root "home#index"
     resources :courses, only: [:show, :index, :update, :edit, :destroy] do
       resources :lectures, except: [:index]
-      resources :exams, only: [:show, :index] do
+      resources :exams, only: :show do
         get '/questions/:number', to: 'questions#edit', as: 'question'
         patch '/questions/:number', to: 'questions#update'
         get '/questions', to: 'questions#index'

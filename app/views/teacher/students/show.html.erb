@@ -91,7 +91,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%  @student.exam_answers.joins(exam: { section: :course }).where(finished: true, courses: { user_id: current_user.id }).each do |exam_answer| %>
+                        <%  @student.exam_answers.joins(exam: { section: :course }).where(finished: true, active: true, courses: { user_id: current_user.id }).each do |exam_answer| %>
                         <tr>
                             <td>
                                 <%= exam_answer.exam.title %>
