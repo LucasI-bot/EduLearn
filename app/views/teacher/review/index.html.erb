@@ -1,0 +1,46 @@
+<%= render "teacher/courses/header", show: false %>
+
+<h1>Reseñas</h1>
+<div class="pt-4 row d-flex mb-4">
+    <div class="col-md-3">
+        <div class="d-flex pb-4">
+            <h3 class="rating-h3"><% if @course.rating.blank? or @course.rating == 0 %><b>-</b> 🌟<% else %><b><%= @course.rating %></b> 🌟<% end %></h3>
+            <span class="review-count"><%= @course.inscriptions.where.not(rating: nil).count %> <% if @course.inscriptions.where.not(rating: nil).count == 1 %>reseña<% else %>reseñas<% end %></span>
+        </div>
+        <% (1...6).each do |rating| %>
+            <div class="star-showcase">
+                <span class="rating-value">
+                    <%= rating %>
+                </span>
+                <span class="rating-bar">
+                    <span class="rating-fill" style="width: <%= @course.inscriptions.where(rating: rating).count.to_f / @course.inscriptions.where.not(rating: nil).count * 100 %>%">
+                    </span>
+                </span>
+                <span class="rating-percentage">
+                    <% if @course.inscriptions.where.not(rating: nil).present? %>
+                        <%= number_with_precision(@course.inscriptions.where(rating: rating).count.to_f / @course.inscriptions.where.not(rating: nil).count * 100, precision: 2) %>%
+                    <% else %>
+                        0.00%
+                    <% end %>
+                </span>
+            </div>
+        <% end %>
+    </div>
+    <div class="col-md-9">
+        <% @course.inscriptions.where.not(rating: nil).order(rating_date: :desc).each do |inscription| %>
+            <div class="card card-body my-1 rating-card">
+                <div class="rating-card-header">
+                    <span class="rating-card-value">
+                        <b><%= inscription.rating %></b> 🌟
+                    </span>
+                    <span class="rating-card-date">
+                        Puntuado el <%= inscription.rating_date.strftime("%d/%m/%Y") %>
+                    </span>
+                </div>
+                <div>
+                    <%= inscription.review %>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>

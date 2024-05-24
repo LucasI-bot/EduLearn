@@ -358,6 +358,13 @@ tbody tr:hover {
     margin-right: 15px;
 }
 
+.lecture-icon-student{
+    width: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 15px;
+}
+
 .new-lecture-icon{
     width: 15px;
     margin-top: auto;
@@ -959,6 +966,7 @@ button:hover .reject-inscription-icon path {
     display: flex;
     flex-direction: column;
     margin-top: -40px;
+    margin-bottom: 1rem;
 }
 
 .chat-container.teacher-chat {
@@ -1268,6 +1276,21 @@ button.card{
     margin: auto;
 }
 
-.back-exam.btn-danger .conversation-back path{
-    fill: white
+.student-course-header{
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: var(--background-color);
+}
+
+.student-course-header .course-header-container{
+    margin-top: 0px;
+}
+
+.student-course.div-links-courses{
+    background-color: var(--background-color);
+    margin-top: 0px;
+}
+
+.chat-container.course-chat{
+    margin-top: 1rem;
 }

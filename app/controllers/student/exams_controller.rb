@@ -2,7 +2,8 @@ module Student
   class Student::ExamsController < Student::StudentController
     def index
       @course = Course.find(params[:course_id])
-      @exams = @course.exams
+      @inscription = Inscription.where(user_id: current_user.id, course_id: params[:course_id]).first
+      @exams = Exam.where(section_id: @course.sections.map{|a| a.id})
     end
 
     def show

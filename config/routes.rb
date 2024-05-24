@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       patch 'order_sections', on: :member
       patch 'order_lectures', on: :member
       patch 'order_exams', on: :member
+      get 'reviews', to: 'review#index'
     end
     resources :inscriptions, only: [:index, :destroy, :update]
     resources :exam_answers, only: [:index, :show, :update] do
@@ -57,14 +58,16 @@ Rails.application.routes.draw do
     root "home#index"
     resources :courses, only: [:show, :index, :update, :edit, :destroy] do
       resources :lectures, except: [:index]
-      resources :exams, only: :show do
+      resources :exams, only: [:show, :index] do
         get '/questions/:number', to: 'questions#edit', as: 'question'
         patch '/questions/:number', to: 'questions#update'
         get '/questions', to: 'questions#index'
       end
       post '/exams/:id', to: 'exams#create'
+      resources :conversations, only: [:create, :update]
+      get '/chat', to: 'conversations#show'
     end
-    resources :conversations, only: [:show, :update, :create, :index]
+    resources :conversations, only: [:show, :update, :index]
   end
 
   resources :courses, only: [:index, :show] do

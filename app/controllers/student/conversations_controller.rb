@@ -17,18 +17,24 @@ module Student
 
     def create
       @conversation = Conversation.where(student_id: current_user.id, teacher_id: params[:teacher_id]).first
+      @course = Course.find(params[:course_id])
 
       if @conversation
-        redirect_to student_conversation_path(@conversation)
+        redirect_to student_course_chat_path(@course)
       else
         @conversation = Conversation.create({student_id: current_user.id, teacher_id: params[:teacher_id]})
 
-        redirect_to student_conversation_path(@conversation)
+        redirect_to student_course_chat_path(@course)
       end
     end
 
     def update
-      @conversation = Conversation.find(params[:id])
+      if params[:course_id]
+        @course = Course.find(params[:course_id])
+        @conversation = Conversation.where(student_id: current_user.id, teacher_id: @course.user_id).first
+      else
+        @conversation = Conversation.find(params[:id])
+      end
 
       if message_params[:message].blank?
         @message = Message.new
@@ -40,19 +46,31 @@ module Student
       @message.user_id = current_user.id
 
       if @message.save
-        redirect_to student_conversation_path(@conversation)
+        if params[:course_id]
+          redirect_to student_course_chat_path(@course)
+        else
+          redirect_to student_conversation_path(@conversation)
+        end
+
       else
         render "show"
       end
     end
 
     def show
-      @conversation = Conversation.find(params[:id])
-      @message = Message.new
+      if params[:id]
+        @conversation = Conversation.find(params[:id])
 
-      unless @conversation.student == current_user
-        redirect_to student_conversations_path
+
+        unless @conversation.student == current_user
+          redirect_to student_conversations_path
+        end
+      else
+        @course = Course.find(params[:course_id])
+        @conversation = Conversation.where(student_id: current_user.id, teacher_id: @course.user_id).first
+        @inscription = Inscription.where(user_id: current_user.id, course_id: params[:course_id]).first
       end
+      @message = Message.new
     end
 
     private
