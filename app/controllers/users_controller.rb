@@ -17,9 +17,10 @@ class UsersController < ApplicationController
 
     def update
         if current_user.update(user_params)
-          redirect_to profile_path
+            current_user.inscriptions.each(&:order_value)
+            redirect_to profile_path
         else
-          render :edit
+            render :edit
         end
       end
 
@@ -40,6 +41,6 @@ class UsersController < ApplicationController
 
     def user_params
         # strong parameters
-        params.require(:user).permit(:email, :password, :password_confirmation, :name, :last_name, :first_name, :birth_date, :role, :picture, skill_ids: [], subject_ids: [])
+        params.require(:user).permit(:email, :password, :password_confirmation, :name, :last_name, :first_name, :alias, :birth_date, :role, :picture, skill_ids: [], subject_ids: [])
     end
 end
