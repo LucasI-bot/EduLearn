@@ -122,7 +122,7 @@
         <%=link_to "Ver todos", courses_path, class: "btn btn-primary"%>
     </div>
     <div class="row d-flex my-3">
-        <% Course.all.limit(4).each do |course| %>
+        <% Course.joins(:inscriptions).where(visibility: true, inscriptions: {user_id: current_user.id, paid: false}).order(order: :desc).limit(4).each do |course| %>
             <div class="col-md-3">
                 <%= link_to course_path(course), class:"card card-link" do %>
                     <div class="course-card">
@@ -172,7 +172,7 @@
         <%=link_to "Ver todos", teachers_path, class: "btn btn-primary"%>
     </div>
     <div class="row d-flex my-3">
-        <% User.all.where(role: 1).limit(4).each do |teacher| %>
+        <% User.all.where(role: 1).order(rating: :desc).limit(4).each do |teacher| %>
             <div class="col-md-3">
                 <%= link_to teacher_path(teacher), class:"card card-link" do %>
                     <div class="teacher-card">
@@ -202,9 +202,8 @@
                             </div>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Rating</li>
+                            <li class="list-group-item">Rating: <% if teacher.rating.blank? or teacher.rating == 0 %>Sin puntuar<% else %><%= teacher.rating %> 🌟<% end %></li>
                         </ul>
-                        
                     </div>
                 <% end %>
             </div>

@@ -27,6 +27,10 @@ class UsersController < ApplicationController
     def create
         @user = User.new(user_params)
 
+        if @user.role == 'teacher'
+            @user.rating = 0
+        end
+
         if @user.save
         # stores saved user id in a session
             login @user
@@ -43,7 +47,7 @@ class UsersController < ApplicationController
 
                     @inscription.order_value
                 end
-                
+
                 redirect_to student_root_path, notice: 'Successfully created account'
             else
                 redirect_to teacher_root_path, notice: 'Successfully created account'

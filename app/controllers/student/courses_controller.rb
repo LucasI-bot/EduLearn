@@ -7,12 +7,17 @@ module Student
     def update
       @inscription = Inscription.where(user_id: current_user.id, course_id: params[:id]).first
       @course = Course.find(params[:id])
+      @teacher = @course.user
 
       if @inscription.update(inscription_params)
         course_ratings = @course.inscriptions.where.not(rating: nil).map{|a| a.rating}
+        teacher_ratings = @teacher.courses.where.not(rating: 0).map{|a| a.rating}
 
         @course.rating = course_ratings.sum / course_ratings.size.to_f
         @course.save
+
+        @teacher.rating = teacher_ratings.sum / teacher_ratings.size.to_f
+        @teacher.save
 
         redirect_to student_course_path(@course)
       else
@@ -26,7 +31,7 @@ module Student
     end
 
     def destroy
-      @inscription = Inscription.find_by(course_id: params[:id])
+      @inscription = Inscription.where(course_id: params[:id], user_id: current_user.id).first
 
       @inscription.paid = false
       @inscription.approved = false

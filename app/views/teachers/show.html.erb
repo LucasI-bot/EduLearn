@@ -24,6 +24,8 @@
             <div class="student-detailed-info">
                 <h1> Información general </h1>
                 <div class="my-3">
+                    <b>Rating:</b> <% if @teacher.rating.blank? or @teacher.rating == 0 %>Sin puntuar<% else %><%= @teacher.rating %> 🌟<% end %>
+                    <br>
                     <b>Fecha de creación de cuenta:</b> <%= @teacher.created_at.strftime("%d/%m/%Y")%>
                     <br>
                     <b>Cursos creados:</b> <%= @teacher.courses.count %>

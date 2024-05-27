@@ -27,6 +27,7 @@ module Teacher
       @course = Course.new(course_params)
       @course.user_id = current_user.id
       @course.visibility = false
+      @course.rating = 0
       if @course.save
         redirect_to teacher_course_path(@course)
       else
