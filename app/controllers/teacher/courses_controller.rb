@@ -26,6 +26,7 @@ module Teacher
     def create
       @course = Course.new(course_params)
       @course.user_id = current_user.id
+      @course.visibility = false
       if @course.save
         redirect_to teacher_course_path(@course)
       else
@@ -41,6 +42,27 @@ module Teacher
       @course = Course.find(params[:id])
 
       if @course.update(course_params)
+        if @course.visibility
+          User.where(role: 'student').each do |student|
+            @inscription = Inscription.where(user_id: student.id, course_id: @course.id).first
+
+            if @inscription.present?
+              @inscription.order_value
+            else
+              @inscription = Inscription.new()
+
+              @inscription.user_id = student.id
+              @inscription.course_id = @course.id
+              @inscription.approved = false
+              @inscription.paid = false
+
+              @inscription.save
+
+              @inscription.order_value
+            end
+          end
+        end
+
         redirect_to teacher_courses_path
       else
         render 'edit'
@@ -82,6 +104,37 @@ module Teacher
       end
 
       head :ok
+    end
+
+    def publish
+      @course = Course.find(params[:id])
+
+      if @course.visibility
+        @course.update(visibility: false)
+      else
+        @course.update(visibility: true)
+
+        User.where(role: 'student').each do |student|
+          @inscription = Inscription.where(user_id: student.id, course_id: @course.id).first
+
+          if @inscription.present?
+            @inscription.order_value
+          else
+            @inscription = Inscription.new()
+
+            @inscription.user_id = student.id
+            @inscription.course_id = @course.id
+            @inscription.approved = false
+            @inscription.paid = false
+
+            @inscription.save
+
+            @inscription.order_value
+          end
+        end
+      end
+
+      redirect_to teacher_courses_path
     end
 
     private

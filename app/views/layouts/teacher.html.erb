@@ -24,13 +24,12 @@
         <%=link_to "Profesor Admin", teacher_root_path%>
       </div>
       <div class="teacher-sidebar-body">
-        <%=link_to "Dashboard", teacher_dashboard_path%>
-        <%=link_to "Mis Cursos", teacher_courses_path%>
-        <%=link_to "Alumnos", teacher_students_path%>
-        <%=link_to "Ventas", teacher_sales_path%>
-        <%=link_to "Evaluaciones", teacher_exam_answers_path%>
-        <%=link_to "Inscripciones pendientes", teacher_inscriptions_path%>
-        <%=link_to "Conversaciones", teacher_conversations_path%>
+        <%= link_to "Dashboard", teacher_root_path %>
+        <%= link_to "Mis Cursos", teacher_courses_path %>
+        <%= link_to "Alumnos", teacher_students_path %>
+        <%= link_to "Evaluaciones", teacher_exam_answers_path %>
+        <%= link_to "Inscripciones pendientes", teacher_inscriptions_path %>
+        <%= link_to "Conversaciones", teacher_conversations_path %>
       </div>
       <div class="sidebar-bottom">
         <%= link_to "Usuario", teacher_profile_path %>

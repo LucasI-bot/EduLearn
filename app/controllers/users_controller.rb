@@ -30,7 +30,24 @@ class UsersController < ApplicationController
         if @user.save
         # stores saved user id in a session
             login @user
-            redirect_to root_path, notice: 'Successfully created account'
+            if @user.role == 'student'
+                Course.where(visibility: true).each do |course|
+                    @inscription = Inscription.new()
+
+                    @inscription.user_id = @user.id
+                    @inscription.course_id = course.id
+                    @inscription.approved = false
+                    @inscription.paid = false
+
+                    @inscription.save
+
+                    @inscription.order_value
+                end
+                
+                redirect_to student_root_path, notice: 'Successfully created account'
+            else
+                redirect_to teacher_root_path, notice: 'Successfully created account'
+            end
         else
             flash.now[:alert] = 'Alert message!'
             redirect_to signup_path, notice: "Ocurrió un error al crear el usuario, intente nuevamente"

@@ -10,6 +10,15 @@ module Teacher
       @section = @course.sections.new(section_params)
 
       if @section.save
+        if @course.visibility
+          if @course.sections.count == 4
+            @course.inscriptions.each do |inscription|
+              inscription.order += 0.2
+              inscription.save
+            end
+          end
+        end
+
         redirect_to teacher_course_path(@course)
       else
         render 'new'
@@ -31,6 +40,46 @@ module Teacher
     end
 
     def destroy
+      @section = Section.find(params[:id])
+      @course = Course.find(params[:course_id])
+
+      if @course.visibility
+        if (Lecture.where(section_id: @course.sections.map{|a| a.id}).count > 9) && ((Lecture.where(section_id: @course.sections.map{|a| a.id}).count - @section.lectures.count) < 10)
+          @lectures = true
+        else
+          @lectures = false
+        end
+        if (Exam.where(section_id: @course.sections.map{|a| a.id}).count > 5) && ((Exam.where(section_id: @course.sections.map{|a| a.id}).count - @section.lectures.count) < 6)
+          @exams = true
+        else
+          @exams = false
+        end
+      end
+
+      @section.destroy
+
+      if @course.visibility
+        if @course.sections.count == 3
+          @course.inscriptions.each do |inscription|
+            inscription.order -= 0.2
+            inscription.save
+          end
+        end
+        if @lectures
+          @course.inscriptions.each do |inscription|
+            inscription.order -= 0.2
+            inscription.save
+          end
+        end
+        if @exams
+          @course.inscriptions.each do |inscription|
+            inscription.order -= 0.2
+            inscription.save
+          end
+        end
+      end
+
+      redirect_to teacher_course_path(@course)
     end
 
     private

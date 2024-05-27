@@ -236,10 +236,24 @@ tbody tr:hover {
     margin-bottom: auto;
 }
 
+.table-column-icon{
+    height: 25px;
+}
+
+.dropdown-item .table-icon{
+    margin-right: 10px;
+    width: 15px;
+}
+
 .table-delete-icon{
     height: 15px;
     margin-top: auto;
     margin-bottom: auto;
+}
+
+.dropdown-item .table-delete-icon{
+    margin-right: 10px;
+    width: 15px;
 }
 
 .table-delete-icon path {
@@ -813,6 +827,7 @@ button:hover .reject-inscription-icon path {
     background-color: var(--background-color);
     z-index: 1000; /* Ensures the navbar appears above other content */
     border-bottom: 2px solid #7c7c7c;
+    justify-content: space-between;
 }
 
 .div-links-courses.teacher-course{

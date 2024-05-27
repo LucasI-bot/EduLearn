@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       patch 'order_lectures', on: :member
       patch 'order_exams', on: :member
       get 'reviews', to: 'review#index'
+      patch 'publish', on: :member
     end
     resources :inscriptions, only: [:index, :destroy, :update]
     resources :exam_answers, only: [:index, :show, :update] do
@@ -49,8 +50,6 @@ Rails.application.routes.draw do
     get '/profile/change_password', to: 'password#edit'
     patch '/profile/change_password', to: 'password#update'
     resources :students, only: [:index, :show]
-    get '/dashboard', to: 'dashboard#index'
-    get '/sales', to: 'sales#index'
     resources :conversations, only: [:show, :update, :index]
   end
 
@@ -79,8 +78,6 @@ Rails.application.routes.draw do
   end
 
   resources :teachers, only: [:index, :show]
-
-
 
   root "home#index"
 
