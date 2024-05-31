@@ -15,14 +15,12 @@
                     <% end %>
                 </div>
             <% end %>
-            <%= link_to teacher_student_path(@conversation.student), class:"a-teacher" do%>
-                <div class="teacher-name">
-                    <% if @conversation.student.alias.present? %>
-                        <%= @conversation.student.alias %>
-                    <% else %>
-                        <%= @conversation.student.first_name + " " + @conversation.student.last_name %>
-                    <% end %>
-                </div>
+            <%= link_to teacher_student_path(@conversation.student), class:"a-teacher teacher-name" do%>
+                <% if @conversation.student.alias.present? %>
+                    <%= @conversation.student.alias %>
+                <% else %>
+                    <%= @conversation.student.first_name + " " + @conversation.student.last_name %>
+                <% end %>
             <% end %>
         </div>
     </div>

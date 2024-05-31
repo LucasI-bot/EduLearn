@@ -1,15 +1,13 @@
 class InscriptionsController < ApplicationController
   def new
-    print("llegó principio")
     @course = Course.find(params[:course_id])
     @inscription = Inscription.new()
 
     @inscription.user_id = current_user.id
     @inscription.course_id = @course.id
     @inscription.paid = true
+    @inscription.mark = 0
     @inscription.approved = !@course.acceptance_required
-
-    print("llegó")
 
     if @inscription.save
       flash[:success] = "Payment successful!"

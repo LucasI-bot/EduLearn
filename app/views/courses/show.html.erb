@@ -28,14 +28,12 @@
                         <% end %>
                     </div>
                 <% end %>
-                <%= link_to teacher_path(@course.user), class:"a-teacher" do%>
-                    <div class="teacher-name">
-                        <% if @course.user.alias.present? %>
-                            <%= @course.user.alias %>
-                        <% else %>
-                            <%= @course.user.first_name + " " + @course.user.last_name %>
-                        <% end %>
-                    </div>
+                <%= link_to teacher_path(@course.user), class:"a-teacher teacher-name" do%>
+                    <% if @course.user.alias.present? %>
+                        <%= @course.user.alias %>
+                    <% else %>
+                        <%= @course.user.first_name + " " + @course.user.last_name %>
+                    <% end %>
                 <% end %>
             </div>
             <% if @course.inscriptions.where(paid:true).map{|a| a.user_id}.include? current_user.id%>

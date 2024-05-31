@@ -31,7 +31,7 @@
                         <%= course.title %>
                     </td>
                     <td>
-                        <% if current_user.inscriptions.find_by(course_id: course.id).mark.present? %>
+                        <% if current_user.inscriptions.find_by(course_id: course.id).mark > 0 %>
                             <%= current_user.inscriptions.find_by(course_id: course.id).mark %>
                         <% else %>
                             NaN
@@ -87,14 +87,12 @@
                                         <% end %>
                                     </div>
                                 <% end %>
-                                <%= link_to teacher_path(conversation.teacher), class:"a-teacher" do%>
-                                    <div class="teacher-name">
-                                        <% if conversation.teacher.alias.present? %>
-                                            <%= conversation.teacher.alias %>
-                                        <% else %>
-                                            <%= conversation.teacher.first_name + " " + conversation.teacher.last_name %>
-                                        <% end %>
-                                    </div>
+                                <%= link_to teacher_path(conversation.teacher), class:"a-teacher teacher-name" do%>
+                                    <% if conversation.teacher.alias.present? %>
+                                        <%= conversation.teacher.alias %>
+                                    <% else %>
+                                        <%= conversation.teacher.first_name + " " + conversation.teacher.last_name %>
+                                    <% end %>
                                 <% end %>
                             </div>
                         </td>
@@ -172,7 +170,7 @@
         <%=link_to "Ver todos", teachers_path, class: "btn btn-primary"%>
     </div>
     <div class="row d-flex my-3">
-        <% User.all.where(role: 1).order(rating: :desc).limit(4).each do |teacher| %>
+        <% User.joins(:courses).where(role: 1, courses: { visibility: true }).order(rating: :desc).distinct.limit(4).each do |teacher| %>
             <div class="col-md-3">
                 <%= link_to teacher_path(teacher), class:"card card-link" do %>
                     <div class="teacher-card">

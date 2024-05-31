@@ -2,6 +2,10 @@
     <div class="col-md-3">
         <h5>Filtrar por</h5>
         <%= form_with(url: courses_path, method: "get", class:"d-flex row") do |form| %>            
+            <% if params[:order_by] %>
+                <%= form.hidden_field :order_by, value: params[:order_by]%>
+            <% end %>
+            
             <div class="px-2 my-2">
                 <%= form.label :title, "Título:" %>
                 <%= form.text_field :title, class:"form-control", value: params[:title] %>
@@ -24,7 +28,7 @@
 
             <div class="px-2 my-2">
                 <%= form.label :acceptance_required, class:"form-label" do %>Aceptación<% end %>
-                <%= form.select :acceptance_required, options_for_select([['Requerida', 1],['Solo no requerida', 2]], selected: params[:acceptance_required]), { include_blank:"Seleccionar" }, { class:"form-select" } %>
+                <%= form.select :acceptance_required, options_for_select([['Requerida', true],['Solo no requerida', false]], selected: params[:acceptance_required]), { include_blank:"Seleccionar" }, { class:"form-select" } %>
             </div>
 
             <div class="px-2 my-2">
@@ -38,7 +42,7 @@
 
             <div class="col-md-12 actions my-3">
                 <%= form.submit "Filtrar", class: "btn btn-primary" %>
-                <%= link_to "Limpiar Filtros", teacher_courses_path, class: "btn btn-secondary" %>
+                <%= link_to "Limpiar Filtros", courses_path(order_by: params[:order_by]), class: "btn btn-secondary" %>
             </div>
         <% end %>
     </div>
@@ -67,7 +71,7 @@
                                 <%= image_tag 'Empty profile picture.png', class: 'card-img-top course-card-img' %>
                             <% end %>
                             <div class="card-body">
-                                <div class="teacher">
+                                <div class="teacher teacher-course-index">
                                     <div class="teacher-image circular-card-frame">
                                         <% if course.user.picture.attached? %>
                                             <%= image_tag course.user.picture.variant(resize: '200x200'), class:"img-framed-card" %>
@@ -84,6 +88,11 @@
                                     </div>
                                 </div>
                                 <h5 class="card-title mt-2 course-card-title"><b><%= course.title %></b></h5>
+                                <div class="card-text skills-and-subjects-card mb-3">
+                                    <p>
+                                        <b>Materias evaluadas:</b><% course.subjects.each do |subject| %><% unless subject == course.subjects.first %>,<% end %><%= " " + subject.subject %><% end %>
+                                    </p>
+                                </div>
                                 <div class="card-text skills-and-subjects-card">
                                     <p>
                                         <b>Habilidades a adquirir:</b><% course.skills.each do |skill| %><% unless skill == course.skills.first %>,<% end %><%= " " + skill.skill %><% end %>

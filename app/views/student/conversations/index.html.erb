@@ -1,31 +1,8 @@
 <div class="new-and-title">
     <h1>Conversaciones abiertas</h1>
+    <%= link_to '<svg class="conversation-back white-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>'.html_safe, student_root_path, class:"btn btn-danger back-student-index" %>
 </div>
-<div class="table-filters">
-    <%= form_with(url: student_conversations_path, method: "get", class:"d-flex row") do |form| %>
-        <% if params[:order_by] %>
-            <%= form.hidden_field "order_by", value: params[:order_by]%>
-            <%= form.hidden_field "order", value: params[:order]%>
-        <% end %>
-        
-        <div class="col-md-4 px-2">
-            <%= form.label :title, "Título:" %>
-            <%= form.text_field :title, class:"form-control" %>
-        </div>
-
-        <div class="col-md-4 px-2">
-            <%= form.label :category_eq, "Categoría:" %>
-            <%= form.select :category_eq, options_for_select(["", "Category 1", "Category 2", "Category 3"]),{}, class:"form-select" %>
-        </div>
-        
-
-        <div class="col-md-12 actions my-3">
-            <%= form.submit "Filtrar", class: "btn btn-primary" %>
-            <%= link_to "Limpiar Filtros", student_conversations_path, class: "btn btn-secondary" %>
-        </div>
-    <% end %>
-</div>
-<table id="teacher-admin-table" class="student-table">
+<table id="teacher-admin-table" class="student-table mt-4">
   <thead>
     <tr>
         <th id="teacher">
@@ -82,14 +59,12 @@
                         <% end %>
                     </div>
                 <% end %>
-                <%= link_to teacher_path(conversation.teacher), class:"a-teacher" do%>
-                    <div class="teacher-name">
-                        <% if conversation.teacher.alias.present? %>
-                            <%= conversation.teacher.alias %>
-                        <% else %>
-                            <%= conversation.teacher.first_name + " " + conversation.teacher.last_name %>
-                        <% end %>
-                    </div>
+                <%= link_to teacher_path(conversation.teacher), class:"a-teacher teacher-name" do%>
+                    <% if conversation.teacher.alias.present? %>
+                        <%= conversation.teacher.alias %>
+                    <% else %>
+                        <%= conversation.teacher.first_name + " " + conversation.teacher.last_name %>
+                    <% end %>
                 <% end %>
             </div>
         </td>

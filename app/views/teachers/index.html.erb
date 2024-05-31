@@ -2,6 +2,10 @@
     <div class="col-md-3">
         <h5>Filtrar por</h5>
         <%= form_with(url: teachers_path, method: "get", class:"d-flex row") do |form| %>            
+            <% if params[:order_by] %>
+                <%= form.hidden_field :order_by, value: params[:order_by]%>
+            <% end %>
+            
             <div class="px-2 my-2">
                 <%= form.label :name, "Nombre:" %>
                 <%= form.text_field :name, class:"form-control", value: params[:name] %>
@@ -19,22 +23,22 @@
 
             <div class="col-md-12 actions my-3">
                 <%= form.submit "Filtrar", class: "btn btn-primary" %>
-                <%= link_to "Limpiar Filtros", teacher_courses_path, class: "btn btn-secondary" %>
+                <%= link_to "Limpiar Filtros", teachers_path(order_by: params[:order_by]), class: "btn btn-secondary" %>
             </div>
         <% end %>
     </div>
     <div class="col-md-9">
         <div class="index-header-info">
             <h3 class="index-count">
-                <% if @teachers.count == 1 %>
-                    <%= @teachers.count.to_s + " profesor encontrado"%>
+                <% if @teachers.to_a.count == 1 %>
+                    <%= @teachers.to_a.count.to_s + " profesor encontrado"%>
                 <% else %>
-                    <%= @teachers.count.to_s + " profesores encontrados"%>
+                    <%= @teachers.to_a.count.to_s + " profesores encontrados"%>
                 <% end %>
             </h3>
              <span class="select-wrapper">
                 <%= label_tag :order_by, "Ordenar por: "%>
-                <%= select_tag :order_by, options_for_select([["Recomendado", 0], ["Rating", 1], ["Nombre", 2], ["Número de cursos creados", 3], ["Actividad reciente", 4]], selected: params[:order_by]), class:"order_by_select" %>
+                <%= select_tag :order_by, options_for_select([["Rating", 0], ["Nombre", 1], ["Número de cursos creados", 2], ["Actividad reciente", 3]], selected: params[:order_by]), class:"order_by_select" %>
             </span>
         </div>
         <div class="row d-flex">
@@ -61,9 +65,14 @@
                                         <b><%= teacher.first_name + " " + teacher.last_name %></b>
                                     <% end %>
                                 </h4>
-                                <div class="card-text skills-and-subjects-card">
+                                <div class="card-text skills-and-subjects-card mb-3">
                                     <p>
                                         <b>Materias dadas:</b><% Subject.joins(:courses).where(courses: {id: teacher.courses.map{|a| a.id}}).order(:subject).uniq.each do |subject| %><% unless subject == Subject.joins(:courses).where(courses: {id: teacher.courses.map{|a| a.id}}).order(:subject).first%>,<% end %><%= " " + subject.subject %><% end %>
+                                    </p>
+                                </div>
+                                <div class="card-text skills-and-subjects-card">
+                                    <p>
+                                        <b>Habilidades aportadas:</b><% Skill.joins(:courses).where(courses: {id: teacher.courses.map{|a| a.id}}).order(:skill).uniq.each do |skill| %><% unless skill == Skill.joins(:courses).where(courses: {id: teacher.courses.map{|a| a.id}}).order(:skill).first%>,<% end %><%= " " + skill.skill %><% end %>
                                     </p>
                                 </div>
                             </div>

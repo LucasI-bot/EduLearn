@@ -8,6 +8,14 @@ module Teacher
         @inscriptions = Inscription.joins(:course).where(paid: true, approved: false, courses: {user_id: current_user.id})
       end
 
+      if params[:name].present?
+        @inscriptions = @inscriptions.by_name(params[:name].downcase)
+      end
+
+      if params[:course].present?
+        @inscriptions = @inscriptions.by_course_id(params[:course].downcase)
+      end
+
       case params[:order_by]
       when 'alias'
         @inscriptions = @inscriptions.joins(:user).order(Arel.sql("COALESCE(users.alias, CONCAT(users.last_name, ' ', users.first_name)) " + params[:order]))

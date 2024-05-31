@@ -41,8 +41,10 @@ module Student
             end
           end
 
-          unless @exam_answer.mark == -1
-            @exam_answer.mark = 100 * @exam_answer.question_answers.where(correct: true).count / @exam_answer.question_answers.count
+          if @exam_answer.mark == -1
+            @exam_answer.mark = 0
+          else
+            @exam_answer.mark = 10 * @exam_answer.question_answers.where(correct: true).count.to_f / @exam_answer.question_answers.count.to_f
             if @exam_answer.mark == 0
               @exam_answer.mark = 1
             end

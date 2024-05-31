@@ -8,6 +8,14 @@ module Teacher
         @conversations = Conversation.where(teacher_id: current_user.id)
       end
 
+      if params[:name].present?
+        @conversations = @conversations.by_name(params[:name].downcase)
+      end
+
+      if params[:course].present?
+        @conversations = @conversations.by_course_id(params[:course].downcase)
+      end
+
       case params[:order_by]
       when 'student'
         @conversations = @conversations.joins(:student).order(Arel.sql("COALESCE(users.alias, CONCAT(users.last_name, ' ', users.first_name)) " + params[:order]))

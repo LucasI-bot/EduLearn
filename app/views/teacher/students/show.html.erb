@@ -48,13 +48,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%  @student.inscriptions.map{|a| a.course }.each do |course| %>
+                            <%  @student.inscriptions.where(paid: true, approved: true).map{|a| a.course }.each do |course| %>
                             <tr>
                                 <td>
                                     <%= course.title %>
                                 </td>
                                 <td>
-                                    <% if @student.inscriptions.find_by(course_id: course.id).mark.present? %>
+                                    <% if @student.inscriptions.find_by(course_id: course.id).mark > 0 %>
                                         <%= @student.inscriptions.find_by(course_id: course.id).mark %>
                                     <% else %>
                                         NaN
@@ -100,7 +100,7 @@
                                 <%= exam_answer.exam.section.course.title %>
                             </td>
                             <td>
-                                <% if exam_answer.mark.present? %>
+                                <% if exam_answer.mark > 0 %>
                                     <%= exam_answer.mark %>
                                 <% else %>
                                     NaN

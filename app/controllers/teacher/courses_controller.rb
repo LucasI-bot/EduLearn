@@ -13,6 +13,22 @@ module Teacher
       else
         @courses = current_user.courses
       end
+
+      if params[:title].present?
+        @courses = @courses.by_title(params[:title].downcase)
+      end
+
+      if params[:subject_ids].present?
+        if params[:subject_ids].count > 1
+          @courses = @courses.by_subject_ids(params[:subject_ids].drop(1))
+        end
+      end
+
+      if params[:skill_ids].present?
+        if params[:skill_ids].count > 1
+          @courses = @courses.by_skill_ids(params[:skill_ids].drop(1))
+        end
+      end
     end
 
     def show
@@ -28,6 +44,11 @@ module Teacher
       @course.user_id = current_user.id
       @course.visibility = false
       @course.rating = 0
+
+      unless @course.price.present?
+        @course.price = 0
+      end
+
       if @course.save
         redirect_to teacher_course_path(@course)
       else
@@ -43,6 +64,11 @@ module Teacher
       @course = Course.find(params[:id])
 
       if @course.update(course_params)
+        unless @course.price.present?
+          @course.price = 0
+          @course.save
+        end
+
         if @course.visibility
           User.where(role: 'student').each do |student|
             @inscription = Inscription.where(user_id: student.id, course_id: @course.id).first
@@ -56,6 +82,7 @@ module Teacher
               @inscription.course_id = @course.id
               @inscription.approved = false
               @inscription.paid = false
+              @inscription.mark = 0
 
               @inscription.save
 
@@ -127,6 +154,7 @@ module Teacher
             @inscription.course_id = @course.id
             @inscription.approved = false
             @inscription.paid = false
+            @inscription.mark = 0
 
             @inscription.save
 

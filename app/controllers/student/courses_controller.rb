@@ -1,7 +1,19 @@
 module Student
   class Student::CoursesController < Student::StudentController
     def index
-      @courses = current_user.inscriptions.where(paid: true, approved: true).map{|a| a.course}
+      @courses = Course.joins(:inscriptions).where(inscriptions: {paid: true, approved: true, user_id: current_user.id})
+
+      if params[:order_by].present?
+        @courses = @courses.order(params[:order_by] + " " + params[:order])
+      end
+
+      if params[:title].present?
+        @courses = @courses.by_title(params[:title].downcase)
+      end
+
+      if params[:teacher].present?
+        @courses = @courses.by_teacher(params[:teacher].downcase)
+      end
     end
 
     def update
@@ -9,7 +21,13 @@ module Student
       @course = Course.find(params[:id])
       @teacher = @course.user
 
-      if @inscription.update(inscription_params)
+      @inscription.rating = inscription_params[:rating]
+      @inscription.review = inscription_params[:review]
+      @inscription.rating_date = Date.today
+
+      print(@inscription.rating)
+
+      if @inscription.save
         course_ratings = @course.inscriptions.where.not(rating: nil).map{|a| a.rating}
         teacher_ratings = @teacher.courses.where.not(rating: 0).map{|a| a.rating}
 

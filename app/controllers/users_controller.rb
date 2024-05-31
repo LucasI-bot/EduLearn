@@ -1,9 +1,4 @@
 class UsersController < ApplicationController
-
-    def index
-        @teachers = User.all.where(:role => 1)
-    end
-
     def show
         @teacher = User.find_by(id: params[:id])
     end
@@ -31,6 +26,10 @@ class UsersController < ApplicationController
             @user.rating = 0
         end
 
+        unless @user.alias.present?
+            @user.alias = nil
+        end
+
         if @user.save
         # stores saved user id in a session
             login @user
@@ -40,6 +39,7 @@ class UsersController < ApplicationController
 
                     @inscription.user_id = @user.id
                     @inscription.course_id = course.id
+                    @inscription.mark = 0
                     @inscription.approved = false
                     @inscription.paid = false
 

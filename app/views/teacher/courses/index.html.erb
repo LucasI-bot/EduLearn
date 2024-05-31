@@ -10,19 +10,23 @@
         <% end %>
         
         <div class="col-md-4 px-2">
-            <%= form.label :title, "Título:" %>
-            <%= form.text_field :title, class:"form-control" %>
+            <%= form.label :title, "Título:", class:"form-label" %>
+            <%= form.text_field :title, class:"form-control", value: params[:title] %>
         </div>
 
         <div class="col-md-4 px-2">
-            <%= form.label :category_eq, "Categoría:" %>
-            <%= form.select :category_eq, options_for_select(["", "Category 1", "Category 2", "Category 3"]),{}, class:"form-select" %>
+            <%= form.label :subjects, class:"form-label" do %>Materias:<% end %>
+            <%= form.collection_select :subject_ids, Subject.all, :id, :subject, { selected: params[:subject_ids] }, { multiple: true, class: 'select2 form-control' } %>
         </div>
-        
+
+        <div class="col-md-4 px-2">
+            <%= form.label :skills, class:"form-label" do %>Habilidades:<% end %>
+            <%= form.collection_select :skill_ids, Skill.all, :id, :skill, { selected: params[:skill_ids] }, { multiple: true, class: 'select2 form-control' } %>
+        </div>        
 
         <div class="col-md-12 actions my-3">
             <%= form.submit "Filtrar", class: "btn btn-primary" %>
-            <%= link_to "Limpiar Filtros", teacher_courses_path, class: "btn btn-secondary" %>
+            <%= link_to "Limpiar Filtros", teacher_courses_path(order_by: params[:order_by], order: params[:order]), class: "btn btn-secondary" %>
         </div>
     <% end %>
 </div>
@@ -33,6 +37,18 @@
             <div class="table-header">
                 <span class="table-header-text">Título</span>
                 <% if params[:order_by] != "title"%>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8H32c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"/></svg>
+                <% elsif params[:order] == "asc"%>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+                <% else %>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128z"/></svg>
+                <% end %>
+            </div>
+        </th>
+        <th id="price">
+            <div class="table-header">
+                <span class="table-header-text">Precio</span>
+                <% if params[:order_by] != "price"%>
                     <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8H32c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"/></svg>
                 <% elsif params[:order] == "asc"%>
                     <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
@@ -53,10 +69,10 @@
                 <% end %>
             </div>
         </th>
-        <th id="created_at">
+        <th id="updated_at">
             <div class="table-header">
-                <span class="table-header-text">Fecha de Creación</span>
-                <% if params[:order_by] != "created_at"%>
+                <span class="table-header-text">Última modificación</span>
+                <% if params[:order_by] != "updated_at"%>
                     <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8H32c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"/></svg>
                 <% elsif params[:order] == "asc"%>
                     <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
@@ -85,8 +101,9 @@
     <%  @courses.each do |course| %>
       <tr>
         <td><%= course.title %></td>
+        <td><% if course.price.blank? or course.price == 0 %>Gratis<% else %>US$<%= course.price %><% end %></td>
         <td><%= course.inscriptions.where(paid: true, approved: true).count %></td>
-        <td><%= course.created_at %></td>
+        <td><%= course.updated_at %></td>
         <td>
             <% if course.visibility %>
                 <svg class="table-column-icon green-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>

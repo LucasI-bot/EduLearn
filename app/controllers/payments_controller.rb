@@ -34,10 +34,8 @@ class PaymentsController < ApplicationController
       @payment_id = params[:paymentId]
       @payer_id = params[:PayerID]
 
-      @inscription = Inscription.new()
+      @inscription = Inscription.where(user_id: current_user.id, course_id: @course.id).first
 
-      @inscription.user_id = current_user.id
-      @inscription.course_id = @course.id
       @inscription.paid = true
       @inscription.approved = !@course.acceptance_required
       @inscription.incription_date = Date.today

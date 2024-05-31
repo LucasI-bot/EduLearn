@@ -1,6 +1,12 @@
 <h1><%= @exam_answer.exam.title %></h1>
 
-<%= form_with(model: @exam_answer, url: teacher_course_exam_answer_path(@course, @exam_answer)) do |form| %>
+<% if @course.present? %>
+    <% path = teacher_course_exam_answer_path(@course, @exam_answer) %>
+<% else %>
+    <% path = teacher_exam_answer_path(@exam_answer) %>
+<% end %>
+
+<%= form_with(model: @exam_answer, url: path) do |form| %>
     <!-- Question content input -->
     <div class="d-flex row">
         <% @exam_answer.question_answers.order(question_number: :asc).each do |question_answer| %>

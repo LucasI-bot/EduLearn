@@ -5,26 +5,38 @@
     <h1>Alumnos</h1>
 </div>
 <div class="table-filters">
-    <%= form_with(url: teacher_students_path, method: "get", class:"d-flex row") do |form| %>
+    <% if @course.present? %>
+        <% path = teacher_course_students_path(@course) %>
+    <% else %>
+        <% path = teacher_students_path%>
+    <% end %>
+    
+    <%= form_with(url: path, method: "get", class:"d-flex row") do |form| %>
         <% if params[:order_by] %>
             <%= form.hidden_field "order_by", value: params[:order_by]%>
             <%= form.hidden_field "order", value: params[:order]%>
         <% end %>
         
         <div class="col-md-4 px-2">
-            <%= form.label :title, "Título:" %>
-            <%= form.text_field :title, class:"form-control" %>
+            <%= form.label :name, "Nombre:", class:"form-label" %>
+            <%= form.text_field :name, class:"form-control", value: params[:name] %>
         </div>
-
-        <div class="col-md-4 px-2">
-            <%= form.label :category_eq, "Categoría:" %>
-            <%= form.select :category_eq, options_for_select(["", "Category 1", "Category 2", "Category 3"]),{}, class:"form-select" %>
-        </div>
+        
+        <% unless @course.present? %>
+            <div class="col-md-4 px-2">
+                <%= form.label :course, "Curso:", class:"form-label" %>
+                <%= form.collection_select :course, current_user.courses, :id, :title, { include_blank: "Seleccionar", selected: params[:course] }, { class: 'form-select' } %>
+            </div>
+        <% end %>
         
 
         <div class="col-md-12 actions my-3">
             <%= form.submit "Filtrar", class: "btn btn-primary" %>
-            <%= link_to "Limpiar Filtros", teacher_courses_path, class: "btn btn-secondary" %>
+            <% if @course.present? %>
+                <%= link_to "Limpiar Filtros", teacher_course_students_path(@course, order_by: params[:order_by], order: params[:order]), class: "btn btn-secondary" %>
+            <% else %>
+                <%= link_to "Limpiar Filtros", teacher_students_path(order_by: params[:order_by], order: params[:order]), class: "btn btn-secondary" %>
+            <% end %>
         </div>
     <% end %>
 </div>
@@ -126,9 +138,9 @@
         <% end %>
         <td>
             <% if @course.present? %>
-                <% marks = student.inscriptions.where(approved: true, paid: true, course_id: @course.id).where.not(mark: nil).map{|a| a.mark} %>
+                <% marks = student.inscriptions.where(approved: true, paid: true, course_id: @course.id).where.not(mark: 0).map{|a| a.mark} %>
             <% else %>
-                <% marks = student.inscriptions.where(approved: true, paid: true, course_id: current_user.courses.map{|a| a.id}).where.not(mark: nil).map{|a| a.mark} %>
+                <% marks = student.inscriptions.where(approved: true, paid: true, course_id: current_user.courses.map{|a| a.id}).where.not(mark: 0).map{|a| a.mark} %>
             <% end %>
             <%= (marks.sum / marks.size.to_f).to_s %>
         </td>

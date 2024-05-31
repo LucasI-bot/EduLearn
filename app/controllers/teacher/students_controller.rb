@@ -8,12 +8,20 @@ module Teacher
         @students = User.joins(:inscriptions).where(inscriptions: { paid: true, approved: true, course_id: current_user.courses.map{|a| a.id} }).group('users.id')
       end
 
+      if params[:name].present?
+        @students = @students.by_name(params[:name].downcase)
+      end
+
+      if params[:course].present?
+        @students = @students.by_course_id(params[:course].downcase)
+      end
+
       case params[:order_by]
       when 'name'
         @students = @students.order(Arel.sql("COALESCE(users.alias, CONCAT(users.last_name, ' ', users.first_name)) " + params[:order]))
       when 'mark'
-        @marks = @students.where.not(inscriptions: { mark: nil }).select('users.*, AVG(inscriptions.mark) AS mean_mark').order('mean_mark ' + params[:order])
-        @no_marks = @students.where(inscriptions: { mark: nil }).where.not(id: @marks.map{|a| a.id})
+        @marks = @students.where.not(inscriptions: { mark: 0 }).select('users.*, AVG(inscriptions.mark) AS mean_mark').order('mean_mark ' + params[:order])
+        @no_marks = @students.where(inscriptions: { mark: 0 }).where.not(id: @marks.map{|a| a.id})
         if params[:order] == 'asc'
           @students = @no_marks + @marks
         else
@@ -28,13 +36,15 @@ module Teacher
       when 'inscriptions'
         @students = @students.select('users.*, COUNT(inscriptions.id) AS count').order('count ' + params[:order])
       end
+
+
     end
 
     def show
       if params[:course_id]
         @course = Course.find(params[:course_id])
       end
-      
+
       @student = User.find(params[:id])
 
       unless User.joins(:inscriptions).where(inscriptions: { paid: true, approved: true, course_id: current_user.courses.map{|a| a.id} }).group('users.id').map{|a| a.id}.include?(@student.id)

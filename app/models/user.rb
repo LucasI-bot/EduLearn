@@ -17,6 +17,11 @@ class User < ApplicationRecord
 
     validates :email, presence: true, uniqueness: true
 
+    scope :by_name, -> (q) { where("lower(COALESCE(users.alias, CONCAT(users.last_name, ' ', users.first_name)))  LIKE ?", "%#{q}%") }
+    scope :by_subject_ids, -> (q) { joins(courses: :subjects).where(courses: { subjects: {id: q } }).group('users.id') }
+    scope :by_skill_ids, -> (q) { joins(courses: :skills).where(courses: { skills: {id: q } }).group('users.id') }
+    scope :by_course_id, -> (q) { joins(:inscriptions).where(inscriptions: {paid: true, approved: true, course_id: q }) }
+
     private
 
     def downcase_email
