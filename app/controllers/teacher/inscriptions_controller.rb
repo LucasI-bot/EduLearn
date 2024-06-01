@@ -29,14 +29,25 @@ module Teacher
     def destroy
       @inscription = Inscription.find(params[:id])
 
-      @inscription.destroy
+      @inscription.paid = false
 
-      if params[:course_id]
-        @course = Course.find(params[:course_id])
-        redirect_to teacher_course_inscriptions_path(@course)
+      if @inscription.approved
+        @inscription.approved = false
+        @inscription.save
+        if params[:course_id]
+          @course = Course.find(params[:course_id])
+          redirect_to teacher_course_students_path(@course)
+        else
+          redirect_to teacher_students_path
+        end
+      else
+        if params[:course_id]
+          @course = Course.find(params[:course_id])
+          redirect_to teacher_course_inscriptions_path(@course)
+        else
+          redirect_to teacher_inscriptions_path
+        end
       end
-
-      redirect_to teacher_inscriptions_path
     end
 
     def update
