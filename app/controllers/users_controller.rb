@@ -53,8 +53,8 @@ class UsersController < ApplicationController
                 redirect_to teacher_root_path, notice: 'Successfully created account'
             end
         else
-            flash.now[:alert] = 'Alert message!'
-            redirect_to signup_path, notice: "Ocurrió un error al crear el usuario, intente nuevamente"
+            flash.now[:notice] = @user.errors
+            render :new
         end
     end
 

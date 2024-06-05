@@ -5,10 +5,10 @@
         <%= form_with url: password_reset_path do |form| %>
             <div class="py-3 mt-3">
                 <%= form.label :email, class:"form-label" %>
-                <%= form.text_field :email, class:"form-control" %>
+                <%= form.email_field :email, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
             </div>
 
-            <%= form.submit 'Reiniciar contraseña', class:"btn btn-primary mt-5 btn-login" %>
+            <%= form.submit 'Reiniciar contraseña', onclick: "return validateForm()", class:"btn btn-primary mt-5 btn-login" %>
         <%end%>
     </div>
     <div class="col-md-2"></div>

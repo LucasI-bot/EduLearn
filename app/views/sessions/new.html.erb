@@ -2,20 +2,30 @@
   <div class="col-md-2"></div>
   <div class="col-md-8 mb-5">
     <h1>Iniciar Sesión</h1>
+    <% if alert.present? %>
+      <p class="error-msg">
+        <%= alert %>
+      </p>
+    <% end %>
+    <% if notice.present? %>
+      <p class="notice-msg">
+        <%= notice %>
+      </p>
+    <% end %>
     <%= form_with url: login_path, class:"d-flex row", scope: :user do |form| %>
       <div class="my-3 col-md-12">
           <%= form.label :email, class:"form-label" %>
-          <%= form.email_field :email, class:"form-control" %>
+          <%= form.email_field :email, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
       </div>
       <div class="my-3 col-md-12">
         <%= form.label :password, class:"form-label" do %>Contraseña<% end %>
-        <%= form.password_field :password, required: true, class:"form-control" %>
+        <%= form.password_field :password, required: true, minlength: 8, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
       </div>
       <div class="col-md-12">
         <%= link_to "¿Olvidaste tu contraseña?", password_reset_path %>
       </div>
       <div class="col-md-12">
-        <%= form.submit "Iniciar Sesión", class:"btn btn-primary mt-5 btn-login" %>
+        <%= form.submit "Iniciar Sesión", onclick: "return validateForm()", class:"btn btn-primary mt-5 btn-login" %>
       </div>
     <% end %>
   </div>

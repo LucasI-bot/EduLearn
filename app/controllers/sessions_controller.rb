@@ -14,11 +14,11 @@ class SessionsController < ApplicationController
             redirect_to teacher_root_path, notice: 'Signed in.'
         end
       else
-        flash.now[:alert] = "Incorrect email or password."
+        flash.now[:alert] = "Verifique su email y contraseña."
         render :new, status: :unprocessable_entity
       end
     else
-      flash.now[:alert] = "Incorrect email or password."
+      flash.now[:alert] = "Verifique su email y contraseña."
       render :new, status: :unprocessable_entity
     end
   end

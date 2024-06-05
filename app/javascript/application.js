@@ -24,4 +24,5 @@
 //= require resize_teacher_image
 //= require question_answer_teacher
 //= require question_form
+//= require form_validation
 

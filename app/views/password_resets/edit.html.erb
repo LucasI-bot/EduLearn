@@ -4,19 +4,26 @@
         <div class="col-md-12">
             <h1>Reinicio de contraseña</h1>
         </div>
-        <div class="col-md-12 my-3">
+        <div class="col-md-12 mt-3">
             <p>Cambiando la contraseña para: <b><%= @user.email %></b></p>
         </div>
+        <% if alert.present? %>
+            <div class="col-md-12">
+                <p class="error-msg">
+                    <%= alert %>
+                </p>
+            </div>
+        <% end %>
         <%= form_with model: @user, url: password_reset_edit_path(token: params[:token]) do |form| %>
             <div class="my-3">
                 <%= form.label :password, class:"form-label" do %>Nueva contraseña<% end %>
-                <%= form.password_field :password, class:"form-control" %>
+                <%= form.password_field :password, required: true, minlength: 8, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
             </div>
             <div class="my-3">
                 <%= form.label :password_confirmation, class:"form-label" do %>Confirmar nueva contraseña<% end %>
-                <%= form.password_field :password_confirmation, class:"form-control" %>
+                <%= form.password_field :password_confirmation, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
             </div>
-            <%= form.submit 'Reiniciar contraseña', class:"btn btn-primary mt-5 btn-login" %>
+            <%= form.submit 'Reiniciar contraseña', onclick: "return validateForm()", class:"btn btn-primary mt-5 btn-login" %>
         <% end %>
     </div>
     <div class="col-md-2"></div>

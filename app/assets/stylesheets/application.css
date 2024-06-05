@@ -1337,3 +1337,11 @@ button.card{
     margin-top: auto;
     margin-bottom: auto;
 }
+
+.error-msg{
+    color: red
+}
+
+.notice-msg{
+    color: green
+}

@@ -3,6 +3,7 @@
     
     <div class="col-md-8">
         <h1> Registrarse </h1>
+        
         <div class="card p-3 mb-5">
             <%= form_with model: @user, url: signup_path do |form|%>
                 <div class="d-flex">    
@@ -13,24 +14,38 @@
                 </div>
                 <div class="my-3">
                     <%= form.label :email, class:"form-label" do %>Email<% end %>
-                    <%= form.email_field :email, required: true, class:"form-control" %>
+                    <%= form.email_field :email, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
+                    <% if notice.present? %>
+                        <% if notice["email"].present? %>
+                            <p class="error-msg">
+                                <%= notice["email"][0] %>
+                            </p>
+                        <% end %>
+                    <% end %>
                 </div>
                 <div class="my-3">
                     <%= form.label :password, class:"form-label" do %>Contraseña<% end %>
-                    <%= form.password_field :password, required: true, class:"form-control" %>
+                    <%= form.password_field :password, required: true, minlength: 8, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
                 </div>
                 <div class="my-3">
                     <%= form.label :password_confirmation, class:"form-label" do %>Confirmar contraseña<% end %>
-                    <%= form.password_field :password_confirmation, required: true, class:"form-control" %>
+                    <%= form.password_field :password_confirmation, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
+                    <% if notice.present? %>
+                        <% if notice["password_confirmation"].present? %>
+                            <p class="error-msg">
+                                Las contraseñas ingresadas deben ser iguales
+                            </p>
+                        <% end %>
+                    <% end %>
                 </div>
                 <div class="my-3">
                     <%= form.label :first_name, class:"form-label" do %>Nombre<% end %>
-                    <%= form.text_field :first_name, required: true, class:"form-control" %>
+                    <%= form.text_field :first_name, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
                 </div>
 
                 <div class="my-3">
                     <%= form.label :last_name, class:"form-label" do %>Apellido<% end %>
-                    <%= form.text_field :last_name, required: true, class:"form-control" %>
+                    <%= form.text_field :last_name, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
                 </div>
 
                 <div class="my-3">
@@ -39,7 +54,7 @@
                 </div>
                 <div class="my-3">
                     <%= form.label :role, class:"form-label" do %>Rol<% end %>
-                    <%= form.select :role, User.roles.keys, {include_blank: "Seleccionar", selected: params[:role]}, {required: true, class:"form-select", id:"role-select", onchange:'showSkillsSubjects(this)'} %>
+                    <%= form.select :role, User.roles.keys, {include_blank: "Seleccionar", selected: params[:role]}, {required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-select", id:"role-select", onchange:'showSkillsSubjects(this)'} %>
                 </div>
                 <div id="skills-subjects-create-user">
                     <div class="my-3">
@@ -53,7 +68,7 @@
                     </div>
                 </div>
                 
-                <%= form.submit "Registrarse", class:"btn btn-primary mt-2 btn-login" %>
+                <%= form.submit "Registrarse", onclick: "return validateForm()", class:"btn btn-primary mt-2 btn-login" %>
             <% end %>
         </div>
     </div>
