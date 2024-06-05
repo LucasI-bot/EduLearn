@@ -1,7 +1,11 @@
 class CoursesController < ApplicationController
   def index
-    if current_user.role == 'student'
-      @courses = Course.joins(:inscriptions).where(visibility: true, inscriptions: {user_id: current_user.id, paid: false})
+    if current_user.present?
+      if current_user.role == 'student'
+        @courses = Course.joins(:inscriptions).where(visibility: true, inscriptions: {user_id: current_user.id, paid: false})
+      else
+        @courses = Course.where(visibility: true)
+      end
     else
       @courses = Course.where(visibility: true)
     end
@@ -49,8 +53,12 @@ class CoursesController < ApplicationController
     when '6'
       @courses = @courses.joins(:user).order(Arel.sql("COALESCE(users.alias, CONCAT(users.last_name, ' ', users.first_name)) asc"))
     else
-      if current_user.role == 'student'
-        @courses = @courses.order(order: :desc)
+      if current_user.present?
+        if current_user.role == 'student'
+          @courses = @courses.order(order: :desc)
+        else
+          @courses = @courses.order(rating: :desc)
+        end
       else
         @courses = @courses.order(rating: :desc)
       end
