@@ -1,19 +1,19 @@
 class PasswordController < ApplicationController
+  add_flash_types :password, :password_confirmation
   def edit
   end
 
   def update
     if current_user.authenticate(params[:user][:current_password])
       if current_user.update(user_params)
-        print("Contraseña cambiada correctamente")
-        redirect_to profile_path
+        redirect_to profile_path, notice: "Contraseña cambiada correctamente"
       else
-        print("Contraseñas no coinciden")
+        flash.now[:password_confirmation] = "Contraseñas no coinciden"
         render :edit
       end
 
     else
-      print("Error de autenticación")
+      flash.now[:password] = "Error de autenticación"
       render :edit
     end
   end

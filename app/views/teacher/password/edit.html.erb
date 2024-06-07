@@ -6,21 +6,31 @@
         <%= form_with(model: current_user, url: teacher_profile_change_password_path, method: :patch) do |f| %>
             <div class="field">
                 <%= f.label :current_password, class:"form-label" do%>Contraseña actual<% end %>
-                <%= f.password_field :current_password, class: 'form-control' %>
+                <%= f.password_field :current_password, required: true, minlength: 8, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class: 'form-control' %>
+                <% if password.present? %>
+                    <p class="error-msg">
+                        <%= password %>
+                    </p>
+                <% end %>
             </div>
 
             <div class="field">
                 <%= f.label :password, class:"form-label" do %>Nueva contraseña<% end %>
-                <%= f.password_field :password, class: 'form-control' %>
+                <%= f.password_field :password, required: true, minlength: 8, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class: 'form-control' %>
             </div>
 
             <div class="field">
                 <%= f.label :password_confirmation, class:"form-label" do %>Confirmar contraseña<% end %>
-                <%= f.password_field :password_confirmation, class: 'form-control' %>
+                <%= f.password_field :password_confirmation, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class: 'form-control' %>
+                <% if password_confirmation.present? %>
+                    <p class="error-msg">
+                        <%= password_confirmation %>
+                    </p>
+                <% end %>
             </div>
 
             <div class="actions">
-                <%= f.submit "Enviar", class: 'btn btn-primary mt-3' %>
+                <%= f.submit "Enviar", onclick: "return validateForm()", class: 'btn btn-primary mt-3' %>
             </div>
         <% end %>
     </div>

@@ -2,7 +2,11 @@
     <div class="col-md-2"></div>
     <div class="card col-md-8 p-3">
         <%= form_with(model: current_user, url: teacher_profile_path) do |form| %>
-
+            <% if notice.present? %>
+                <p class="notice-msg mb-3">
+                    <%= notice %>
+                </p>
+            <% end %>
             <div>    
                 <%= form.file_field :picture, id:"file-input", class:"hidden", onchange: 'previewImage(this)' %>
                 <div class="circular-frame">
@@ -16,22 +20,30 @@
 
             <div class="my-3">
                 <%= form.label :email, class:"form-label" %>
-                <%= form.email_field :email, class:"form-control" %>
+                <%= form.email_field :email, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
+                <% if alert.present? %>
+                    <% if alert["email"].present? %>
+                        <p class="error-msg mb-3">
+                            <%= alert["email"][0] %>
+                        </p>
+                    <% end %>
+                <% end %>
             </div>
 
             <div class="my-3">
                 Contraseña: 
                 <%= link_to "Cambiar contraseña", teacher_profile_change_password_path, class:"btn btn-secondary"%>
+                
             </div>
 
             <div class="my-3">
                 <%= form.label :first_name, class:"form-label" do %>Nombre<% end %>
-                <%= form.text_field :first_name, class:"form-control" %>
+                <%= form.text_field :first_name, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
             </div>
 
             <div class="my-3">
                 <%= form.label :last_name, class:"form-label" do %>Apellido<% end %>
-                <%= form.text_field :last_name, class:"form-control" %>
+                <%= form.text_field :last_name, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
             </div>
 
             <div class="my-3">
@@ -39,9 +51,7 @@
                 <%= form.text_field :alias, class:"form-control" %>
             </div >
 
-            
-
-            <%= form.submit "Enviar", class:"btn btn-primary" %>
+            <%= form.submit "Enviar", onclick: "return validateForm()", class:"btn btn-primary" %>
         <% end %>
     </div>
     <div class="col-md-2"></div>

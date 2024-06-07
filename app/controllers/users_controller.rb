@@ -15,6 +15,7 @@ class UsersController < ApplicationController
             current_user.inscriptions.each(&:order_value)
             redirect_to profile_path
         else
+            flash.now[:alert] = current_user.errors
             render :edit
         end
       end
@@ -48,9 +49,9 @@ class UsersController < ApplicationController
                     @inscription.order_value
                 end
 
-                redirect_to student_root_path, notice: 'Successfully created account'
+                redirect_to courses_path
             else
-                redirect_to teacher_root_path, notice: 'Successfully created account'
+                redirect_to teacher_root_path
             end
         else
             flash.now[:notice] = @user.errors

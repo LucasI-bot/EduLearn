@@ -9,9 +9,9 @@ class SessionsController < ApplicationController
         login @user
 
         if @user.role == 'student'
-          redirect_to student_root_path, notice: 'Signed in.'
+          redirect_to student_root_path
         else
-            redirect_to teacher_root_path, notice: 'Signed in.'
+            redirect_to teacher_root_path
         end
       else
         flash.now[:alert] = "Verifique su email y contraseña."
@@ -25,6 +25,6 @@ class SessionsController < ApplicationController
 
   def destroy
     logout
-    redirect_to root_path, notice: "Signed out."
+    redirect_to root_path
   end
 end

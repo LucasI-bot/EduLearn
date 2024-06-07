@@ -12,6 +12,7 @@ module Teacher
       if current_user.update(user_params)
         redirect_to teacher_profile_path
       else
+        flash.now[:alert] = current_user.errors
         render :edit
       end
     end

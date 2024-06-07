@@ -1345,3 +1345,19 @@ button.card{
 .notice-msg{
     color: green
 }
+
+.nav-profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    border-radius: 1.5em;
+    padding: 5px;
+    padding-right: 1rem;
+    margin: 0;
+}
+
+.nav-profile .circular-card-frame{
+    height: 40px;
+    width: 40px;
+    margin-right: 0.75rem;
+}
