@@ -1,3 +1,101 @@
-<h1>Teacher Main</h1>
+<h1> Dashboard </h1>
 
-<%=link_to "Mis Cursos", teacher_courses_path, class: "btn btn-primary"%>
+<%= form_with url: teacher_root_path, method: "get", class: "d-flex py-4" do |form| %>
+    <% if params[:order_by] %>
+        <%= form.hidden_field :order_by, value: params[:order_by]%>
+        <%= form.hidden_field :order, value: params[:order]%>
+    <% end %>
+
+    <div class="col-md-4"> 
+        <%= form.label :from_date, class:"form-label" do %>Mostrar desde<% end %>
+        <%= form.date_field :from_date, class:"form-control", value: @from_date %>
+    </div>
+
+    <div class="col-md-1"></div>
+
+    <div class="col-md-4"> 
+        <%= form.label :end_date, class:"form-label" do %>Mostrar hasta<% end %>
+        <%= form.date_field :end_date, class:"form-control", value: @end_date %>
+    </div>
+
+    <div class="col-md-1"></div>
+
+    <div class="col-md-2 d-flex">
+        <%= form.submit "Actualizar", class:"btn btn-primary btn-dashboard"%>
+    </div>
+<% end %>
+
+<div class="payment-texts">
+    <div>
+        <h2><%= Payment.joins(:inscription).where(created_at: @from_date.beginning_of_day..@end_date.end_of_day, inscription: {course_id: current_user.courses.map{|a| a.id}}).count %> inscripciones</h2>
+        <p><%= Payment.joins(:inscription).where(inscription: {course_id: current_user.courses.map{|a| a.id}}).count %> totales</p>
+    </div>
+    <div>
+        <h2>US$ <%= Payment.joins(:inscription).where(created_at: @from_date.beginning_of_day..@end_date.end_of_day, inscription: {course_id: current_user.courses.map{|a| a.id}}).map{|a| a.price }.sum %> ganancias</h2>
+        <p>US$ <%= Payment.joins(:inscription).where(inscription: {course_id: current_user.courses.map{|a| a.id}}).map{|a| a.price }.sum %> totales</p>
+    </div>
+</div>
+<table id="teacher-admin-table">
+  <thead>
+    <tr>
+        <th id="title">
+            <div class="table-header">
+                <span class="table-header-text">Título</span>
+                <% if params[:order_by] != "title"%>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8H32c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"/></svg>
+                <% elsif params[:order] == "asc"%>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+                <% else %>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128z"/></svg>
+                <% end %>
+            </div>
+        </th>
+        <th id="price">
+            <div class="table-header">
+                <span class="table-header-text">Precio</span>
+                <% if params[:order_by] != "price"%>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8H32c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"/></svg>
+                <% elsif params[:order] == "asc"%>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+                <% else %>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128z"/></svg>
+                <% end %>
+            </div>
+        </th>
+        <th id="inscriptions">
+            <div class="table-header">
+                <span class="table-header-text">Inscritos</span>
+                <% if params[:order_by] != "inscriptions"%>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8H32c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"/></svg>
+                <% elsif params[:order] == "asc"%>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+                <% else %>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128z"/></svg>
+                <% end %>
+            </div>
+        </th>
+        <th id="earnings">
+            <div class="table-header">
+                <span class="table-header-text">Ganancias</span>
+                <% if params[:order_by] != "earnings"%>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8H32c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"/></svg>
+                <% elsif params[:order] == "asc"%>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+                <% else %>
+                    <svg class="table-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128z"/></svg>
+                <% end %>
+            </div>
+        </th>
+    </tr>
+  </thead>
+  <tbody>
+    <%  @courses.each do |course| %>
+      <tr>
+        <td><%= course.title %></td>
+        <td><% if course.price.blank? or course.price == 0 %>Gratis<% else %>US$<%= course.price %><% end %></td>
+        <td><%= Payment.joins(:inscription).where(created_at: @from_date.beginning_of_day..@end_date.end_of_day, inscription: {course_id: course.id}).count %></td>
+        <td>US$ <%= Payment.joins(:inscription).where(created_at: @from_date.beginning_of_day..@end_date.end_of_day, inscription: {course_id: course.id}).map{|a| a.price }.sum %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

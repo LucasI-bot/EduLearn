@@ -38,14 +38,20 @@ class PaymentsController < ApplicationController
 
       @inscription.paid = true
       @inscription.approved = !@course.acceptance_required
-      @inscription.incription_date = Date.today
+      @inscription.inscription_date = Date.today
 
       if @inscription.save
         payment = PayPal::SDK::REST::Payment.find(@payment_id)
         payment.execute(payer_id: @payer_id)
 
+        @payment = @inscription.payments.new()
+
+        @payment.price = @inscription.course.price
+
+        @payment.save
+
         flash[:success] = "Payment successful!"
-        redirect_to root_path
+        redirect_to course_path(@course)
       else
         flash[:error] = "Inscripción fallida"
         redirect_to course_path(@course)

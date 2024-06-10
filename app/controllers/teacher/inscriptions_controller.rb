@@ -51,10 +51,6 @@ module Teacher
     end
 
     def update
-      if params[:course_id]
-        @course = Course.find(params[:course_id])
-      end
-
       @inscription = Inscription.find(params[:id])
 
       @inscription.approved = true
@@ -64,9 +60,9 @@ module Teacher
       if params[:course_id]
         @course = Course.find(params[:course_id])
         redirect_to teacher_course_inscriptions_path(@course)
+      else
+        redirect_to teacher_inscriptions_path
       end
-
-      redirect_to teacher_inscriptions_path
     end
   end
 end
