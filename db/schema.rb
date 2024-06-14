@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_10_141715) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_14_130148) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -77,10 +77,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_10_141715) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "price"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.datetime "inscription_start_date"
-    t.datetime "inscription_end_date"
     t.boolean "visibility"
     t.boolean "acceptance_required"
     t.bigint "user_id"
@@ -164,6 +160,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_10_141715) do
     t.string "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "seen"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end

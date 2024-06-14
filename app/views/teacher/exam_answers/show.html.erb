@@ -104,5 +104,10 @@
 
 
     <!-- Submit button -->
-    <%= form.submit "Enviar corrección",class:"btn btn-primary"  %>
+    <div class="d-flex row">
+        <div class="question-answer-card"></div>
+        <div class="question-answer-buttons d-flex">
+            <%= form.submit "Enviar corrección",class:"btn btn-primary submit-correction"  %>
+        </div>
+    </div>
 <% end %>

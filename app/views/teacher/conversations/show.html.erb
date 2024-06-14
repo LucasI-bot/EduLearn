@@ -33,8 +33,15 @@
             </div>
         <% end %>
     </div>
-    <%= form_with model: @message, url: teacher_course_conversation_path(@course, @conversation), method: :patch, class: "compose" do |f| %>
-        <%= f.text_area :message, placeholder: "Escribe tu mensaje...", id:"message-textarea" %>
-        <%= f.submit "Enviar", class: "message-button", id:"message-button", disabled: true %>
+    <% if @course.present? %>
+        <%= form_with model: @message, url: teacher_course_conversation_path(@course, @conversation), method: :patch, class: "compose" do |f| %>
+            <%= f.text_area :message, placeholder: "Escribe tu mensaje...", id:"message-textarea" %>
+            <%= f.submit "Enviar", class: "message-button", id:"message-button", disabled: true %>
+        <% end %>
+    <% else %>
+        <%= form_with model: @message, url: teacher_conversation_path(@conversation), method: :patch, class: "compose" do |f| %>
+            <%= f.text_area :message, placeholder: "Escribe tu mensaje...", id:"message-textarea" %>
+            <%= f.submit "Enviar", class: "message-button", id:"message-button", disabled: true %>
+        <% end %>
     <% end %>
 </div>

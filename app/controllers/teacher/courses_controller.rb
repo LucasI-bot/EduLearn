@@ -168,7 +168,7 @@ module Teacher
 
     private
       def course_params
-        params.require(:course).permit(:title, :description, :detailed_description, :price, :start_date, :end_date, :inscription_start_date, :inscription_end_date, :visibility, :acceptance_required, :banner_img, skill_ids: [], subject_ids: [])
+        params.require(:course).permit(:title, :description, :detailed_description, :price, :visibility, :acceptance_required, :banner_img, skill_ids: [], subject_ids: [])
       end
   end
 end

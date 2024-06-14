@@ -44,6 +44,7 @@ module Student
 
       @message = @conversation.messages.new(message_params)
       @message.user_id = current_user.id
+      @message.seen = false
 
       if @message.save
         if params[:course_id]
@@ -61,6 +62,7 @@ module Student
       if params[:id]
         @conversation = Conversation.find(params[:id])
 
+        @conversation.messages.where.not(user_id: current_user.id).where.not(seen: true).update_all(seen: true)
 
         unless @conversation.student == current_user
           redirect_to student_conversations_path

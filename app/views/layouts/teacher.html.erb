@@ -29,7 +29,14 @@
         <%= link_to "Alumnos", teacher_students_path %>
         <%= link_to "Evaluaciones", teacher_exam_answers_path %>
         <%= link_to "Inscripciones pendientes", teacher_inscriptions_path %>
-        <%= link_to "Conversaciones", teacher_conversations_path %>
+        <%= link_to teacher_conversations_path, class:"alert-message-div" do %>
+          Conversaciones
+          <% if Message.joins(:conversation).where.not(user_id: current_user.id).where.not(seen: true).where(conversation: { teacher_id: current_user.id }).count > 0 %>
+            <span class="alert-message">
+              !
+            </span>
+          <% end %>
+        <% end %>
       </div>
       <div class="dropup">
         <a class="sidebar-bottom dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown" aria-expanded="false">

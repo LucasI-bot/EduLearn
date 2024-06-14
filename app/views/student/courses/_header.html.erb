@@ -4,16 +4,6 @@
             <h1><b><%= @course.title %></b></h1>
             <p class="course-description"><%= @course.description %></p>
         </div>
-        <% unless @course.start_date.blank? %>
-            <span class="course-date-show col-md-4">
-                Fecha de inicio: <%= @course.start_date.strftime("%d/%m/%Y") %>
-            </span>
-        <% end %>
-        <% unless @course.end_date.blank? %>
-            <span class="course-date-show col-md-4">
-                Fecha de fin: <%= @course.end_date.strftime("%d/%m/%Y") %>
-            </span>
-        <% end %>
         <div class="col-md-12 teacher-and-inscription-course">
             <div class="teacher my-4">
                 <%= link_to teacher_path(@course.user), class:"a-teacher" do%>

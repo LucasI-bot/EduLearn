@@ -39,6 +39,7 @@ module Teacher
 
       @message = @conversation.messages.new(message_params)
       @message.user_id = current_user.id
+      @message.seen = false
 
       if @message.save
         if params[:course_id]
@@ -56,6 +57,8 @@ module Teacher
     def show
       @conversation = Conversation.find(params[:id])
       @message = Message.new
+
+      @conversation.messages.where.not(user_id: current_user.id).where.not(seen: true).update_all(seen: true)
 
       if params[:course_id]
         @course = Course.find(params[:course_id])
