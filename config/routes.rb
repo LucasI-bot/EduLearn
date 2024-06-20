@@ -19,7 +19,10 @@ Rails.application.routes.draw do
     resources :courses do
       resources :sections, except: [:index, :show] do
         resources :lectures, except: [:index] do
-          resources :contents, except: [:index, :show]
+          resources :contents, except: [:index, :show, :update, :create] do
+            patch 'edit', to: 'contents#update'
+          end
+          post 'contents/new', to: 'contents#create'
         end
         resources :exams do
           resources :questions, except: [:index, :show]

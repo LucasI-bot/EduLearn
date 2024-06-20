@@ -2,18 +2,39 @@
     <div class= "col-md-1">
     </div>
     <div class= "col-md-10 content-form">
-        <%= form_with model: @content, url: teacher_course_section_lecture_content_path(@lecture.section.course,@lecture.section,@lecture, @content)  do |f| %>
+        <%= form_with model: @content, url: teacher_course_section_lecture_content_edit_path(@lecture.section.course,@lecture.section,@lecture, @content)  do |f| %>
             <div class="mb-3">
                 <% case @content.content_type %>
                 <% when "text_img" %>
-                <h2>Editar bloque de texto e imágenes</h2>
-                <%= f.cktext_area :text, class:"text_img-area" %>
+                    <h2>Editar bloque de texto e imágenes</h2>
+
+                    <%= f.cktext_area :text, class:"text_img-area" %>
+
+                    <% if alert.present? %>
+                        <p class="error-msg mt-3">
+                            <%= alert[:text][0] %>
+                        </p>
+                    <% end %>
                 <% when "video" %>
-                <h2>Editar bloque de video</h2>
-                <%= f.file_field :video, class:"form-control" %>
+                    <h2>Editar bloque de video</h2>
+
+                    <%= f.file_field :video, class:"form-control" %>
+
+                    <% if alert.present? %>
+                        <p class="error-msg mt-3">
+                            <%= alert[:video][0] %>
+                        </p>
+                    <% end %>
                 <% when "pdf" %>
-                <h2>Editar bloque de pdf</h2>
-                <%= f.file_field :pdf, class:"form-control" %>
+                    <h2>Editar bloque de pdf</h2>
+
+                    <%= f.file_field :pdf, class:"form-control" %>
+
+                    <% if alert.present? %>
+                        <p class="error-msg mt-3">
+                            <%= alert[:pdf][0] %>
+                        </p>
+                    <% end %>
                 <% end %>
             </div>
             <div class="justify-content-between d-flex">

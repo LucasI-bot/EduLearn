@@ -1,4 +1,7 @@
-<h1><%= @lecture.title %></h1>
+<div class="new-and-title mb-4">
+    <h1><%= @lecture.title %></h1>
+    <%= link_to "Volver", teacher_course_path(@lecture.section.course), class:"btn btn-danger btn-add py-2 px-3"%>
+</div>
 
 <div class="d-flex">
     <div class="col-md-8 content-column">

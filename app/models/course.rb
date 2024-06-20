@@ -12,6 +12,6 @@ class Course < ApplicationRecord
     scope :by_title, -> (q) { where("lower(courses.title) LIKE ?", "%#{q}%") }
     scope :by_teacher, -> (q) { joins(:user).where("lower(COALESCE(users.alias, CONCAT(users.last_name, ' ', users.first_name)))  LIKE ?", "%#{q}%") }
     scope :by_acceptance, -> (q) { where(acceptance_required: q) }
-    scope :by_subject_ids, -> (q) { joins(:subjects).where(subjects: {id: q }).distinct }
-    scope :by_skill_ids, -> (q) { joins(:skills).where(skills: {id: q }).distinct }
+    scope :by_subject_ids, -> (q) { joins(:subjects).where(subjects: {id: q }).group('courses.id').having('COUNT(DISTINCT subjects.id) = ?', q.size) }
+    scope :by_skill_ids, -> (q) { joins(:skills).where(skills: {id: q }).group('courses.id').having('COUNT(DISTINCT skills.id) = ?', q.size) }
 end

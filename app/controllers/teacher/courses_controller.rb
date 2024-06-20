@@ -1,5 +1,7 @@
 module Teacher
   class Teacher::CoursesController < Teacher::TeacherController
+    add_flash_types :description
+
     def index
       if params[:order_by].present?
         if params[:order_by] == "inscriptions"
@@ -49,9 +51,14 @@ module Teacher
         @course.price = 0
       end
 
-      if @course.save
-        redirect_to teacher_course_path(@course)
+      if @course.detailed_description.present?
+        if @course.save
+          redirect_to teacher_course_path(@course)
+        else
+          render 'new'
+        end
       else
+        flash[:description] = "Inserte un valor válido en descripción detallada"
         render 'new'
       end
     end
@@ -63,36 +70,40 @@ module Teacher
     def update
       @course = Course.find(params[:id])
 
-      if @course.update(course_params)
-        unless @course.price.present?
-          @course.price = 0
-          @course.save
-        end
+      if @course.detailed_description.present?
+        if @course.update(course_params)
+          unless @course.price.present?
+            @course.price = 0
+            @course.save
+          end
+          if @course.visibility
+            User.where(role: 'student').each do |student|
+              @inscription = Inscription.where(user_id: student.id, course_id: @course.id).first
 
-        if @course.visibility
-          User.where(role: 'student').each do |student|
-            @inscription = Inscription.where(user_id: student.id, course_id: @course.id).first
+              if @inscription.present?
+                @inscription.order_value
+              else
+                @inscription = Inscription.new()
 
-            if @inscription.present?
-              @inscription.order_value
-            else
-              @inscription = Inscription.new()
+                @inscription.user_id = student.id
+                @inscription.course_id = @course.id
+                @inscription.approved = false
+                @inscription.paid = false
+                @inscription.mark = 0
 
-              @inscription.user_id = student.id
-              @inscription.course_id = @course.id
-              @inscription.approved = false
-              @inscription.paid = false
-              @inscription.mark = 0
+                @inscription.save
 
-              @inscription.save
-
-              @inscription.order_value
+                @inscription.order_value
+              end
             end
           end
-        end
 
-        redirect_to teacher_courses_path
+          redirect_to teacher_courses_path
+        else
+          render 'edit'
+        end
       else
+        flash[:description] = "Inserte un valor válido en descripción detallada"
         render 'edit'
       end
     end

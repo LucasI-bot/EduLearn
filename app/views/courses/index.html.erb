@@ -38,8 +38,6 @@
                 </div>
             </div>
             
-            
-
             <div class="col-md-12 actions my-3">
                 <%= form.submit "Filtrar", class: "btn btn-primary" %>
                 <%= link_to "Limpiar Filtros", courses_path(order_by: params[:order_by]), class: "btn btn-secondary" %>
@@ -49,10 +47,10 @@
     <div class="col-md-9">
         <div class="index-header-info">
             <h3 class="index-count">
-                <% if @courses.count == 1 %>
-                    <%= @courses.count.to_s + " curso encontrado"%>
+                <% if @courses.to_a.count == 1 %>
+                    <%= @courses.to_a.count.to_s + " curso encontrado"%>
                 <% else %>
-                    <%= @courses.count.to_s + " cursos encontrados"%>
+                    <%= @courses.to_a.count.to_s + " cursos encontrados"%>
                 <% end %>
             </h3>
             <span class="select-wrapper">

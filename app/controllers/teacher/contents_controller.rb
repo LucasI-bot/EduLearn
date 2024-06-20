@@ -13,7 +13,8 @@ module Teacher
       if @content.save
         redirect_to teacher_course_section_lecture_path(@lecture.section.course, @lecture.section, @lecture)
       else
-        render 'new'
+        flash.now[:alert] = @content.errors
+        render :new
       end
     end
 
@@ -24,11 +25,12 @@ module Teacher
 
     def update
       @lecture = Lecture.find_by_id(params[:lecture_id])
-      @content = Content.find(params[:id])
+      @content = Content.find(params[:content_id])
 
       if @content.update(content_params)
         redirect_to teacher_course_section_lecture_path(@lecture.section.course, @lecture.section, @lecture)
       else
+        flash.now[:alert] = @content.errors
         render 'edit'
       end
     end

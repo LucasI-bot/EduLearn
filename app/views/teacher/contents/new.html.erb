@@ -2,22 +2,43 @@
     <div class= "col-md-1">
     </div>
     <div class= "col-md-10 content-form">
-        <%= form_with model: @content, url: teacher_course_section_lecture_contents_path(@lecture.section.course,@lecture.section,@lecture)  do |f| %>
+        <%= form_with model: @content, url: teacher_course_section_lecture_contents_new_path(@lecture.section.course,@lecture.section,@lecture, type: @content.content_type) do |f| %>
             <%= f.hidden_field :content_type, value: @content.content_type %>
             <div class="mb-3">
                 <% case @content.content_type %>
                 <% when "text_img" %>
-                <h2>Nuevo bloque de texto e imágenes</h2>
-                <%= f.cktext_area :text, class:"text_img-area" %>
+                    <h2 class="mb-5">Nuevo bloque de texto e imágenes</h2>
+                    
+                    <%= f.cktext_area :text, class:"text_img-area" %>
+
+                    <% if alert.present? %>
+                        <p class="error-msg mt-3">
+                            <%= alert[:text][0] %>
+                        </p>
+                    <% end %>
                 <% when "video" %>
-                <h2>Nuevo bloque de video</h2>
-                <%= f.file_field :video, class:"form-control" %>
+                    <h2 class="mb-5">Nuevo bloque de video</h2>
+
+                    <%= f.file_field :video, class:"form-control" %>
+
+                    <% if alert.present? %>
+                        <p class="error-msg mt-3">
+                            <%= alert[:video][0] %>
+                        </p>
+                    <% end %>
                 <% when "pdf" %>
-                <h2>Nuevo bloque de pdf</h2>
-                <%= f.file_field :pdf, class:"form-control" %>
+                    <h2 class="mb-5">Nuevo bloque de pdf</h2>
+
+                    <%= f.file_field :pdf, class:"form-control" %>
+
+                    <% if alert.present? %>
+                        <p class="error-msg mt-3">
+                            <%= alert[:pdf][0] %>
+                        </p>
+                    <% end %>
                 <% end %>
             </div>
-            <div class="justify-content-between d-flex">
+            <div class="justify-content-between d-flex mt-5">
                 <%= link_to "Volver", teacher_course_section_lecture_path(@lecture.section.course,@lecture.section,@lecture), class:"btn btn-danger"%>
                 <%= f.submit "Enviar", class: "btn btn-primary" %>
             </div>

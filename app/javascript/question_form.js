@@ -18,7 +18,7 @@ window.addEventListener("turbolinks:load", function() {
             formCheck.classList.add("form-check");
         
             const textboxlabel = document.createElement("label");
-            textboxlabel.textContent = "Opción"
+            textboxlabel.textContent = "Opción " + (optionCount + 1)
             textboxlabel.for = "question_options_Opción";
             textboxlabel.classList.add("form-label")
 

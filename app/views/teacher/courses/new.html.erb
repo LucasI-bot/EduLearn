@@ -20,6 +20,11 @@
             <div class="mb-3">
                 <%= f.label "Descripción detallada", class:"form-label" %>
                 <%= f.cktext_area :detailed_description, class:"detailed-description-form" %>
+                <% if description.present? %>
+                    <p class="error-msg">
+                        <%= description %>
+                    </p>
+                <% end %>
             </div>
 
             <div class="mb-3">

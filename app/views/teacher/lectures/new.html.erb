@@ -2,13 +2,17 @@
     <div class= "col-md-1">
     </div>
     <div class= "col-md-10">
-        <h2>Nueva lección</h2>
+        <div class="new-and-title">
+            <h2>Nueva lección</h2>
+            <%= link_to "Volver", teacher_course_path(@section.course), class:"btn btn-danger btn-add py-2 px-3"%>
+        </div>
+
         <%= form_with model: @lecture, url: teacher_course_section_lectures_path(@section.course,@section)  do |f| %>
             <div class="mb-3">
                 <%= f.label "Título", class:"form-label" %>
-                <%= f.text_field :title, class:"form-control" %>
+                <%= f.text_field :title, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
             </div>
-            <%= f.submit "Enviar", class: "btn btn-primary" %>
+            <%= f.submit "Enviar", onclick: "return validateForm()", class: "btn btn-primary" %>
         <% end %>
     </div>
     <div class= "col-md-1">

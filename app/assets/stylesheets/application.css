@@ -349,6 +349,10 @@ tbody tr:hover {
     margin-right: 15px;
 }
 
+.movable{
+    cursor: grab;
+}
+
 .new-section-icon{
     width: 17.5px;
     margin-top: auto;

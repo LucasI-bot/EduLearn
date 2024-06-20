@@ -1,4 +1,8 @@
-<h1><%= @exam.title %></h1>
+<div class="new-and-title mb-4">
+    <h1><%= @exam.title %></h1>
+    <%= link_to "Volver", teacher_course_path(@exam.section.course), class:"btn btn-danger btn-add py-2 px-3"%>
+</div>
+
 <% @exam.questions.order(question_number: :asc).map{|a| a.question_number}.uniq.each do |number|%>
     <div class="card">
         <div class="card-header">
