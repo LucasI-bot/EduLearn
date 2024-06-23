@@ -25,7 +25,10 @@ Rails.application.routes.draw do
           post 'contents/new', to: 'contents#create'
         end
         resources :exams do
-          resources :questions, except: [:index, :show]
+          resources :questions, except: [:index, :show, :update, :create] do
+            patch 'edit', to: 'questions#update'
+          end
+          post 'questions/new', to: 'questions#create'
         end
       end
       resources :inscriptions, only: [:index, :destroy, :update]

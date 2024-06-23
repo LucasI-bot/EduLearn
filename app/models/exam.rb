@@ -1,6 +1,5 @@
 class Exam < ApplicationRecord
-    belongs_to :course, optional: true
-    belongs_to :section
-    has_many :questions
-    has_many :exam_answers
+    belongs_to :section, optional: true
+    has_many :questions, dependent: :destroy
+    has_many :exam_answers, dependent: :destroy
 end

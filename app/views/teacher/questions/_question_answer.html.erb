@@ -1,19 +1,23 @@
-<h1>Pregunta a Desarrollar</h1>
-<%= form_with(model: @question, url: teacher_course_section_exam_questions_path(@exam.section.course, @exam.section, @exam), local: true) do |form| %>
+<div class="new-and-title">
+    <h1>Pregunta a Desarrollar</h1>
+    <%= link_to "Volver", teacher_course_section_exam_path(@exam.section.course, @exam.section, @exam), class:"btn btn-danger btn-add py-2 px-3"%>
+</div>
+
+<%= form_with(model: @question, url: teacher_course_section_exam_questions_new_path(@exam.section.course, @exam.section, @exam, number: @question.question_number, type: @question.question_type), local: true) do |form| %>
     <!-- Question content input -->
         
     <%= form.hidden_field :question_type, value: @question.question_type %>
     <%= form.hidden_field :question_number, value: @question.question_number %>
 
-    <div class="question-div">
+    <div class="question-div my-5">
         <%= form.label "Pregunta", class:"form-label" %>
-        <%= form.text_field :question, class:"form-control" %>
-        <%= form.label "Respuesta (Opcional)", class:"form-label" %>
+        <%= form.text_field :question, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
+        <%= form.label "Respuesta (Opcional)", class:"form-label mt-5" %>
         <%= form.text_field :answer, class:"form-control" %>
     </div>
     <br>
 
 
     <!-- Submit button -->
-    <%= form.submit "Crear Pregunta",class:"btn btn-primary"  %>
+    <%= form.submit "Crear Pregunta", onclick: "return validateForm()",class:"btn btn-primary"  %>
 <% end %>

@@ -154,6 +154,11 @@
                                 </div>
                             </div>
                             <h5 class="card-title mt-2 course-card-title"><b><%= course.title %></b></h5>
+                            <div class="card-text skills-and-subjects-card mb-3">
+                                <p>
+                                    <b>Materias evaluadas:</b><% course.subjects.each do |subject| %><% unless subject == course.subjects.first %>,<% end %><%= " " + subject.subject %><% end %>
+                                </p>
+                            </div>
                             <div class="card-text skills-and-subjects-card">
                                 <p>
                                     <b>Habilidades a adquirir:</b><% course.skills.each do |skill| %><% unless skill == course.skills.first %>,<% end %><%= " " + skill.skill %><% end %>
@@ -161,6 +166,7 @@
                             </div>
                         </div>
                         <ul class="list-group list-group-flush">
+                            <li class="list-group-item course-list"><% if course.acceptance_required? %>Requiere de aceptación<% else %>No requiere aceptación<% end %></li>
                             <li class="list-group-item">Rating: <% if course.rating.blank? or course.rating == 0 %>Sin puntuar<% else %><%= course.rating %> 🌟<% end %></li>
                             <li class="list-group-item">Precio: <% if course.price.blank? or course.price == 0 %>Gratis<% else %>US$<%= course.price %><% end %></li>
                         </ul>
@@ -207,7 +213,7 @@
                             </div>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Rating: <% if teacher.rating.blank? or teacher.rating == 0 %>Sin puntuar<% else %><%= teacher.rating %> 🌟<% end %></li>
+                            <li class="list-group-item course-list">Rating: <% if teacher.rating.blank? or teacher.rating == 0 %>Sin puntuar<% else %><%= teacher.rating %> 🌟<% end %></li>
                         </ul>
                     </div>
                 <% end %>

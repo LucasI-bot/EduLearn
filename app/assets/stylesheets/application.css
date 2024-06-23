@@ -627,10 +627,11 @@ button:hover .reject-inscription-icon path {
     fill: lightsalmon;
 }
 
-.btn-content-edit{
+.btn-content{
     position: absolute;
     margin-top: 8px;
     right: 8px;
+    display: flex;
 }
 
 .edit-profile{
@@ -1424,4 +1425,12 @@ button.card{
 
 .alert-message-div{
     position: relative;
+}
+
+.course-list.list-group-item:first-child{
+    border-top: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
+}
+.course-list.list-group-item:last-child{
+    border-bottom-left-radius: var(--bs-card-border-radius);
+    border-bottom-right-radius: var(--bs-card-border-radius);
 }

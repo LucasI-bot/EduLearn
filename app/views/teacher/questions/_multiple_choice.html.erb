@@ -1,5 +1,9 @@
-<h1>Multiple choice</h1>
-<%= form_with(model: @question, url: teacher_course_section_exam_questions_path(@exam.section.course, @exam.section, @exam), local: true) do |form| %>
+<div class="new-and-title mb-4">
+    <h1>Multiple choice</h1>
+    <%= link_to "Volver", teacher_course_section_exam_path(@exam.section.course, @exam.section, @exam), class:"btn btn-danger btn-add py-2 px-3"%>
+</div>
+
+<%= form_with(model: @question, url: teacher_course_section_exam_questions_new_path(@exam.section.course, @exam.section, @exam, number: @question.question_number, type: @question.question_type), local: true) do |form| %>
     <!-- Question content input -->
         
     <%= form.hidden_field :question_type, value: @question.question_type %>
@@ -7,19 +11,26 @@
 
     <div class="question-div">
         <%= form.label "Pregunta", class:"form-label" %>
-        <%= form.text_field :question, class:"form-control" %>
+        <%= form.text_field :question, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
     </div>
     
     <button class="btn btn-secondary my-3" type="button" id="addOption">Agregar nueva opción</button>
+    
+    <% if alert.present? %>
+        <p class="error-msg mb-3">
+            <%= alert[:options][0] %>
+        </p>
+    <% end %>
 
     <!-- Choices container -->
     <div id="optionsContainer">
         <!-- Existing choices (if any) -->
+        <% option_count = 1 %>
         <%= form.fields_for :options do |option_form| %>
             <div class="option-div my-1">
                 <div class="col-md-11">
-                    <%= option_form.label "Opción 1", class:"form-label" %>
-                    <%= option_form.text_field :option, class:"form-control" %>
+                    <%= option_form.label "Opción " + option_count.to_s, class:"form-label" %>
+                    <%= option_form.text_field :option, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
                     <div class="my-2">
                         <div class="form-check">
                             <%= option_form.check_box :correct, class:"form-check-input" %>
@@ -27,11 +38,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="delete-option btn btn-secondary"><svg class="delete-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></div>
+                <div class="delete-option btn btn-secondary" onclick='deleteOption(this)' ><svg class="delete-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></div>
             </div>
+            <% option_count += 1 %>
         <% end %>
     </div>
 
     <!-- Submit button -->
-    <%= form.submit "Crear Pregunta",class:"btn btn-primary mt-1"  %>
+    <%= form.submit "Crear Pregunta", onclick: "return validateForm()",class:"btn btn-primary mt-4"  %>
 <% end %>

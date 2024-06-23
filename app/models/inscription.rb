@@ -1,7 +1,7 @@
 class Inscription < ApplicationRecord
   belongs_to :user
   belongs_to :course
-  has_many :payments
+  has_many :payments, dependent: :destroy
 
   scope :by_name, -> (q) { joins(:user).where("lower(COALESCE(users.alias, CONCAT(users.last_name, ' ', users.first_name)))  LIKE ?", "%#{q}%") }
   scope :by_course_id, -> (q) { where(course_id: q) }

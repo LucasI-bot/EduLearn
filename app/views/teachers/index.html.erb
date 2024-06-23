@@ -43,7 +43,7 @@
         </div>
         <div class="row d-flex">
             <% @teachers.each do |teacher| %>
-                <div class="col-md-4">
+                <div class="col-md-4 mb-3">
                     <%= link_to teacher_path(teacher), class:"card card-link" do %>
                         <div class="teacher-card">
                             <div class="aspect-ratio-container">
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Rating: <% if teacher.rating.blank? or teacher.rating == 0 %>Sin puntuar<% else %><%= teacher.rating %> 🌟<% end %></li>
+                                <li class="list-group-item course-list">Rating: <% if teacher.rating.blank? or teacher.rating == 0 %>Sin puntuar<% else %><%= teacher.rating %> 🌟<% end %></li>
                             </ul>
                             
                         </div>

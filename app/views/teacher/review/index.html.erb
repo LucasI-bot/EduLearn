@@ -4,7 +4,7 @@
 <div class="pt-4 row d-flex mb-4">
     <div class="col-md-3">
         <div class="d-flex pb-4">
-            <h3 class="rating-h3"><% if @course.rating.blank? or @course.rating == 0 %><b>-</b> 🌟<% else %><b><%= @course.rating %></b> 🌟<% end %></h3>
+            <h3 class="rating-h3"><% if @course.rating.blank? or @course.rating == 0 %><b>-</b> 🌟<% else %><b><%= @course.rating.round(2) %></b> 🌟<% end %></h3>
             <span class="review-count"><%= @course.inscriptions.where.not(rating: nil).count %> <% if @course.inscriptions.where.not(rating: nil).count == 1 %>reseña<% else %>reseñas<% end %></span>
         </div>
         <% (1...6).each do |rating| %>

@@ -1,10 +1,8 @@
-document.addEventListener('turbolinks:load', function() {
+function deleteOption(button){
+  if( button.parentNode.nextElementSibling.nodeName === "INPUT" ){
+    button.parentNode.nextElementSibling.remove();
+  };
+
   
-    // Handle click event for delete buttons
-    document.querySelectorAll('.delete-option').forEach(function(button) {
-      button.addEventListener('click', function() {
-        button.parentNode.nextSibling.nextSibling.remove()
-        button.parentNode.remove()
-      });
-    });
-  });
+  button.parentNode.remove();
+}

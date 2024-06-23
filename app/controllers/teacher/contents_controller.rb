@@ -36,6 +36,12 @@ module Teacher
     end
 
     def destroy
+      @lecture = Lecture.find(params[:lecture_id])
+      @content = Content.find(params[:id])
+
+      @content.destroy
+
+      redirect_to teacher_course_section_lecture_path(@lecture.section.course, @lecture.section, @lecture)
     end
 
     private

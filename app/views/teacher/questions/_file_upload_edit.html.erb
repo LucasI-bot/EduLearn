@@ -1,17 +1,21 @@
-<h1>Pregunta de archivo</h1>
-<%= form_with(model: @question, url: teacher_course_section_exam_question_path(@question.exam.section.course, @question.exam.section, @question.exam, @question), local: true) do |form| %>
+<div class="new-and-title">
+    <h1>Pregunta de archivo</h1>
+    <%= link_to "Volver", teacher_course_section_exam_path(@question.exam.section.course, @question.exam.section, @question.exam), class:"btn btn-danger btn-add py-2 px-3"%>
+</div>
+
+<%= form_with(model: @question, url: teacher_course_section_exam_question_edit_path(@question.exam.section.course, @question.exam.section, @question.exam, @question), local: true) do |form| %>
     <!-- Question content input -->
         
     <%= form.hidden_field :question_type, value: @question.question_type %>
     <%= form.hidden_field :question_number, value: @question.question_number %>
 
-    <div class="question-div">
+    <div class="question-div my-5">
         <%= form.label "Pregunta", class:"form-label" %>
-        <%= form.text_field :question, class:"form-control" %>
+        <%= form.text_field :question, required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-control" %>
     </div>
     <br>
 
 
     <!-- Submit button -->
-    <%= form.submit "Editar Pregunta",class:"btn btn-primary"  %>
+    <%= form.submit "Editar Pregunta", onclick: "return validateForm()",class:"btn btn-primary"  %>
 <% end %>

@@ -51,7 +51,11 @@ class PaymentsController < ApplicationController
         @payment.save
 
         flash[:success] = "Payment successful!"
-        redirect_to course_path(@course)
+        if @inscription.approved
+          redirect_to student_course_path(@course)
+        else
+          redirect_to course_path(@course)
+        end
       else
         flash[:error] = "Inscripción fallida"
         redirect_to course_path(@course)
