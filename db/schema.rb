@@ -119,10 +119,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_14_130148) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "course_id"
     t.bigint "section_id"
     t.integer "position"
-    t.index ["course_id"], name: "index_exams_on_course_id"
     t.index ["section_id"], name: "index_exams_on_section_id"
   end
 
@@ -147,10 +145,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_14_130148) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "course_id"
     t.bigint "section_id"
     t.integer "position"
-    t.index ["course_id"], name: "index_lectures_on_course_id"
     t.index ["section_id"], name: "index_lectures_on_section_id"
   end
 
@@ -270,8 +266,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_14_130148) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "courses", "users"
-  add_foreign_key "exams", "courses"
-  add_foreign_key "lectures", "courses"
   add_foreign_key "options", "questions"
   add_foreign_key "questions", "exams"
   add_foreign_key "sections", "courses"
