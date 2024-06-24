@@ -1316,6 +1316,10 @@ button.card{
     margin: auto;
 }
 
+.back-exam.btn-danger .conversation-back path{
+    fill: white;
+}
+
 .back-student-index.btn-danger {
     height: 45px;
     width: 45px;
@@ -1433,4 +1437,9 @@ button.card{
 .course-list.list-group-item:last-child{
     border-bottom-left-radius: var(--bs-card-border-radius);
     border-bottom-right-radius: var(--bs-card-border-radius);
+}
+
+.btn-back-lecture{
+    margin-top: 0 !important;
+    margin-bottom: auto !important;
 }

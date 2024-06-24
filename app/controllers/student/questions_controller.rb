@@ -17,11 +17,16 @@ module Student
           @exam_answer.question_answers.each do |question_answer|
             case question_answer.question.question_type
             when "question_answer"
-              if question_answer.question.answer.blank?
-                @exam_answer.mark = -1
-              elsif question_answer.question.answer.downcase.gsub(/\s+/, "") == question_answer.answer.downcase.gsub(/\s+/, "")
-                question_answer.correct = true
-                question_answer.save
+              if question_answer.answer.present?
+                if question_answer.question.answer.blank?
+                  @exam_answer.mark = -1
+                elsif question_answer.question.answer.downcase.gsub(/\s+/, "") == question_answer.answer.downcase.gsub(/\s+/, "")
+                  question_answer.correct = true
+                  question_answer.save
+                else
+                  question_answer.correct = false
+                  question_answer.save
+                end
               else
                 question_answer.correct = false
                 question_answer.save

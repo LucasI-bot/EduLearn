@@ -8,7 +8,7 @@ module Student
 
     def show
       @exam = Exam.find(params[:id])
-      @exam_answer = ExamAnswer.where(finished: true, active: true, exam_id: params[:id]).first
+      @exam_answer = current_user.exam_answers.where(finished: true, active: true, exam_id: params[:id]).first
     end
 
     def create
