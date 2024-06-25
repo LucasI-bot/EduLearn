@@ -54,7 +54,7 @@
                 </div>
                 <div class="my-3">
                     <%= form.label :role, class:"form-label" do %>Rol<% end %>
-                    <%= form.select :role, User.roles.keys, {include_blank: "Seleccionar", selected: params[:role]}, {required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-select", id:"role-select", onchange:'showSkillsSubjects(this)'} %>
+                    <%= form.select :role, [["Estudiante", "student"], ["Educador", "teacher"]], {include_blank: "Seleccionar", selected: params[:role]}, {required: true, oninvalid:"this.setCustomValidity(' ')", oninput:"this.setCustomValidity('')", class:"form-select", id:"role-select", onchange:'showSkillsSubjects(this)'} %>
                 </div>
                 <div id="skills-subjects-create-user">
                     <div class="my-3">

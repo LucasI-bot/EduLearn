@@ -15,10 +15,7 @@ class User < ApplicationRecord
 
     enum role: %i[student teacher]
 
-    validates :email, presence: { message: "Debe ingresar un email" }, uniqueness: { message: "El email ingresado ya tiene una cuenta asociada" }
-    validates :first_name, presence: true
-    validates :last_name, presence: true
-    validates :password, presence: true, length: { minimum: 8, too_short: "La contraseña debe tener al menos 8 caracteres" }
+    validates :email, uniqueness: { message: "El email ingresado ya tiene una cuenta asociada" }
 
     scope :by_name, -> (q) { where("lower(COALESCE(users.alias, CONCAT(users.last_name, ' ', users.first_name)))  LIKE ?", "%#{q}%") }
     scope :by_subject_ids, -> (q) { joins(courses: :subjects).where(courses: { subjects: {id: q } }).group('users.id').having('COUNT(DISTINCT subjects.id) = ?', q.size) }
