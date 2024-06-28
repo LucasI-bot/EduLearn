@@ -33,7 +33,7 @@ module Student
               end
             when "multiple_choice"
               question_answer.option_answers.each do |option_answer|
-                unless option_answer.selected == option_answer.option.correct
+                if option_answer.selected != option_answer.option.correct
                   question_answer.correct = false
                 end
               end

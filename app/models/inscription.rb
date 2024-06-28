@@ -9,7 +9,7 @@ class Inscription < ApplicationRecord
   def order_value
     @course = self.course
     @user = self.user
-    @order = self.course.rating.to_f / 2
+    @order = self.course.rating.to_f / 2 + self.course.user.rating.to_f / 3
 
     if @course.sections.count > 3
       @order += 0.2
@@ -28,8 +28,6 @@ class Inscription < ApplicationRecord
         @order += 0.5
       end
     end
-
-    @order += ((@course.user.courses.where.not(rating: nil).map{|a| a.rating}.sum.to_f / @course.user.courses.where.not(rating: nil).map{|a| a.rating}.size.to_f) / 3)
 
     @user.subjects.each do |subject|
       if @course.subjects.include?(subject)

@@ -631,6 +631,7 @@ button:hover .reject-inscription-icon path {
     position: absolute;
     margin-top: 8px;
     right: 8px;
+    z-index: 10;
     display: flex;
 }
 
@@ -1442,4 +1443,8 @@ button.card{
 .btn-back-lecture{
     margin-top: 0 !important;
     margin-bottom: auto !important;
+}
+
+.btn-question{
+    margin-bottom: auto;
 }

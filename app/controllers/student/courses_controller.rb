@@ -29,11 +29,10 @@ module Student
 
       if @inscription.save
         course_ratings = @course.inscriptions.where.not(rating: nil).map{|a| a.rating}
-        teacher_ratings = @teacher.courses.where.not(rating: 0).map{|a| a.rating}
-
         @course.rating = course_ratings.sum / course_ratings.size.to_f
         @course.save
 
+        teacher_ratings = @teacher.courses.where.not(rating: 0).map{|a| a.rating}
         @teacher.rating = teacher_ratings.sum / teacher_ratings.size.to_f
         @teacher.save
 

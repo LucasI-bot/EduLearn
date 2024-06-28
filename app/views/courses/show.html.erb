@@ -28,8 +28,10 @@
             </div>
             <% if current_user.present? %>
                 <% if current_user.role == "student" %>
-                    <% if @course.inscriptions.where(paid:true).map{|a| a.user_id}.include? current_user.id%>
+                    <% if @course.inscriptions.where(paid:true, approved: true).map{|a| a.user_id}.include? current_user.id%>
                         <button disabled class="btn btn-secondary inscription-done btn-inscription">Ya inscrito</button>
+                    <% elsif @course.inscriptions.where(paid:true, approved: false).map{|a| a.user_id}.include? current_user.id%>
+                        <button disabled class="btn btn-secondary inscription-done btn-inscription">Inscripción enviada</button>
                     <% elsif @course.price.blank? or @course.price == 0 %>
                         <%= link_to "Inscribirse gratis", new_course_inscription_path(@course), class:"btn btn-primary btn-inscription"%>
                     <% else %>
@@ -70,8 +72,10 @@
             </div>
             <% if current_user.present? %>
                 <% if current_user.role == "student" %>
-                    <% if @course.inscriptions.where(paid:true).map{|a| a.user_id}.include? current_user.id%>
+                    <% if @course.inscriptions.where(paid:true, approved: true).map{|a| a.user_id}.include? current_user.id%>
                         <button disabled class="btn btn-secondary inscription-done btn-inscription">Ya inscrito</button>
+                    <% elsif @course.inscriptions.where(paid:true, approved: false).map{|a| a.user_id}.include? current_user.id%>
+                        <button disabled class="btn btn-secondary inscription-done btn-inscription">Inscripción enviada</button>
                     <% elsif @course.price.blank? or @course.price == 0 %>
                         <%= link_to "Inscribirse gratis", new_course_inscription_path(@course), class:"btn btn-primary btn-inscription"%>
                     <% else %>

@@ -41,7 +41,11 @@
       <div class="dropup">
         <a class="sidebar-bottom dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <span>
-            Usuario
+            <% if current_user.alias.present? %>
+                <%= current_user.alias %>
+            <% else %>
+                <%= current_user.first_name + " " + current_user.last_name %>
+            <% end %>
           </span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end teacher-profile-menu">
