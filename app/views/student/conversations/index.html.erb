@@ -63,7 +63,7 @@
                     <% if conversation.teacher.alias.present? %>
                         <%= conversation.teacher.alias %>
                     <% else %>
-                        <%= conversation.teacher.first_name + " " + conversation.teacher.last_name %>
+                        <%= conversation.teacher.last_name + ", " + conversation.teacher.first_name %>
                     <% end %>
                 <% end %>
             </div>

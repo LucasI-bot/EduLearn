@@ -1,6 +1,8 @@
 module Teacher
   class Teacher::QuestionsController < Teacher::TeacherController
     def new
+      @mycourses = "active"
+
       @question = Question.new()
       @exam = Exam.find_by_id(params[:exam_id])
       @question.question_type = params[:type]
@@ -21,6 +23,8 @@ module Teacher
     end
 
     def edit
+      @mycourses = "active"
+      
       @question = Question.find_by(id: params[:id])
     end
 

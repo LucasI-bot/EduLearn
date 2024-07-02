@@ -24,12 +24,12 @@
         <%=link_to "EduLearn", root_path%>
       </div>
       <div class="teacher-sidebar-body">
-        <%= link_to "Dashboard", teacher_root_path %>
-        <%= link_to "Mis Cursos", teacher_courses_path %>
-        <%= link_to "Alumnos", teacher_students_path %>
-        <%= link_to "Evaluaciones", teacher_exam_answers_path %>
-        <%= link_to "Inscripciones pendientes", teacher_inscriptions_path %>
-        <%= link_to teacher_conversations_path, class:"alert-message-div" do %>
+        <%= link_to "Dashboard", teacher_root_path, class: @dashboard %>
+        <%= link_to "Mis Cursos", teacher_courses_path, class: @mycourses %>
+        <%= link_to "Alumnos", teacher_students_path, class: @mystudents %>
+        <%= link_to "Evaluaciones", teacher_exam_answers_path, class: @myexams %>
+        <%= link_to "Inscripciones pendientes", teacher_inscriptions_path, class: @myinscriptions %>
+        <%= link_to teacher_conversations_path, class:"alert-message-div " + @myconversations.to_s do %>
           Conversaciones
           <% if Message.joins(:conversation).where.not(user_id: current_user.id).where.not(seen: true).where(conversation: { teacher_id: current_user.id }).count > 0 %>
             <span class="alert-message">

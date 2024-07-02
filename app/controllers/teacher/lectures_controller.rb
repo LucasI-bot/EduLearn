@@ -1,11 +1,14 @@
 module Teacher
   class Teacher::LecturesController < Teacher::TeacherController
     def show
+      @mycourses = "active"
+
       @lecture = Lecture.find(params[:id])
-      print Lecture.where(section_id: @lecture.section.course.sections.map{|a| a.id}).count
     end
 
     def new
+      @mycourses = "active"
+
       @lecture = Lecture.new()
       @section = Section.find_by_id(params[:section_id])
     end
@@ -31,6 +34,8 @@ module Teacher
     end
 
     def edit
+      @mycourses = "active"
+      
       @lecture = Lecture.find_by(id: params[:id])
       @section = Section.find_by_id(params[:section_id])
     end

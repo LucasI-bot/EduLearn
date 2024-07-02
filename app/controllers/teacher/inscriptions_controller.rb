@@ -5,6 +5,8 @@ module Teacher
         @course = Course.find(params[:course_id])
         @inscriptions = Inscription.joins(:course).where(paid: true, approved: false, courses: {id: @course.id})
       else
+        @myinscriptions = "active"
+        
         @inscriptions = Inscription.joins(:course).where(paid: true, approved: false, courses: {user_id: current_user.id})
       end
 
@@ -34,6 +36,9 @@ module Teacher
       if @inscription.approved
         @inscription.approved = false
         @inscription.save
+
+        @inscription.user.inscriptions.each(&:order_value)
+
         if params[:course_id]
           @course = Course.find(params[:course_id])
           redirect_to teacher_course_students_path(@course)
@@ -41,6 +46,10 @@ module Teacher
           redirect_to teacher_students_path
         end
       else
+        @inscription.save
+
+        @inscription.user.inscriptions.each(&:order_value)
+
         if params[:course_id]
           @course = Course.find(params[:course_id])
           redirect_to teacher_course_inscriptions_path(@course)

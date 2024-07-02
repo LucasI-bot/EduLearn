@@ -1,6 +1,8 @@
 module Teacher
   class Teacher::ContentsController < Teacher::TeacherController
     def new
+      @mycourses = "active"
+
       @content = Content.new()
       @lecture = Lecture.find_by_id(params[:lecture_id])
       @content.content_type = params[:type]
@@ -19,6 +21,8 @@ module Teacher
     end
 
     def edit
+      @mycourses = "active"
+      
       @content = Content.find_by(id: params[:id])
       @lecture = Lecture.find(params[:lecture_id])
     end

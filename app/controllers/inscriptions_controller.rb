@@ -14,6 +14,8 @@ class InscriptionsController < ApplicationController
 
       @payment.save
 
+      current_user.inscriptions.each(&:order_value)
+
       flash[:success] = "¡Inscripción exitosa!"
       if @inscription.approved
         redirect_to student_course_path(@course)

@@ -2,9 +2,13 @@ module Teacher
   class Teacher::StudentsController < Teacher::TeacherController
     def index
       if params[:course_id]
+        @mycourses = "active"
+
         @course = Course.find(params[:course_id])
         @students = User.joins(:inscriptions).where(inscriptions: { paid: true, approved: true, course_id: @course.id }).group('users.id')
       else
+        @mystudents = "active"
+        
         @students = User.joins(:inscriptions).where(inscriptions: { paid: true, approved: true, course_id: current_user.courses.map{|a| a.id} }).group('users.id')
       end
 
@@ -42,7 +46,11 @@ module Teacher
 
     def show
       if params[:course_id]
+        @mycourses = "active"
+
         @course = Course.find(params[:course_id])
+      else
+        @mystudents = "active"
       end
 
       @student = User.find(params[:id])

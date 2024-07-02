@@ -99,12 +99,12 @@
                         <% end %>
                     </div>
                 <% end %>
-                <%= link_to teacher_path(course.user), class:"a-teacher" do%>
+                <%= link_to teacher_path(course.user), class:"a-teacher d-flex" do%>
                     <div class="teacher-name">
                         <% if course.user.alias.present? %>
                             <%= course.user.alias %>
                         <% else %>
-                            <%= course.user.first_name + " " + course.user.last_name %>
+                            <%= course.user.last_name + ", " + course.user.first_name %>
                         <% end %>
                     </div>
                 <% end %>

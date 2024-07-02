@@ -3,6 +3,8 @@ module Teacher
     add_flash_types :description
 
     def index
+      @mycourses = "active"
+
       if params[:order_by].present?
         if params[:order_by] == "inscriptions"
           @courses = Course.select('courses.*, COUNT(inscriptions.id) AS inscription_count')
@@ -34,10 +36,14 @@ module Teacher
     end
 
     def show
+      @mycourses = "active"
+
       @course = Course.find_by(id: params[:id])
     end
 
     def new
+      @mycourses = "active"
+
       @course = Course.new()
     end
 
@@ -64,6 +70,8 @@ module Teacher
     end
 
     def edit
+      @mycourses = "active"
+      
       @course = Course.find_by(id: params[:id])
     end
 

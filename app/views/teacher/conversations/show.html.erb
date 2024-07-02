@@ -19,7 +19,7 @@
                 <% if @conversation.student.alias.present? %>
                     <%= @conversation.student.alias %>
                 <% else %>
-                    <%= @conversation.student.first_name + " " + @conversation.student.last_name %>
+                    <%= @conversation.student.last_name + ", " + @conversation.student.first_name %>
                 <% end %>
             <% end %>
         </div>

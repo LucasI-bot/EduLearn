@@ -64,7 +64,7 @@
                                                 <% if course.user.alias.present? %>
                                                     <%= course.user.alias %>
                                                 <% else %>
-                                                    <%= course.user.first_name + " " + course.user.last_name %>
+                                                    <%= course.user.last_name + ", " + course.user.first_name %>
                                                 <% end %>
                                             </div>
                                         </div>

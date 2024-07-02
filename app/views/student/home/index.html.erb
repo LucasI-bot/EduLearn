@@ -91,7 +91,7 @@
                                     <% if conversation.teacher.alias.present? %>
                                         <%= conversation.teacher.alias %>
                                     <% else %>
-                                        <%= conversation.teacher.first_name + " " + conversation.teacher.last_name %>
+                                        <%= conversation.teacher.last_name + ", " + conversation.teacher.first_name %>
                                     <% end %>
                                 <% end %>
                             </div>
@@ -149,7 +149,7 @@
                                     <% if course.user.alias.present? %>
                                         <%= course.user.alias %>
                                     <% else %>
-                                        <%= course.user.first_name + " " + course.user.last_name %>
+                                        <%= course.user.last_name + ", " + course.user.first_name %>
                                     <% end %>
                                 </div>
                             </div>
@@ -203,7 +203,7 @@
                                 <% if teacher.alias.present? %>
                                     <b><%= teacher.alias %></b>
                                 <% else %>
-                                    <b><%= teacher.first_name + " " + teacher.last_name %></b>
+                                    <b><%= teacher.last_name + ", " + teacher.first_name %></b>
                                 <% end %>
                             </h4>
                             <div class="card-text skills-and-subjects-card">

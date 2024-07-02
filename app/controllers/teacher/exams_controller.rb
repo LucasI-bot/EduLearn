@@ -5,10 +5,14 @@ module Teacher
     end
 
     def show
+      @mycourses = "active"
+
       @exam = Exam.find(params[:id])
     end
 
     def new
+      @mycourses = "active"
+
       @exam = Exam.new()
       @section = Section.find_by_id(params[:section_id])
     end
@@ -34,6 +38,8 @@ module Teacher
     end
 
     def edit
+      @mycourses = "active"
+      
       @exam = Exam.find_by(id: params[:id])
       @section = Section.find_by_id(params[:section_id])
     end

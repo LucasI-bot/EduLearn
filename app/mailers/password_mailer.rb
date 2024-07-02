@@ -9,6 +9,7 @@ class PasswordMailer < ApplicationMailer
     @user = params[:user]
 
     @token = @user.signed_id(purpose: 'password_reset', expires_in: 30.minutes)
+    attachments.inline["logo.png"] = File.read("#{Rails.root}/app/assets/images/Logo EduLearn.png")
 
     mail to: @user.email, subject:"Reinicio de contraseña EduLearn"
   end

@@ -2,9 +2,13 @@ module Teacher
   class Teacher::ConversationsController < Teacher::TeacherController
     def index
       if params[:course_id]
+        @mycourses = "active"
+
         @course = Course.find(params[:course_id])
         @conversations = Conversation.joins(student: :inscriptions).where(inscriptions: {course_id: @course.id})
       else
+        @myconversations = "active"
+        
         @conversations = Conversation.where(teacher_id: current_user.id)
       end
 
@@ -61,7 +65,11 @@ module Teacher
       @conversation.messages.where.not(user_id: current_user.id).where.not(seen: true).update_all(seen: true)
 
       if params[:course_id]
+        @mycourses = "active"
+
         @course = Course.find(params[:course_id])
+      else
+        @myconversations = "active"
       end
 
       unless @conversation.teacher == current_user

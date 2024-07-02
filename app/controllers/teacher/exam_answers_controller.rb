@@ -2,9 +2,13 @@ module Teacher
   class Teacher::ExamAnswersController < Teacher::TeacherController
     def index
       if params[:course_id].present?
+        @mycourses = "active"
+
         @course = Course.find(params[:course_id])
         @exam_answers = ExamAnswer.joins(exam: { section: :course }).where(finished: true, active: true, courses: { id: @course.id })
       else
+        @myexams = "active"
+
         @exam_answers = ExamAnswer.joins(exam: { section: :course }).where(finished: true, active: true, courses: { user_id: current_user.id })
       end
 
@@ -34,7 +38,11 @@ module Teacher
     def show
       @exam_answer = ExamAnswer.find(params[:id])
       if params[:course_id].present?
+        @mycourses = "active"
+
         @course = Course.find(params[:course_id])
+      else
+        @myexams = "active"
       end
     end
 

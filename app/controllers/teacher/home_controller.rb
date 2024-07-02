@@ -1,6 +1,8 @@
 module Teacher
   class Teacher::HomeController < Teacher::TeacherController
     def index
+      @dashboard = "active"
+      
       if params[:from_date].present?
         @from_date = params[:from_date].to_date
       else

@@ -4,7 +4,11 @@ module Student
       @courses = Course.joins(:inscriptions).where(inscriptions: {paid: true, approved: true, user_id: current_user.id})
 
       if params[:order_by].present?
-        @courses = @courses.order(params[:order_by] + " " + params[:order])
+        if params[:order_by] == "user"
+          @courses = @courses.joins(:user).order(Arel.sql("COALESCE(users.alias, CONCAT(users.last_name, ' ', users.first_name)) " + params[:order]))
+        else
+          @courses = @courses.order(params[:order_by] + " " + params[:order])
+        end
       end
 
       if params[:title].present?
@@ -54,6 +58,8 @@ module Student
       @inscription.approved = false
 
       @inscription.save
+
+      current_user.inscriptions.each(&:order_value)
 
       redirect_to student_root_path
     end

@@ -1,6 +1,8 @@
 module Teacher
   class Teacher::SectionsController < Teacher::TeacherController
     def new
+      @mycourses = "active"
+
       @section = Section.new()
       @course = Course.find_by_id(params[:course_id])
     end
@@ -26,6 +28,8 @@ module Teacher
     end
 
     def edit
+      @mycourses = "active"
+      
       @section = Section.find_by(id: params[:id])
     end
 
