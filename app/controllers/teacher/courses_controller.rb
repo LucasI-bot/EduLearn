@@ -7,7 +7,7 @@ module Teacher
 
       if params[:order_by].present?
         if params[:order_by] == "inscriptions"
-          @courses = Course.select('courses.*, COUNT(inscriptions.id) AS inscription_count')
+          @courses = current_user.courses.select('courses.*, COUNT(inscriptions.id) AS inscription_count')
           .joins("LEFT JOIN (SELECT * FROM inscriptions WHERE paid = true AND approved = true) AS inscriptions ON courses.id = inscriptions.course_id")
           .group('courses.id')
           .order('inscription_count ' + params[:order])
@@ -71,7 +71,7 @@ module Teacher
 
     def edit
       @mycourses = "active"
-      
+
       @course = Course.find_by(id: params[:id])
     end
 

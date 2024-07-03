@@ -8,7 +8,7 @@ module Teacher
         @conversations = Conversation.joins(student: :inscriptions).where(inscriptions: {course_id: @course.id})
       else
         @myconversations = "active"
-        
+
         @conversations = Conversation.where(teacher_id: current_user.id)
       end
 
@@ -26,9 +26,9 @@ module Teacher
       when 'courses'
         @conversations = @conversations.joins(student: { inscriptions: :course }).where(inscriptions: {paid: true, approved: true}, course: {user_id: current_user.id}).order(title: params[:order]).uniq
       when 'updated_at'
-        @conversations = @conversations.order(updated_at: params[:order])
+        @conversations = @conversations.joins(:messages).select('conversations.*, MAX(messages.created_at) AS update').group('conversations.id').order("update  " + params[:order])
       else
-        @conversations = @conversations.order(updated_at: :desc)
+        @conversations = @conversations.joins(:messages).select('conversations.*, MAX(messages.created_at) AS update').group('conversations.id').order("update  desc")
       end
     end
 

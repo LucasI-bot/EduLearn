@@ -142,7 +142,7 @@
             <% else %>
                 <% marks = student.inscriptions.where(approved: true, paid: true, course_id: current_user.courses.map{|a| a.id}).where.not(mark: 0).map{|a| a.mark} %>
             <% end %>
-            <%= (marks.sum / marks.size.to_f).to_s %>
+            <%= (marks.sum / marks.size.to_f).round(2).to_s %>
         </td>
         <% if @course.present? %>
             <td><%= student.inscriptions.where(approved: true, paid: true, course_id: @course.id).first.inscription_date.strftime("%d/%m/%Y") %></td>

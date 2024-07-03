@@ -27,7 +27,12 @@
                 <%= form.label :course, "Curso:", class:"form-label" %>
                 <%= form.collection_select :course, current_user.courses, :id, :title, { include_blank: "Seleccionar", selected: params[:course] }, { class: 'form-select' } %>
             </div>
-        <% end %>        
+        <% end %>  
+
+        <div class="col-md-4 px-2">
+            <%= form.label :exam, "Evaluación:", class:"form-label" %>
+            <%= form.text_field :exam, class:"form-control", value: params[:exam] %>
+        </div>      
 
         <div class="col-md-12 actions my-3">
             <%= form.submit "Filtrar", class: "btn btn-primary" %>
@@ -122,7 +127,7 @@
             <td><%= exam_answer.exam.section.course.title %></td>
         <% end %>
         <td><%= exam_answer.exam.title %></td>
-        <td><% if exam_answer.mark > 0 %><%= exam_answer.mark %><% else %>NaN<% end %></td>
+        <td><% if exam_answer.mark > 0 %><%= exam_answer.mark.round(2) %><% else %>NaN<% end %></td>
         <td><%= exam_answer.created_at.strftime("%d/%m/%Y") %></td>
         <td>
             <% if @course.present? %>

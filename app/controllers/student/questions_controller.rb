@@ -57,6 +57,14 @@ module Student
 
           @exam_answer.save
 
+          @marks = current_user.exam_answers.joins(exam: :section).where(section: {course_id: params[:course_id]}, active: true, finished: true).where.not(mark: 0)
+
+          if @marks.count == @exam_answer.exam.section.course.sections.joins(:exams).count
+            @inscription = Inscription.where(course_id: params[:course_id], user_id: current_user.id).first
+            @inscription.mark = @marks.sum{|a| a.mark} / @marks.count
+            @inscription.save
+          end
+
           redirect_to student_course_exam_path(@exam_answer.exam.section.course, @exam_answer.exam)
         end
       else

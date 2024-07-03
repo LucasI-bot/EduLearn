@@ -9,9 +9,9 @@ module Student
       when 'courses'
         @conversations = @conversations.joins(teacher: { courses: :inscriptions }).where(inscriptions: {approved: true, paid: true, user_id: current_user.id}).order(title: params[:order]).uniq
       when 'updated_at'
-        @conversations = @conversations.order(updated_at: params[:order])
+        @conversations = @conversations.joins(:messages).select('conversations.*, MAX(messages.created_at) AS update').group('conversations.id').order("update  " + params[:order])
       else
-        @conversations = @conversations.order(updated_at: :desc)
+        @conversations = @conversations.joins(:messages).select("conversations.*, MAX(messages.created_at) AS update").group('conversations.id').order("update desc")
       end
     end
 

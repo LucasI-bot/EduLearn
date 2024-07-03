@@ -12,7 +12,7 @@
                     <li>Sección evaluada: <%= @exam.section.title %>
                     <li>Cantidad de preguntas: <%= @exam.questions.map{|a| a.question_number }.uniq.count %>
                     <li>Intentos realizados: <%= current_user.exam_answers.where(exam_id: @exam.id).count %>
-                    <% if @exam_answer.present? %><li>Nota: <% if @exam_answer.mark.to_i < 1 %>-<% else %><%= @exam_answer.mark %><% end %></li><% end %>
+                    <% if @exam_answer.present? %><li>Nota: <% if @exam_answer.mark.to_i < 1 %>-<% else %><%= @exam_answer.mark.round(2) %><% end %></li><% end %>
                 </ul>
             </div>
             <div class="card-footer p-3">

@@ -112,7 +112,7 @@
         </td>
             <td>
                 <% if current_user.inscriptions.find_by(course_id: course.id).mark > 0 %>
-                    <%= current_user.inscriptions.find_by(course_id: course.id).mark %>
+                    <%= current_user.inscriptions.find_by(course_id: course.id).mark.round(2) %>
                 <% else %>
                     NaN
                 <% end %>

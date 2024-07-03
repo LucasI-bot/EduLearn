@@ -116,7 +116,7 @@
                 <% end %>
             </td>
         <% end %>
-        <td><%= conversation.updated_at %></td>
+        <td><%= conversation.messages.order(created_at: :desc).first.created_at %></td>
         <td>
             <div class="alert-message-div">
                 <% if @course.present? %>

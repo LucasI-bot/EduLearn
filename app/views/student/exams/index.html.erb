@@ -41,7 +41,7 @@
         </td>
         <td>
             <% if exam.exam_answers.where(user_id: current_user.id, active: true).first.present? %>
-                <%= exam.exam_answers.where(user_id: current_user.id, active: true).first.mark %>
+                <%= exam.exam_answers.where(user_id: current_user.id, active: true).first.mark.round(2) %>
             <% else %>
                 -
             <% end %>
