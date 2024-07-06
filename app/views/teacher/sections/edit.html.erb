@@ -4,7 +4,7 @@
     <div class= "col-md-10">
         <div class="new-and-title">
             <h2>Editar sección</h2>
-            <%= link_to "Volver", teacher_course_path(@course), class:"btn btn-danger btn-add py-2 px-3"%>
+            <%= link_to "Volver", teacher_course_path(@section.course), class:"btn btn-danger btn-add py-2 px-3"%>
         </div>
         
         <%= form_with model: @section, url: teacher_course_section_path(@section.course, @section)  do |f| %>

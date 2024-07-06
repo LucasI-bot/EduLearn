@@ -6,7 +6,7 @@
             <div class="mb-3">
                 <% case @content.content_type %>
                 <% when "text_img" %>
-                    <h2>Editar bloque de texto e imágenes</h2>
+                    <h2 class="mb-5">Editar bloque de texto e imágenes</h2>
 
                     <%= f.cktext_area :text, class:"text_img-area" %>
 
@@ -16,7 +16,7 @@
                         </p>
                     <% end %>
                 <% when "video" %>
-                    <h2>Editar bloque de video</h2>
+                    <h2 class="mb-5">Editar bloque de video</h2>
 
                     <%= f.file_field :video, class:"form-control" %>
 
@@ -26,7 +26,7 @@
                         </p>
                     <% end %>
                 <% when "pdf" %>
-                    <h2>Editar bloque de pdf</h2>
+                    <h2 class="mb-5">Editar bloque de pdf</h2>
 
                     <%= f.file_field :pdf, class:"form-control" %>
 
@@ -37,7 +37,7 @@
                     <% end %>
                 <% end %>
             </div>
-            <div class="justify-content-between d-flex">
+            <div class="justify-content-between d-flex mt-5">
                 <%= link_to "Volver", teacher_course_section_lecture_path(@lecture.section.course,@lecture.section,@lecture), class:"btn btn-danger"%>
                 <%= f.submit "Enviar", class: "btn btn-primary" %>
             </div>

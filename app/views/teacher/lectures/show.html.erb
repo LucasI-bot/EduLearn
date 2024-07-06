@@ -15,10 +15,12 @@
                 <% when "text_img" %>
                     <%= content.text.html_safe %>
                 <% when "video" %>
-                    <video width="640" height="360" controls>
-                        <source src="<%= rails_blob_path(content.video) %>" type="<%= content.video.content_type %>">
-                        Your browser does not support the video tag.
-                    </video>
+                    <div class="div-video">
+                        <video width="640" height="360" class="content-video" controls>
+                            <source src="<%= rails_blob_path(content.video) %>" type="<%= content.video.content_type %>">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
                 <% when "pdf" %>
                     <iframe src="<%= rails_blob_path(content.pdf) %>" width="100%" height="600px" frameborder="0"></iframe>
                 <% end %>

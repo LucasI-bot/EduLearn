@@ -1454,3 +1454,13 @@ button.card{
 .btn-question{
     margin-bottom: auto;
 }
+
+.div-video{
+    width: 100%;
+    display: flex;
+}
+
+.content-video{
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -5,7 +5,7 @@ module Teacher
         @mycourses = "active"
 
         @course = Course.find(params[:course_id])
-        @conversations = Conversation.joins(student: :inscriptions).where(inscriptions: {course_id: @course.id})
+        @conversations = Conversation.joins(student: :inscriptions).where(inscriptions: {course_id: @course.id}, teacher_id: current_user.id)
       else
         @myconversations = "active"
 
