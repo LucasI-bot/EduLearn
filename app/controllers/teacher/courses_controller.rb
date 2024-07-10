@@ -124,7 +124,6 @@ module Teacher
     end
 
     def order_sections
-      print(params[:sections])
 
       params[:sections].each_with_index do |id,index|
         Section.where(id: id).update_all(position: index + 1)
@@ -134,7 +133,6 @@ module Teacher
     end
 
     def order_lectures
-      print(params[:data])
 
       params[:data].each do |data|
         Lecture.where(id: data[1][:lecture_id].to_i).update_all(section_id: data[1][:section_id].to_i, position: data[0].to_i + 1)
@@ -144,7 +142,6 @@ module Teacher
     end
 
     def order_exams
-      print(params[:data])
 
       params[:data].each do |data|
         Exam.where(id: data[1][:exam_id].to_i).update_all(section_id: data[1][:section_id].to_i, position: data[0].to_i + 1)

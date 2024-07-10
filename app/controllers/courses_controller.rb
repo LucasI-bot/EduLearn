@@ -40,7 +40,6 @@ class CoursesController < ApplicationController
 
     case params[:order_by]
     when '1'
-      print ("Entra")
       @courses = @courses.order(rating: :desc)
     when '2'
       @courses = @courses.order(price: :desc)

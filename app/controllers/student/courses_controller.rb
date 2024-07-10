@@ -29,8 +29,6 @@ module Student
       @inscription.review = inscription_params[:review]
       @inscription.rating_date = Date.today
 
-      print(@inscription.rating)
-
       if @inscription.save
         course_ratings = @course.inscriptions.where.not(rating: nil).map{|a| a.rating}
         @course.rating = course_ratings.sum / course_ratings.size.to_f

@@ -43,19 +43,16 @@ module Student
                   @option_answer.option_id = option.id
 
                   if !@option_answer.save
-                    print("Error en opciones")
                     redirect_to student_course_exam_path(@exam.section.course, @exam)
                   end
                 end
               end
             else
-              print("Error en Preguntas")
               redirect_to student_course_exam_path(@exam.section.course, @exam)
             end
           end
           redirect_to student_course_exam_question_path(@exam.section.course, @exam, 1)
         else
-          print("Error en Evaluación")
           redirect_to student_course_exam_path(@exam.section.course, @exam)
         end
       end
