@@ -74,7 +74,7 @@ module Student
 
     private
       def question_answer_params
-        params.require(:question_answer).permit(:answer, :file, option_answers_attributes: [:id, :selected])
+        params.require(:question_answer).permit(:answer, :question_number, :file, option_answers_attributes: [:id, :selected])
       end
   end
 end

@@ -100,7 +100,7 @@
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item course-list"><% if course.acceptance_required? %>Requiere de aceptación<% else %>No requiere aceptación<% end %></li>
-                                <li class="list-group-item course-list">Rating: <% if course.rating.blank? or course.rating == 0 %>Sin puntuar<% else %><%= course.rating %> 🌟<% end %></li>
+                                <li class="list-group-item course-list">Rating: <% if course.rating.blank? or course.rating == 0 %>Sin puntuar<% else %><%= course.rating.round(2) %> 🌟<% end %></li>
                                 <li class="list-group-item course-list">Precio: <% if course.price.blank? or course.price == 0 %>Gratis<% else %>US$<%= course.price %><% end %></li>
                             </ul>
                         </div>
